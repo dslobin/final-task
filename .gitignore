@@ -8,7 +8,10 @@
 .mtj.tmp/
 
 # Database properties
-config/database.properties
+database.properties
+
+# out directory
+out
 
 # Package Files #
 *.jar
