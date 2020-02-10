@@ -1,0 +1,52 @@
+.header {
+    background-image: url(../img/header-background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 520px;
+    color: white;
+}
+
+.login-form {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.form-wrapper {
+    min-height: 100vh;
+    height: 100%;
+}
+
+.registration-form {
+    width: 400px;
+    margin: 5px auto;
+}
+
+.background {
+    background: #F5F5F5;
+}
+
+.page-wrap {
+    min-height: 100vh;
+    height: 100%;
+}
+
+.table-wrapper {
+    height: 40vh;
+}
+
+.company-info-content-wrapper {
+    background: #dedede;
+}
+
+.error-content-wrapper {
+    background: #dedede;
+}
+
+.success-content-wrapper {
+    width: 400px;
+    background: #98FB98; /* pale green */
+}
+
+/* --PROFILE STARTS -- */
+/* --PROFILE ENDS -- */

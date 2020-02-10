@@ -1,0 +1,77 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<fmt:setLocale value="ru_RU" scope="session"/>
+<fmt:setBundle basename="properties/pageContent" var="rb"/>
+<%--${language}--%>
+
+<html lang="ru">
+<head>
+    <title><fmt:message key="editUser.head.title" bundle="${rb}"/></title>
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
+</head>
+<body>
+
+<jsp:include page="../fragments/adminHeader.jsp"/>
+
+<div class="form-wrapper mb-3">
+
+    <div class="registration-form">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Favorite-Motors</h1>
+
+        <jsp:useBean id="user" class="by.epam.autoshow.model.user.User" scope="request"/>
+
+        <form class="needs-validation" action="controller" method="post">
+
+            <!-- hidden input -->
+            <input type="hidden" name="command" value="edit_user"/>
+            <!-- /hidden input -->
+
+            <div class="form-group">
+                <label for="login"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
+                <input type="text" id="login" name="login" value="${user.username}"
+                       class="form-control" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password"><fmt:message key="editUser.label.password" bundle="${rb}"/>: </label>
+                <input type="password" id="password" name="password" value="${user.password}"
+                       class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userRole"><fmt:message key="editUser.label.role" bundle="${rb}"/>: </label>
+                <select id="userRole" name="useRole" class="form-control">
+                    <option disabled>--Role--</option>
+                    <option value="ADMIN">Administrator</option>
+                    <option value="USER">Client</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
+                <select id="userStatus" name="userStatus" class="form-control">
+                    <option disabled>--Status--</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="BLOCKED">Blocked</option>
+                </select>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                <fmt:message key="editUser.button.submit" bundle="${rb}"/>
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<jsp:include page="../fragments/footer.jsp"/>
+
+<!-- scripts -->
+<script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/main.js"/>"></script>
+<!-- /scripts -->
+</body>
+</html>
