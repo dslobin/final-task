@@ -5,11 +5,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.car.Car;
 import by.epam.autoshow.model.car.FuelType;
 import by.epam.autoshow.model.car.SaleStatus;
-import by.epam.autoshow.resource.MessageManager;
-import by.epam.autoshow.resource.PagePathManager;
-import by.epam.autoshow.resource.PagePathPropertyProvider;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-import by.epam.autoshow.service.ServiceException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

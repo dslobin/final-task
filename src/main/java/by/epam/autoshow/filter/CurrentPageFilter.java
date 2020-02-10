@@ -1,7 +1,7 @@
 package by.epam.autoshow.filter;
 
-import by.epam.autoshow.resource.PagePathManager;
-import by.epam.autoshow.resource.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathManager;
+import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

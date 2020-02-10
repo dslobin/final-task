@@ -1,4 +1,4 @@
-package by.epam.autoshow.resource;
+package by.epam.autoshow.util.manager;
 
 import java.util.ResourceBundle;
 

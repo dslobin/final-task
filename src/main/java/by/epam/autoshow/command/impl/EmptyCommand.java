@@ -1,9 +1,9 @@
 package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
-import by.epam.autoshow.resource.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.resource.PagePathManager;
+import by.epam.autoshow.util.manager.PagePathManager;
 
 public class EmptyCommand implements ActionCommand {
 

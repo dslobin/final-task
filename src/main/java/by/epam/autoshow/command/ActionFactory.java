@@ -2,9 +2,7 @@ package by.epam.autoshow.command;
 
 import by.epam.autoshow.command.impl.EmptyCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.resource.MessageManager;
-
-import javax.servlet.http.HttpServletRequest;
+import by.epam.autoshow.util.manager.MessageManager;
 
 public class ActionFactory {
     private static final String PARAM_COMMAND = "command";

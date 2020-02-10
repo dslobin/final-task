@@ -1,4 +1,4 @@
-package by.epam.autoshow.util;
+package by.epam.autoshow.util.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

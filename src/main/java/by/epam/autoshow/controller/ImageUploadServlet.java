@@ -1,6 +1,6 @@
 package by.epam.autoshow.controller;
 
-import by.epam.autoshow.resource.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
