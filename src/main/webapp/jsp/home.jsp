@@ -16,6 +16,10 @@
     <c:when test="${userRole == 'CLIENT'}">
         <jsp:include page="../fragments/clientHeader.jsp"/>
     </c:when>
+
+    <c:otherwise>
+        <jsp:include page="../fragments/guestHeader.jsp"/>
+    </c:otherwise>
 </c:choose>
 
 <input type="hidden" name="command" value="login"/>

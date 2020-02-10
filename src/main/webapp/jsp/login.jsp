@@ -15,7 +15,19 @@
 
 <body>
 
-<jsp:include page="../fragments/clientHeader.jsp"/>
+<c:choose>
+    <c:when test="${userRole == 'ADMIN'}">
+        <jsp:include page="../fragments/adminHeader.jsp"/>
+    </c:when>
+
+    <c:when test="${userRole == 'CLIENT'}">
+        <jsp:include page="../fragments/clientHeader.jsp"/>
+    </c:when>
+
+    <c:otherwise>
+        <jsp:include page="../fragments/guestHeader.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <div class="success-content-wrapper align-items-center">
     <p class="text-success">${completedRegistration}</p>
