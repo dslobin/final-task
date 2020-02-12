@@ -30,7 +30,7 @@ public class AddAutoShowServiceCommand implements ActionCommand {
             autoShowService.setTitle(serviceTitle);
             autoShowService.setDescription(description);
             autoShowService.setCost(BigDecimal.valueOf(Double.parseDouble(cost)));
-            AutoShowServiceManagementImpl serviceManagement = new AutoShowServiceManagementImpl();
+            AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.addService(autoShowService);
             page = PagePathManager.getProperty(PagePathPropertyProvider.SERVICE_EDIT_FORM_PROPERTY);
         } catch (ServiceException e) {

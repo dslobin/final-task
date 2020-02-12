@@ -20,7 +20,7 @@ public class GetAllOrdersCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        OrderServiceImpl orderService = new OrderServiceImpl();
+        OrderServiceImpl orderService = OrderServiceImpl.getInstance();
         try {
             List<Order> orders = orderService.findNewOrders();
             logger.debug("ORDER LIST: " + orders);

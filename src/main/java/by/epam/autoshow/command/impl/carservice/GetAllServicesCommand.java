@@ -20,7 +20,7 @@ public class GetAllServicesCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        AutoShowServiceManagementImpl serviceManagement = new AutoShowServiceManagementImpl();
+        AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
         try {
             List<AutoShowService> services = serviceManagement.findAllServices();
             logger.debug("SERVICE LIST: " + services);

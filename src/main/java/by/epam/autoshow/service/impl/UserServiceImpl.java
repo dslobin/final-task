@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
         return userService;
     }
 
+    @Override
     public boolean registerUser(User user) throws ServiceException {
         try {
             userManager.addUser(user);

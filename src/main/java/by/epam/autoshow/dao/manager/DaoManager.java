@@ -9,7 +9,7 @@ import java.sql.SQLException;
 class DaoManager {
     private ConnectionPool connectionPool;
 
-    public DaoManager() {
+    DaoManager() {
         connectionPool = ConnectionPool.INSTANCE;
     }
 

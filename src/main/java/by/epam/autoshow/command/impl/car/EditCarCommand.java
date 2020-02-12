@@ -21,7 +21,7 @@ public class EditCarCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        CarServiceImpl carService = new CarServiceImpl();
+        CarServiceImpl carService = CarServiceImpl.getInstance();
         String carId = sessionRequestContent.getRequestParameter(PARAM_CAR_ID);
         try {
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));

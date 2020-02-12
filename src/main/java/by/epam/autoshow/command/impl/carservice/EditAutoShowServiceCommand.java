@@ -21,10 +21,10 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        AutoShowServiceManagementImpl autoShowServiceManagement = new AutoShowServiceManagementImpl();
+        AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
         String serviceId = sessionRequestContent.getRequestParameter(PARAM_SERVICE_ID);
         try {
-            Optional<AutoShowService> autoShowService = autoShowServiceManagement
+            Optional<AutoShowService> autoShowService = serviceManagement
                     .findServiceById(Long.parseLong(serviceId));
             logger.debug("Auto show service: " + autoShowService);
             sessionRequestContent.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());

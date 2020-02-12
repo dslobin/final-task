@@ -20,7 +20,7 @@ public class GetAllCarsCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        CarServiceImpl userServiceImpl = new CarServiceImpl();
+        CarServiceImpl userServiceImpl = CarServiceImpl.getInstance();
         try {
             List<Car> cars = userServiceImpl.findAllCars();
             logger.debug("CAR LIST: " + cars);
