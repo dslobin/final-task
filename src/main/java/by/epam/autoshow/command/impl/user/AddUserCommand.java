@@ -35,7 +35,7 @@ public class AddUserCommand implements ActionCommand {
             user.setPassword(password);
             user.setRole(UserRole.valueOf(role));
             user.setStatus(UserStatus.valueOf(status));
-            UserServiceImpl userService = new UserServiceImpl();
+            UserServiceImpl userService = UserServiceImpl.getInstance();
             userService.registerUser(user);
             if (UserRole.CLIENT.equals(UserRole.valueOf(role))) {
 

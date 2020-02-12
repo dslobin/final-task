@@ -8,6 +8,7 @@ import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +22,7 @@ public class EditCustomerCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        CustomerServiceImpl customerService = new CustomerServiceImpl();
+        CustomerServiceImpl customerService = CustomerServiceImpl.getInstance();
         String customerId = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_ID);
         try {
             Optional<Customer> customer = customerService.findCustomerById(Long.parseLong(customerId));

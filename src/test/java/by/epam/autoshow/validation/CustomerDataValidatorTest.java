@@ -63,7 +63,7 @@ public class CustomerDataValidatorTest {
         assertFalse(condition);
     }*/
 
-    @Test(dataProvider = "testEmails", dataProviderClass = EmailDataProvider.class)
+    /*@Test(dataProvider = "testEmails", dataProviderClass = EmailDataProvider.class)
     public void testIsEmailValid(String email, boolean expected) {
         boolean actual = customerDataValidator.isEmailValid(email);
         assertEquals(expected, actual);
@@ -73,5 +73,5 @@ public class CustomerDataValidatorTest {
     public void testIsPhoneNumberValid(String phoneNumber, boolean expected) {
         boolean actual = customerDataValidator.isPhoneNumberValid(phoneNumber);
         assertEquals(expected, actual);
-    }
+    }*/
 }

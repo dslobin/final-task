@@ -29,7 +29,7 @@ public class LoginCommand implements ActionCommand {
         String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
         String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
         boolean isRegistered = false;
-        UserServiceImpl userService = new UserServiceImpl();
+        UserServiceImpl userService = UserServiceImpl.getInstance();
         try {
             Optional<User> user = userService.authorizeUser(login, password);
             isRegistered = user.isPresent();

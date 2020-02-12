@@ -20,7 +20,7 @@ public class GetAllUsersCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
+        UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
         try {
             List<User> users = userServiceImpl.findAllUsers();
             logger.debug("USER LIST: " + users);

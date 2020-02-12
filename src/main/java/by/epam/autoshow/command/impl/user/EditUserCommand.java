@@ -21,7 +21,7 @@ public class EditUserCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        UserServiceImpl userService = new UserServiceImpl();
+        UserServiceImpl userService = UserServiceImpl.getInstance();
         String userId = sessionRequestContent.getRequestParameter(PARAM_USER_ID);
         try {
             Optional<User> user = userService.findUserById(Long.parseLong(userId));

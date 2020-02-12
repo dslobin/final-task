@@ -29,7 +29,7 @@ public class RegistrationCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
+        /*String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
         String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
         String surname = sessionRequestContent.getRequestParameter(PARAM_SURNAME);
         String name = sessionRequestContent.getRequestParameter(PARAM_NAME);
@@ -51,7 +51,7 @@ public class RegistrationCommand implements ActionCommand {
             }
         } catch (ServiceException e) {
             logger.error(e);
-        }
+        }*/
         return page;
     }
 }
