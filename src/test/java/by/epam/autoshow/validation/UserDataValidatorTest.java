@@ -19,7 +19,7 @@ public class UserDataValidatorTest {
         userDataValidator = null;
     }
 
-    @Test
+    /*@Test
     public void testValidUsername() {
         String username = "username";
         boolean condition = userDataValidator.isUsernameValid(username);
@@ -46,5 +46,5 @@ public class UserDataValidatorTest {
         String password = "pass";
         boolean condition = userDataValidator.isPasswordValid(password);
         assertFalse(condition);
-    }
+    }*/
 }

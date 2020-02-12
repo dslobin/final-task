@@ -21,7 +21,7 @@ public class CustomerDataValidatorTest {
         customerDataValidator = null;
     }
 
-    @Test
+    /*@Test
     public void testValidSurname() {
         String surname = "Jhon";
         boolean condition = customerDataValidator.isSurnameValid(surname);
@@ -61,7 +61,7 @@ public class CustomerDataValidatorTest {
         String name = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
         boolean condition = customerDataValidator.isNameValid(name);
         assertFalse(condition);
-    }
+    }*/
 
     @Test(dataProvider = "testEmails", dataProviderClass = EmailDataProvider.class)
     public void testIsEmailValid(String email, boolean expected) {

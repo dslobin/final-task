@@ -1,8 +1,10 @@
 package by.epam.autoshow.validation;
 
+import by.epam.autoshow.model.Customer;
+
 import java.util.regex.Pattern;
 
-public class CustomerDataValidator {
+public class CustomerDataValidator implements AbstractValidator<Customer> {
     private static final int MIN_SURNAME_LENGTH = 2;
     private static final int MAX_SURNAME_LENGTH = 30;
     private static final int MIN_NAME_LENGTH = 2;
@@ -15,7 +17,7 @@ public class CustomerDataValidator {
                     "[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$");
     private static final int MAX_PHONE_NUMBER_LENGTH = 20;
 
-    public boolean isSurnameValid(String surname) {
+    private boolean isSurnameValid(String surname) {
         if (surname == null) {
             return false;
         }
@@ -23,7 +25,7 @@ public class CustomerDataValidator {
         return surnameLength > MIN_SURNAME_LENGTH && surnameLength < MAX_SURNAME_LENGTH;
     }
 
-    public boolean isNameValid(String name) {
+    private boolean isNameValid(String name) {
         if (name == null) {
             return false;
         }
@@ -31,17 +33,23 @@ public class CustomerDataValidator {
         return nameLength > MIN_NAME_LENGTH && nameLength < MAX_NAME_LENGTH;
     }
 
-    public boolean isEmailValid(String email) {
+    private boolean isEmailValid(String email) {
         if (email == null) {
             return false;
         }
         return EMAIL_PATTERN.matcher(email).matches() && email.length() < MAX_EMAIL_LENGTH;
     }
 
-    public boolean isPhoneNumberValid(String phoneNumber) {
+    private boolean isPhoneNumberValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;
         }
         return PHONE_NUMBER_PATTERN.matcher(phoneNumber).matches() && phoneNumber.length() < MAX_PHONE_NUMBER_LENGTH;
+    }
+
+    @Override
+    public boolean validate(Customer customer) {
+        return isSurnameValid(customer.getSurname()) && isNameValid(customer.getName()) &&
+                isEmailValid(customer.getEmail()) && isPhoneNumberValid(customer.getPhoneNumber());
     }
 }
