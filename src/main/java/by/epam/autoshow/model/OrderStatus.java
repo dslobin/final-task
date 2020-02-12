@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.order;
+package by.epam.autoshow.model;
 
 public enum OrderStatus {
     NEW,

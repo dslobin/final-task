@@ -4,8 +4,8 @@ import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.UserDaoImpl;
 import by.epam.autoshow.dao.transaction.CustomerTransactionManger;
 import by.epam.autoshow.db.ConnectionPool;
-import by.epam.autoshow.model.customer.Customer;
-import by.epam.autoshow.model.user.User;
+import by.epam.autoshow.model.Customer;
+import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
 

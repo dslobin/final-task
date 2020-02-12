@@ -19,7 +19,7 @@
 <div class="col-md-8 order-md-1">
     <h4 class="mb-3">Service editing</h4>
 
-    <jsp:useBean id="autoShowService" class="by.epam.autoshow.model.carservice.AutoShowService" scope="request"/>
+    <jsp:useBean id="autoShowService" class="by.epam.autoshow.model.AutoShowService" scope="request"/>
 
     <form class="needs-validation" action="controller" method="post">
 

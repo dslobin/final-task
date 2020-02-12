@@ -3,9 +3,9 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.CarDao;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.SqlColumnName;
-import by.epam.autoshow.model.car.Car;
-import by.epam.autoshow.model.car.FuelType;
-import by.epam.autoshow.model.car.SaleStatus;
+import by.epam.autoshow.model.Car;
+import by.epam.autoshow.model.FuelType;
+import by.epam.autoshow.model.SaleStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

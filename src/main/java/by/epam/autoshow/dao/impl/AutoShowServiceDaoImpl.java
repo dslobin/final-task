@@ -3,7 +3,7 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.AutoShowServiceDao;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.SqlColumnName;
-import by.epam.autoshow.model.carservice.AutoShowService;
+import by.epam.autoshow.model.AutoShowService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

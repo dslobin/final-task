@@ -3,7 +3,7 @@ package by.epam.autoshow.service.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.OrderDaoImpl;
 import by.epam.autoshow.db.ConnectionPool;
-import by.epam.autoshow.model.order.Order;
+import by.epam.autoshow.model.Order;
 import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 

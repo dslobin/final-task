@@ -2,7 +2,7 @@ package by.epam.autoshow.command.impl.order;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.order.Order;
+import by.epam.autoshow.model.Order;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.service.ServiceException;

@@ -17,7 +17,7 @@
 
 <body>
 
-<jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.user.UserRole"/>
+<jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.UserRole"/>
 <jsp:useBean id="userLogin" scope="session" type="java.lang.String"/>
 
 <c:choose>

@@ -1,6 +1,6 @@
 package by.epam.autoshow.service;
 
-import by.epam.autoshow.model.car.Car;
+import by.epam.autoshow.model.Car;
 
 import java.util.List;
 import java.util.Optional;

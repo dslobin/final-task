@@ -1,6 +1,6 @@
 package by.epam.autoshow.service;
 
-import by.epam.autoshow.model.order.Order;
+import by.epam.autoshow.model.Order;
 
 import java.util.List;
 

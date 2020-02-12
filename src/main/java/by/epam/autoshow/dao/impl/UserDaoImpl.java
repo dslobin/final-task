@@ -3,9 +3,9 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.SqlColumnName;
 import by.epam.autoshow.dao.UserDao;
-import by.epam.autoshow.model.user.User;
-import by.epam.autoshow.model.user.UserRole;
-import by.epam.autoshow.model.user.UserStatus;
+import by.epam.autoshow.model.User;
+import by.epam.autoshow.model.UserRole;
+import by.epam.autoshow.model.UserStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

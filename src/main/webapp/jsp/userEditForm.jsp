@@ -21,7 +21,7 @@
     <div class="registration-form">
         <h1 class="h3 mb-3 font-weight-normal text-center">Favorite-Motors</h1>
 
-        <jsp:useBean id="user" class="by.epam.autoshow.model.user.User" scope="request"/>
+        <jsp:useBean id="user" class="by.epam.autoshow.model.User" scope="request"/>
 
         <form class="needs-validation" action="controller" method="post">
 

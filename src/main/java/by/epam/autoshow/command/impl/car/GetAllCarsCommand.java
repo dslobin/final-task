@@ -2,7 +2,7 @@ package by.epam.autoshow.command.impl.car;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.car.Car;
+import by.epam.autoshow.model.Car;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.service.ServiceException;

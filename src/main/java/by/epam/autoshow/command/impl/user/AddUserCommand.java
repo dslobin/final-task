@@ -2,9 +2,9 @@ package by.epam.autoshow.command.impl.user;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.user.User;
-import by.epam.autoshow.model.user.UserRole;
-import by.epam.autoshow.model.user.UserStatus;
+import by.epam.autoshow.model.User;
+import by.epam.autoshow.model.UserRole;
+import by.epam.autoshow.model.UserStatus;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 

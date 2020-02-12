@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.user;
+package by.epam.autoshow.model;
 
 import java.util.Objects;
 

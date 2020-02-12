@@ -3,7 +3,7 @@ package by.epam.autoshow.command.impl.customer;
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 
-import by.epam.autoshow.model.customer.Customer;
+import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.service.ServiceException;

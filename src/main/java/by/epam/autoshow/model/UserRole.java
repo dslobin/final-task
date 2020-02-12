@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.user;
+package by.epam.autoshow.model;
 
 public enum UserRole {
     ADMIN, CLIENT, GUEST

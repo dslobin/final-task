@@ -8,15 +8,15 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Favorite Motors</h5>
         <nav class="my-2 my-md-0 mr-md-3">
 
-            <a class="p-2 text-dark" href="controller?command=get_car_page">
+            <a class="p-2 text-dark" href="#">
                 <fmt:message key="header.label.cars" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_service_page">
+            <a class="p-2 text-dark" href="#">
                 <fmt:message key="header.label.services" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_about_company_page">
+            <a class="p-2 text-dark" href="#">
                 <fmt:message key="header.label.contacts" bundle="${rb}"/>
             </a>
 

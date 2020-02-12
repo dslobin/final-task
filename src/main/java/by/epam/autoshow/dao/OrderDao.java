@@ -1,6 +1,6 @@
 package by.epam.autoshow.dao;
 
-import by.epam.autoshow.model.order.Order;
+import by.epam.autoshow.model.Order;
 
 import java.sql.ResultSet;
 import java.sql.Statement;

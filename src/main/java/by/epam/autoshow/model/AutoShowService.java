@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.carservice;
+package by.epam.autoshow.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;

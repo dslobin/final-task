@@ -1,6 +1,6 @@
 package by.epam.autoshow.service;
 
-import by.epam.autoshow.model.customer.Customer;
+import by.epam.autoshow.model.Customer;
 
 import java.util.List;
 import java.util.Optional;

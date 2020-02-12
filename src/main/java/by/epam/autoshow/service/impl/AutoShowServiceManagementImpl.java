@@ -3,7 +3,7 @@ package by.epam.autoshow.service.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.AutoShowServiceDaoImpl;
 import by.epam.autoshow.db.ConnectionPool;
-import by.epam.autoshow.model.carservice.AutoShowService;
+import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.ServiceException;
 

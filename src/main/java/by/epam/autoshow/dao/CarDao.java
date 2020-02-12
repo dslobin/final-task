@@ -1,6 +1,6 @@
 package by.epam.autoshow.dao;
 
-import by.epam.autoshow.model.car.Car;
+import by.epam.autoshow.model.Car;
 
 import java.sql.ResultSet;
 import java.sql.Statement;

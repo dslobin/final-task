@@ -23,6 +23,7 @@ public enum CommandType {
     GET_ORDER_PAGE(new GetAllOrdersCommand()),
     GET_HOME_PAGE(new GetHomePageCommand()),
     GET_PROFILE_PAGE(new GetProfilePageCommand()),
+    GET_LOGIN_PAGE(new GetLoginPageCommand()),
     GET_REGISTRATION_PAGE(new GetRegistrationPageCommand()),
     GET_ABOUT_COMPANY_PAGE(new GetAboutCompanyPageCommand()),
 

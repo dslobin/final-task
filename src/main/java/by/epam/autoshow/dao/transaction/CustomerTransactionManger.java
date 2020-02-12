@@ -3,8 +3,8 @@ package by.epam.autoshow.dao.transaction;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.CustomerDaoImpl;
 import by.epam.autoshow.dao.impl.UserDaoImpl;
-import by.epam.autoshow.model.customer.Customer;
-import by.epam.autoshow.model.user.User;
+import by.epam.autoshow.model.Customer;
+import by.epam.autoshow.model.User;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

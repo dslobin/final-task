@@ -3,8 +3,8 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.OrderDao;
 import by.epam.autoshow.dao.SqlColumnName;
-import by.epam.autoshow.model.order.Order;
-import by.epam.autoshow.model.order.OrderStatus;
+import by.epam.autoshow.model.Order;
+import by.epam.autoshow.model.OrderStatus;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

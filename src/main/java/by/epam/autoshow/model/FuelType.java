@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.car;
+package by.epam.autoshow.model;
 
 public enum FuelType {
     PETROL, DIESEL, ELECTRO

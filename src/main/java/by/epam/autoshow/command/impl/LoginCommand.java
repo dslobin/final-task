@@ -1,7 +1,7 @@
 package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
-import by.epam.autoshow.model.user.User;
+import by.epam.autoshow.model.User;
 import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.util.manager.PagePathManager;

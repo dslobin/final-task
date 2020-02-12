@@ -1,4 +1,4 @@
-package by.epam.autoshow.model.order;
+package by.epam.autoshow.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

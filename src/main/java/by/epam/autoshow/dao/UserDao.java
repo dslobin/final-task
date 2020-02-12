@@ -1,6 +1,6 @@
 package by.epam.autoshow.dao;
 
-import by.epam.autoshow.model.user.User;
+import by.epam.autoshow.model.User;
 
 import java.sql.ResultSet;
 import java.sql.Statement;

@@ -2,9 +2,9 @@ package by.epam.autoshow.command.impl.car;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.car.Car;
-import by.epam.autoshow.model.car.FuelType;
-import by.epam.autoshow.model.car.SaleStatus;
+import by.epam.autoshow.model.Car;
+import by.epam.autoshow.model.FuelType;
+import by.epam.autoshow.model.SaleStatus;
 import by.epam.autoshow.service.impl.CarServiceImpl;
 
 import org.apache.logging.log4j.LogManager;

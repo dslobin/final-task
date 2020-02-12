@@ -1,6 +1,6 @@
 package by.epam.autoshow.tag;
 
-import by.epam.autoshow.model.user.UserRole;
+import by.epam.autoshow.model.UserRole;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
