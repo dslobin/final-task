@@ -14,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class GetAllOrdersCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger();
     private static final String PARAM_ORDER_LIST = "orderList";
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {

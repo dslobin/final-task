@@ -28,7 +28,7 @@ public class EditCustomerCommand implements ActionCommand {
             Optional<Customer> customer = customerService.findCustomerById(Long.parseLong(customerId));
             logger.debug("Customer: " + customer);
             sessionRequestContent.setRequestAttributes(PARAM_CUSTOMER, customer.get());
-            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

@@ -56,6 +56,23 @@ public class CustomerManger extends DaoManager {
         }
     }
 
+    public Optional<Customer> findCustomerByLogin(String login) throws DaoException {
+        Connection connection = getConnection();
+        Optional<Customer> customer = Optional.empty();
+        try {
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
+            Optional<User> searchedUser = userDao.findByUsername(login);
+            Long userId = searchedUser.get().getUserId();
+            customer = customerDao.findByUserId(userId);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return customer;
+    }
+
     public List<Customer> findCustomerList() throws DaoException {
         Connection connection = getConnection();
         List<Customer> customerList = new ArrayList<>();

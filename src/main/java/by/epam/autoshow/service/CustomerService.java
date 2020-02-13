@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomerService {
+    Optional<Customer> findCustomerByLogin(String login) throws ServiceException;
+
     List<Customer> findAllCustomers() throws ServiceException;
 
     Optional<Customer> findCustomerById(long id) throws ServiceException;

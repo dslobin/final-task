@@ -8,4 +8,6 @@ public interface OrderService {
     List<Order> findAllOrders() throws ServiceException;
 
     List<Order> findNewOrders() throws ServiceException;
+
+    List<Order> findCustomerOrders(long customerId) throws ServiceException;
 }

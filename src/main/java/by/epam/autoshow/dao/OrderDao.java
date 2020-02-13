@@ -26,6 +26,8 @@ public interface OrderDao {
      */
     Optional<Order> findById(long id) throws DaoException;
 
+    List<Order> findByCustomerId(long id) throws DaoException;
+
     /**
      * Update the entity object.
      *
@@ -34,15 +36,6 @@ public interface OrderDao {
      * @throws DaoException if a database access error occurs
      */
     Order update(Order entity) throws DaoException;
-
-    /**
-     * Delete the object from data storage.
-     *
-     * @param entity
-     * @return {@code true} if object has been deleted from the data storage
-     * @throws DaoException if a database access error occurs
-     */
-    boolean delete(Order entity) throws DaoException;
 
     /**
      * Find entity objects in data storage.

@@ -19,8 +19,17 @@
 
 <jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.UserRole"/>
 <jsp:useBean id="userLogin" scope="session" type="java.lang.String"/>
+<jsp:useBean id="customer" scope="request" type="by.epam.autoshow.model.Customer"/>
 
-<jsp:include page="../fragments/clientHeader.jsp"/>
+<c:choose>
+    <c:when test="${userRole == 'ADMIN'}">
+        <jsp:include page="../fragments/adminHeader.jsp"/>
+    </c:when>
+
+    <c:when test="${userRole == 'CLIENT'}">
+        <jsp:include page="../fragments/clientHeader.jsp"/>
+    </c:when>
+</c:choose>
 
 <%-- PROFILE --%>
 <div class="container">
@@ -32,16 +41,22 @@
             <h4>Role: <tags:role userRole="${userRole}"/></h4>
         </div>
         <div class="col-6">
-            <h4>Name: </h4>
-            <h4>Surname: </h4>
+            <h4>
+                Name:
+                <c:out value="${customer.name}"/>
+            </h4>
+            <h4>
+                Surname:
+                <c:out value="${customer.surname}"/>
+            </h4>
         </div>
     </div>
 
     <h2>Service order history:</h2>
     <div class="page-wrap">
-        <jsp:useBean id="orderList" class="java.util.ArrayList" scope="request"/>
+        <jsp:useBean id="customerOrders" class="java.util.ArrayList" scope="request"/>
         <c:choose>
-            <c:when test="${not empty orderList}">
+            <c:when test="${not empty customerOrders}">
 
             <div class="table-wrapper">
                 <table class="table table-bordered table-striped">
@@ -51,27 +66,15 @@
                         <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
-                        <th><fmt:message key="orderOverview.tableHeader.action" bundle="${rb}"/></th>
                     </tr>
                     </thead>
                     <tbody id="page">
-                    <c:forEach var="order" items="${orderList}">
+                    <c:forEach var="order" items="${customerOrders}">
                         <tr class="table-row">
                             <td><c:out value="${order.serviceId}"/></td>
                             <td><c:out value="${order.orderDate}"/></td>
                             <td><c:out value="${order.overallPrice}"/></td>
                             <td><c:out value="${order.status}"/></td>
-                            <td>
-                                <p class="text-success">
-                                    <a href="controller?command=edit_order_command&orderId=${order.orderId}">
-                                        <fmt:message key="orderOverview.label.acceptOrder" bundle="${rb}"/></a>
-                                </p>
-
-                                <p class="text-danger">
-                                    <a href="controller?command=edit_order_command&orderId=${order.orderId}">
-                                        <fmt:message key="orderOverview.label.rejectOrder" bundle="${rb}"/></a>
-                                </p>
-                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

@@ -27,7 +27,7 @@ public class EditUserCommand implements ActionCommand {
             Optional<User> user = userService.findUserById(Long.parseLong(userId));
             logger.debug("User: " + user);
             sessionRequestContent.setRequestAttributes(PARAM_USER, user.get());
-            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

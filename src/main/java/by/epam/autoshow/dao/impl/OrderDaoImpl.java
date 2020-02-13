@@ -26,9 +26,6 @@ public class OrderDaoImpl implements OrderDao {
     private static final String UPDATE =
             "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, overall_price = ?, status = ? WHERE order_id = ?";
 
-    private static final String DELETE =
-            "DELETE FROM orders WHERE order_id = ?";
-
     private static final String FIND_ALL =
             "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders";
 
@@ -37,6 +34,9 @@ public class OrderDaoImpl implements OrderDao {
 
     private static final String FIND_NEW_ORDERS =
             "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders WHERE status = ?";
+
+    private static final String FIND_CUSTOMER_ORDERS =
+            "SELECT service_id, date, overall_price, status FROM orders WHERE customer_id = ?";
 
     public OrderDaoImpl(Connection connection) {
         this.connection = connection;
@@ -71,11 +71,11 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                order.setOrderId(resultSet.getLong(SqlColumnName.USER_ID));
-                order.setCustomerId(resultSet.getLong(SqlColumnName.USERNAME));
-                order.setServiceId(resultSet.getLong(SqlColumnName.PASSWORD));
-                order.setOrderDate(resultSet.getDate(SqlColumnName.ROLE).toLocalDate());
-                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.STATUS));
+                order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
+                order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
+                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
+                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
+                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
             }
         } catch (SQLException e) {
@@ -85,6 +85,32 @@ public class OrderDaoImpl implements OrderDao {
             close(preparedStatement);
         }
         return Optional.of(order);
+    }
+
+    @Override
+    public List<Order> findByCustomerId(long customerId) throws DaoException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Order> orders = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement(FIND_CUSTOMER_ORDERS);
+            preparedStatement.setLong(1, customerId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Order order = new Order();
+                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
+                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
+                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
+                order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+        return orders;
     }
 
     @Override
@@ -104,21 +130,6 @@ public class OrderDaoImpl implements OrderDao {
             close(preparedStatement);
         }
         return order;
-    }
-
-    @Override
-    public boolean delete(Order order) throws DaoException {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setLong(1, order.getOrderId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(preparedStatement);
-        }
-        return true;
     }
 
     @Override

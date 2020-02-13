@@ -43,6 +43,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Optional<Customer> findCustomerByLogin(String login) throws ServiceException {
+        Optional<Customer> customer = Optional.empty();
+        try {
+            customer = customerManger.findCustomerByLogin(login);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return customer;
+    }
+
+    @Override
     public List<Customer> findAllCustomers() throws ServiceException {
         List<Customer> customers = new ArrayList<>();
         try {

@@ -33,6 +33,9 @@ public class CustomerDaoImpl implements CustomerDao {
     private static final String FIND_BY_ID =
             "SELECT customer_id, user_id, surname, name, email, phone_number FROM customers WHERE customer_id = ?";
 
+    private static final String FIND_BY_USER_ID =
+            "SELECT customer_id, user_id, surname, name, email, phone_number FROM customers WHERE user_id = ?";
+
     public CustomerDaoImpl(Connection connection) {
         this.connection = connection;
     }
@@ -67,11 +70,36 @@ public class CustomerDaoImpl implements CustomerDao {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 customer.setCustomerId(resultSet.getLong(SqlColumnName.USER_ID));
-                customer.setUserId(resultSet.getLong(SqlColumnName.USERNAME));
-                customer.setSurname(resultSet.getString(SqlColumnName.PASSWORD));
-                customer.setName(resultSet.getString(SqlColumnName.ROLE));
-                customer.setEmail(resultSet.getString(SqlColumnName.STATUS));
-                customer.setPhoneNumber(resultSet.getString(SqlColumnName.STATUS));
+                customer.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
+                customer.setSurname(resultSet.getString(SqlColumnName.SURNAME));
+                customer.setName(resultSet.getString(SqlColumnName.NAME));
+                customer.setEmail(resultSet.getString(SqlColumnName.EMAIL));
+                customer.setPhoneNumber(resultSet.getString(SqlColumnName.PHONE_NUMBER));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+        return Optional.of(customer);
+    }
+
+    public Optional<Customer> findByUserId(long id) throws DaoException {
+        Customer customer = new Customer();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(FIND_BY_USER_ID);
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                customer.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
+                customer.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
+                customer.setSurname(resultSet.getString(SqlColumnName.SURNAME));
+                customer.setName(resultSet.getString(SqlColumnName.NAME));
+                customer.setEmail(resultSet.getString(SqlColumnName.EMAIL));
+                customer.setPhoneNumber(resultSet.getString(SqlColumnName.PHONE_NUMBER));
             }
         } catch (SQLException e) {
             throw new DaoException(e);

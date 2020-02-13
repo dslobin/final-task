@@ -28,7 +28,7 @@ public class EditAutoShowServiceCommand implements ActionCommand {
                     .findServiceById(Long.parseLong(serviceId));
             logger.debug("Auto show service: " + autoShowService);
             sessionRequestContent.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
-            page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
         } catch (
                 ServiceException e) {
             logger.error(e);
