@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
 
@@ -25,7 +25,7 @@ public class GetAllCarsCommand implements ActionCommand {
             List<Car> cars = carService.findAllCars();
             logger.debug("CAR LIST: " + cars);
             sessionRequestContent.setRequestAttributes(PARAM_CAR_LIST, cars);
-            page = PagePathManager.getProperty(PagePathPropertyProvider.CAR_OVERVIEW_PAGE_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.CAR_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

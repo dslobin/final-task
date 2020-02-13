@@ -2,7 +2,7 @@ package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.model.User;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.MessageManager;
@@ -36,11 +36,11 @@ public class LoginCommand implements ActionCommand {
             if (isRegistered) {
                 sessionRequestContent.setSessionAttributes(ATTRIBUTE_USER_LOGIN, user.get().getUsername());
                 sessionRequestContent.setSessionAttributes(ATTRIBUTE_USER_ROLE, user.get().getRole());
-                page = PagePathManager.getProperty(PagePathPropertyProvider.HOME_PAGE_PROPERTY);
+                page = PagePathManager.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
             } else {
                 sessionRequestContent.setRequestAttributes(ATTRIBUTE_ERROR_MESSAGE,
                         MessageManager.getProperty(ERROR_MESSAGE_PROPERTY));
-                page = PagePathManager.getProperty(PagePathPropertyProvider.LOGIN_PAGE_PROPERTY);
+                page = PagePathManager.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
             }
         } catch (ServiceException e) {
             logger.error(e);

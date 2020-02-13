@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 
@@ -28,7 +28,7 @@ public class EditAutoShowServiceCommand implements ActionCommand {
                     .findServiceById(Long.parseLong(serviceId));
             logger.debug("Auto show service: " + autoShowService);
             sessionRequestContent.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
-            page = PagePathManager.getProperty(PagePathPropertyProvider.SERVICE_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_FORM_PROPERTY);
         } catch (
                 ServiceException e) {
             logger.error(e);

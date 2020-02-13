@@ -6,7 +6,7 @@ import by.epam.autoshow.db.ConnectionPool;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-class DaoManager {
+abstract class DaoManager {
     private ConnectionPool connectionPool = ConnectionPool.INSTANCE;
 
     public DaoManager() {

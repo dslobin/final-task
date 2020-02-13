@@ -20,7 +20,7 @@
 <jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.UserRole"/>
 <jsp:useBean id="userLogin" scope="session" type="java.lang.String"/>
 
-<jsp:include page="../../fragments/clientHeader.jsp"/>
+<jsp:include page="../fragments/clientHeader.jsp"/>
 
 <%-- PROFILE --%>
 <div class="container">
@@ -79,7 +79,7 @@
             </div>
 
             <div class="ml-3">
-                <jsp:include page="../../fragments/pagination.jsp"/>
+                <jsp:include page="../fragments/pagination.jsp"/>
             </div>
             </c:when>
 
@@ -104,6 +104,6 @@
 </div>
 <%-- /PROFILE --%>
 
-<jsp:include page="../../fragments/footer.jsp"/>
+<jsp:include page="../fragments/footer.jsp"/>
 </body>
 </html>

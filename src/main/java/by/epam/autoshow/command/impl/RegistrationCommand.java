@@ -1,14 +1,7 @@
 package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.Customer;
-import by.epam.autoshow.model.User;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.MessageManager;
-import by.epam.autoshow.service.ServiceException;
-import by.epam.autoshow.service.impl.UserServiceImpl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

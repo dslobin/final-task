@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 
@@ -25,7 +25,7 @@ public class GetAllUsersCommand implements ActionCommand {
             List<User> users = userServiceImpl.findAllUsers();
             logger.debug("USER LIST: " + users);
             sessionRequestContent.setRequestAttributes(PARAM_USER_LIST, users);
-            page = PagePathManager.getProperty(PagePathPropertyProvider.USER_OVERVIEW_PAGE_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.USER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

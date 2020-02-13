@@ -1,6 +1,6 @@
 package by.epam.autoshow.controller;
 
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +40,7 @@ public class ImageUploadServlet extends HttpServlet {
         } catch (FileNotFoundException e) {
             logger.error(e);
             request.setAttribute(PARAM_UPLOAD_RESULT, FILE_UPLOAD_ERROR_RESULT);
-            request.getRequestDispatcher(PagePathPropertyProvider.CAR_EDIT_PAGE_PROPERTY).forward(request, response);
+            request.getRequestDispatcher(PagePathProperty.CAR_EDIT_PAGE_PROPERTY).forward(request, response);
         }
     }
 

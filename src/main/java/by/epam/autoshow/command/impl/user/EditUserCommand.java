@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 
@@ -27,7 +27,7 @@ public class EditUserCommand implements ActionCommand {
             Optional<User> user = userService.findUserById(Long.parseLong(userId));
             logger.debug("User: " + user);
             sessionRequestContent.setRequestAttributes(PARAM_USER, user.get());
-            page = PagePathManager.getProperty(PagePathPropertyProvider.USER_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_FORM_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

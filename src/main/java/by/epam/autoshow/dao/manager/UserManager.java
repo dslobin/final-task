@@ -61,6 +61,20 @@ public class UserManager extends DaoManager {
         return user;
     }
 
+    public Optional<User> findByUsername(String username) throws DaoException {
+        Connection connection = getConnection();
+        Optional<User> user = Optional.empty();
+        try {
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            user = userDao.findByUsername(username);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return user;
+    }
+
     public Optional<User> authorizeUser(String login, String password) throws DaoException {
         Connection connection = getConnection();
         User user = new User();

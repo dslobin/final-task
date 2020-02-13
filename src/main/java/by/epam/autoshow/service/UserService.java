@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
+    Optional<User> findUserByUsername(String username) throws ServiceException;
+
     Optional<User> authorizeUser(String login, String password) throws ServiceException;
 
     List<User> findAllUsers() throws ServiceException;

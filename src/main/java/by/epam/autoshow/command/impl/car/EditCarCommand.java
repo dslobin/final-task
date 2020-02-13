@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
 
@@ -27,7 +27,7 @@ public class EditCarCommand implements ActionCommand {
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));
             logger.debug("CAR: " + car);
             sessionRequestContent.setRequestAttributes(PARAM_CAR, car.get());
-            page = PagePathManager.getProperty(PagePathPropertyProvider.CAR_EDIT_PAGE_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

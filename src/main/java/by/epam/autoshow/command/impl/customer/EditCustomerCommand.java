@@ -5,7 +5,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 
@@ -28,7 +28,7 @@ public class EditCustomerCommand implements ActionCommand {
             Optional<Customer> customer = customerService.findCustomerById(Long.parseLong(customerId));
             logger.debug("Customer: " + customer);
             sessionRequestContent.setRequestAttributes(PARAM_CUSTOMER, customer.get());
-            page = PagePathManager.getProperty(PagePathPropertyProvider.USER_EDIT_FORM_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_FORM_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

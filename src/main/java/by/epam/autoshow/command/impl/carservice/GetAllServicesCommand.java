@@ -4,7 +4,7 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathPropertyProvider;
+import by.epam.autoshow.util.manager.PagePathProperty;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.service.ServiceException;
 
@@ -25,7 +25,7 @@ public class GetAllServicesCommand implements ActionCommand {
             List<AutoShowService> services = serviceManagement.findAllServices();
             logger.debug("SERVICE LIST: " + services);
             sessionRequestContent.setRequestAttributes(PARAM_SERVICE_LIST, services);
-            page = PagePathManager.getProperty(PagePathPropertyProvider.SERVICE_OVERVIEW_PAGE_PROPERTY);
+            page = PagePathManager.getProperty(PagePathProperty.SERVICE_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

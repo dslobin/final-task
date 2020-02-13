@@ -1,13 +1,15 @@
 package by.epam.autoshow.util.manager;
 
-public final class PagePathPropertyProvider {
+public final class PagePathProperty {
     public static final String INDEX_PAGE_PROPERTY = "path.page.index";
     public static final String HOME_PAGE_PROPERTY = "path.page.home";
-    public static final String PROFILE_PAGE_PROPERTY = "path.page.profile";
     public static final String LOGIN_PAGE_PROPERTY = "path.page.login";
     public static final String REGISTRATION_PAGE_PROPERTY = "path.page.registration";
     public static final String ABOUT_COMPANY_PAGE_PROPERTY = "path.page.aboutCompany";
     public static final String ERROR_PAGE_PROPERTY = "path.page.error";
+
+    public static final String PROFILE_PAGE_PROPERTY = "path.page.adminProfile";
+    public static final String CLIENT_PROFILE_PAGE_PROPERTY = "path.page.clientProfile";
 
     public static final String CAR_EDIT_PAGE_PROPERTY = "path.page.carEditForm";
     public static final String CAR_OVERVIEW_PAGE_PROPERTY = "path.page.carOverview";

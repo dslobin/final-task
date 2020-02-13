@@ -57,6 +57,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findUserByUsername(String username) throws ServiceException {
+        Optional<User> user = Optional.empty();
+        try {
+            user = userManager.findByUsername(username);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return user;
+    }
+
+    @Override
     public Optional<User> authorizeUser(String login, String password) throws ServiceException {
         Optional<User> registeredUser = Optional.empty();
         try {

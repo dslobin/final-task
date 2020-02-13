@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<jsp:include page="../../fragments/clientHeader.jsp"/>
+<jsp:include page="../fragments/clientHeader.jsp"/>
 
 <div class="page-wrap">
     <jsp:useBean id="autoShowServiceList" class="java.util.ArrayList" scope="request"/>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="ml-3">
-                <jsp:include page="../../fragments/pagination.jsp"/>
+                <jsp:include page="../fragments/pagination.jsp"/>
             </div>
 
         </c:when>
@@ -59,7 +59,7 @@
 
 </div>
 
-<jsp:include page="../../fragments/footer.jsp"/>
+<jsp:include page="../fragments/footer.jsp"/>
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>

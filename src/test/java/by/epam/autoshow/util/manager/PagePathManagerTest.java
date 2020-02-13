@@ -16,10 +16,10 @@ public class PagePathManagerTest {
     @DataProvider(name = "pagePathProvider")
     public static Object[][] provideData() {
         return new Object[][]{
-                {PagePathPropertyProvider.INDEX_PAGE_PROPERTY, "/jsp/index.jsp"},
-                {PagePathPropertyProvider.LOGIN_PAGE_PROPERTY, "/jsp/login.jsp"},
-                {PagePathPropertyProvider.REGISTRATION_PAGE_PROPERTY, "/jsp/registration.jsp"},
-                {PagePathPropertyProvider.ERROR_PAGE_PROPERTY, "/jsp/error.jsp"}
+                {PagePathProperty.INDEX_PAGE_PROPERTY, "/jsp/index.jsp"},
+                {PagePathProperty.LOGIN_PAGE_PROPERTY, "/jsp/login.jsp"},
+                {PagePathProperty.REGISTRATION_PAGE_PROPERTY, "/jsp/registration.jsp"},
+                {PagePathProperty.ERROR_PAGE_PROPERTY, "/jsp/error.jsp"}
         };
     }
 }
