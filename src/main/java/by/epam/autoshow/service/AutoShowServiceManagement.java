@@ -10,5 +10,7 @@ public interface AutoShowServiceManagement {
 
     boolean addService(AutoShowService autoShowService) throws ServiceException;
 
+    AutoShowService updateService(AutoShowService autoShowService) throws ServiceException;
+
     Optional<AutoShowService> findServiceById(long id) throws ServiceException;
 }

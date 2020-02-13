@@ -26,7 +26,13 @@
         <form class="needs-validation" action="controller" method="post">
 
             <!-- hidden input -->
-            <input type="hidden" name="command" value="edit_user"/>
+            <c:if test="${user == null}">
+                <input type="hidden" name="command" value="add_user"/>
+            </c:if>
+
+            <c:if test="${user != null}">
+                <input type="hidden" name="command" value="edit_user"/>
+            </c:if>
             <!-- /hidden input -->
 
             <div class="form-group">

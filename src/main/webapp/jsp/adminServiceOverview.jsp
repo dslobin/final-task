@@ -37,7 +37,7 @@
                             <td><c:out value="${autoShowService.cost}"/></td>
                             <td><c:out value="${autoShowService.description}"/></td>
                             <td>
-                                <a href="controller?command=edit_service_command&serviceId=${autoShowService.serviceId}">
+                                <a href="controller?command=get_service_edit_page&serviceId=${autoShowService.serviceId}">
                                     <fmt:message key="serviceOverview.label.edit" bundle="${rb}"/>
                                 </a>
                             </td>

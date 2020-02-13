@@ -19,17 +19,10 @@
 
 <jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.UserRole"/>
 <jsp:useBean id="userLogin" scope="session" type="java.lang.String"/>
-<jsp:useBean id="customer" scope="request" type="by.epam.autoshow.model.Customer"/>
 
-<c:choose>
-    <c:when test="${userRole == 'ADMIN'}">
-        <jsp:include page="../fragments/adminHeader.jsp"/>
-    </c:when>
 
-    <c:when test="${userRole == 'CLIENT'}">
-        <jsp:include page="../fragments/clientHeader.jsp"/>
-    </c:when>
-</c:choose>
+<jsp:include page="../fragments/clientHeader.jsp"/>
+
 
 <%-- PROFILE --%>
 <div class="container">
@@ -40,16 +33,19 @@
             <h4>Username: ${userLogin}</h4>
             <h4>Role: <tags:role userRole="${userRole}"/></h4>
         </div>
-        <div class="col-6">
-            <h4>
-                Name:
-                <c:out value="${customer.name}"/>
-            </h4>
-            <h4>
-                Surname:
-                <c:out value="${customer.surname}"/>
-            </h4>
-        </div>
+        <jsp:useBean id="customer" scope="request" type="by.epam.autoshow.model.Customer"/>
+        <c:when test="${customer != null}">
+            <div class="col-6">
+                <h4>
+                    Name:
+                    <c:out value="${customer.name}"/>
+                </h4>
+                <h4>
+                    Surname:
+                    <c:out value="${customer.surname}"/>
+                </h4>
+            </div>
+        </c:when>
     </div>
 
     <h2>Service order history:</h2>
@@ -58,32 +54,32 @@
         <c:choose>
             <c:when test="${not empty customerOrders}">
 
-            <div class="table-wrapper">
-                <table class="table table-bordered table-striped">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th><fmt:message key="orderOverview.tableHeader.serviceId" bundle="${rb}"/></th>
-                        <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
-                        <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
-                        <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
-                    </tr>
-                    </thead>
-                    <tbody id="page">
-                    <c:forEach var="order" items="${customerOrders}">
-                        <tr class="table-row">
-                            <td><c:out value="${order.serviceId}"/></td>
-                            <td><c:out value="${order.orderDate}"/></td>
-                            <td><c:out value="${order.overallPrice}"/></td>
-                            <td><c:out value="${order.status}"/></td>
+                <div class="table-wrapper">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th><fmt:message key="orderOverview.tableHeader.serviceId" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody id="page">
+                        <c:forEach var="order" items="${customerOrders}">
+                            <tr class="table-row">
+                                <td><c:out value="${order.serviceId}"/></td>
+                                <td><c:out value="${order.orderDate}"/></td>
+                                <td><c:out value="${order.overallPrice}"/></td>
+                                <td><c:out value="${order.status}"/></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="ml-3">
-                <jsp:include page="../fragments/pagination.jsp"/>
-            </div>
+                <div class="ml-3">
+                    <jsp:include page="../fragments/pagination.jsp"/>
+                </div>
             </c:when>
 
             <c:otherwise>

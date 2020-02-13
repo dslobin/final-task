@@ -9,9 +9,6 @@
             <a class="p-2 text-dark" href="controller?command=get_home_page">Favorite Motors</a>
         </h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="controller?command=get_profile_page">
-                <fmt:message key="header.label.profile" bundle="${rb}"/>
-            </a>
 
             <a class="p-2 text-dark" href="controller?command=get_car_page">
                 <fmt:message key="header.label.cars" bundle="${rb}"/>
@@ -25,12 +22,12 @@
                 <fmt:message key="header.label.users" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_order_page">
-                <fmt:message key="header.label.orders" bundle="${rb}"/>
+            <a class="p-2 text-dark" href="controller?command=get_client_page">
+                <fmt:message key="header.label.customers" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_about_company_page">
-                <fmt:message key="header.label.contacts" bundle="${rb}"/>
+            <a class="p-2 text-dark" href="controller?command=get_order_page">
+                <fmt:message key="header.label.orders" bundle="${rb}"/>
             </a>
 
             <a class="p-2 text-dark dropdown-toggle" href="#" id="language"

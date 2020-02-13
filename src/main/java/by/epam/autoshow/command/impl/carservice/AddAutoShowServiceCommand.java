@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 
 public class AddAutoShowServiceCommand implements ActionCommand {
-    private static final String PARAM_TITLE = "title";
-    private static final String PARAM_COST = "cost";
-    private static final String PARAM_DESCRIPTION = "description";
+    private static final String PARAM_TITLE = "serviceTitle";
+    private static final String PARAM_COST = "serviceCost";
+    private static final String PARAM_DESCRIPTION = "serviceDescription";
     private static final Logger logger = LogManager.getLogger();
 
     @Override

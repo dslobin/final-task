@@ -3,12 +3,9 @@ package by.epam.autoshow.command;
 import by.epam.autoshow.command.impl.*;
 import by.epam.autoshow.command.impl.car.EditCarCommand;
 import by.epam.autoshow.command.impl.car.GetAllCarsCommand;
-import by.epam.autoshow.command.impl.carservice.EditAutoShowServiceCommand;
-import by.epam.autoshow.command.impl.carservice.GetAllServicesCommand;
+import by.epam.autoshow.command.impl.carservice.*;
 import by.epam.autoshow.command.impl.order.GetAllOrdersCommand;
-import by.epam.autoshow.command.impl.user.EditUserCommand;
-import by.epam.autoshow.command.impl.user.GetUserAddPageCommand;
-import by.epam.autoshow.command.impl.user.GetAllUsersCommand;
+import by.epam.autoshow.command.impl.user.*;
 
 public enum CommandType {
     LOGIN(new LoginCommand()),
@@ -28,10 +25,19 @@ public enum CommandType {
     GET_ABOUT_COMPANY_PAGE(new GetAboutCompanyPageCommand()),
 
     GET_USER_ADD_PAGE(new GetUserAddPageCommand()),
+    GET_USER_EDIT_PAGE(new GetUserEditPageCommand()),
 
-    EDIT_USER_COMMAND(new EditUserCommand()),
-    EDIT_CAR_COMMAND(new EditCarCommand()),
-    EDIT_SERVICE_COMMAND(new EditAutoShowServiceCommand());
+    GET_SERVICE_ADD_PAGE(new GetServiceAddPageCommand()),
+    GET_SERVICE_EDIT_PAGE(new GetServiceEditPageCommand()),
+
+    ADD_USER(new EditUserCommand()),
+    EDIT_USER(new EditUserCommand()),
+
+    ADD_CAR(new EditCarCommand()),
+    EDIT_CAR(new EditCarCommand()),
+
+    ADD_SERVICE(new AddAutoShowServiceCommand()),
+    EDIT_SERVICE(new EditAutoShowServiceCommand());
 
     ActionCommand command;
 

@@ -11,26 +11,32 @@ import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Optional;
+import java.math.BigDecimal;
 
 public class EditAutoShowServiceCommand implements ActionCommand {
-    private static final String PARAM_AUTO_SHOW_SERVICE = "autoShowService";
     private static final String PARAM_SERVICE_ID = "serviceId";
+    private static final String PARAM_TITLE = "serviceTitle";
+    private static final String PARAM_COST = "serviceCost";
+    private static final String PARAM_DESCRIPTION = "serviceDescription";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
         String serviceId = sessionRequestContent.getRequestParameter(PARAM_SERVICE_ID);
+        String serviceTitle = sessionRequestContent.getRequestParameter(PARAM_TITLE);
+        String cost = sessionRequestContent.getRequestParameter(PARAM_COST);
+        String description = sessionRequestContent.getRequestParameter(PARAM_DESCRIPTION);
         try {
-            Optional<AutoShowService> autoShowService = serviceManagement
-                    .findServiceById(Long.parseLong(serviceId));
-            logger.debug("Auto show service: " + autoShowService);
-            sessionRequestContent.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
+            AutoShowService autoShowService = new AutoShowService();
+            autoShowService.setServiceId(Long.parseLong(serviceId));
+            autoShowService.setTitle(serviceTitle);
+            autoShowService.setDescription(description);
+            autoShowService.setCost(BigDecimal.valueOf(Double.parseDouble(cost)));
+            AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
+            serviceManagement.updateService(autoShowService);
             page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
-        } catch (
-                ServiceException e) {
+        } catch (ServiceException e) {
             logger.error(e);
         }
         return page;

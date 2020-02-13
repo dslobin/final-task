@@ -42,7 +42,7 @@
                             <td><c:out value="${user.role}"/></td>
                             <td><c:out value="${user.status}"/></td>
                             <td>
-                                <a href="controller?command=edit_user_command&userId=${user.userId}">
+                                <a href="controller?command=get_user_edit_page&userId=${user.userId}">
                                     <fmt:message key="userOverview.label.edit" bundle="${rb}"/>
                                 </a>
                             </td>

@@ -61,6 +61,19 @@ public class AutoShowServiceManager extends DaoManager {
         return true;
     }
 
+    public AutoShowService updateAutoShowService(AutoShowService autoShowService) throws DaoException {
+        Connection connection = getConnection();
+        try {
+            AutoShowServiceDaoImpl autoShowServiceDao = new AutoShowServiceDaoImpl(connection);
+            autoShowServiceDao.update(autoShowService);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return autoShowService;
+    }
+
     public Optional<AutoShowService> findServiceById(long id) throws DaoException {
         Connection connection = getConnection();
         Optional<AutoShowService> autoShowService = Optional.empty();

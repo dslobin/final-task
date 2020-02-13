@@ -9,6 +9,7 @@ import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
+import by.epam.autoshow.util.manager.MessageManager;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathProperty;
 
@@ -22,6 +23,8 @@ public class GetProfilePageCommand implements ActionCommand {
     private static final String ATTRIBUTE_USER_LOGIN = "userLogin";
     private static final String ATTRIBUTE_CUSTOMER = "customer";
     private static final String ATTRIBUTE_ORDERS = "customerOrders";
+    private static final String ATTRIBUTE_ERROR = "error";
+    private static final String ERROR_PROPERTY = "messages.label.profileError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -32,10 +35,14 @@ public class GetProfilePageCommand implements ActionCommand {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             OrderService orderService = OrderServiceImpl.getInstance();
             Optional<Customer> customer = customerService.findCustomerByLogin(login);
-            sessionRequestContent.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
-            long id = customer.get().getCustomerId();
-            List<Order> orders = orderService.findCustomerOrders(id);
-            sessionRequestContent.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
+            if (customer.isPresent()) {
+                long customerId = customer.get().getCustomerId();
+                List<Order> orders = orderService.findCustomerOrders(customerId);
+                sessionRequestContent.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
+                sessionRequestContent.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
+            } else {
+                sessionRequestContent.setRequestAttributes(ATTRIBUTE_ERROR, MessageManager.getProperty(ERROR_PROPERTY));
+            }
         } catch (ServiceException e) {
             logger.error(e);
         }

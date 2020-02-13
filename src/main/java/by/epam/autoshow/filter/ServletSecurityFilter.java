@@ -35,9 +35,9 @@ public class ServletSecurityFilter implements Filter {
         UserRole userRole = (UserRole) session.getAttribute(USER_ROLE_ATTRIBUTE);
         String url = request.getHeader(REFERER);
         String command = getUserCommand(url);
-        logger.debug("user role = " + userRole.name());
-        logger.debug("command = " + command);
-        logger.debug("Servlet security filter has worked.");
+        //logger.debug("user role = " + userRole.name());
+        //logger.debug("command = " + command);
+        //logger.debug("Servlet security filter has worked.");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

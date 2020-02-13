@@ -27,10 +27,10 @@
                     <tbody id="page">
                     <c:forEach var="car" items="${carList}">
                         <tr class="table-row">
-                            <td width="20%">
+                            <td width="200px">
                                 <img class="card-img-top"
                                      src="${pageContext.request.contextPath}/static/img/default-car-image.png"
-                                     alt="Car image" width="50" height="100">
+                                     alt="Car image" width="200" height="80">
                                 <%--<c:out value="${car.imageUrl}"/>--%>
                             </td>
                             <td>

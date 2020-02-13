@@ -56,6 +56,16 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     }
 
     @Override
+    public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException {
+        try {
+            autoShowServiceManager.updateAutoShowService(autoShowService);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return autoShowService;
+    }
+
+    @Override
     public Optional<AutoShowService> findServiceById(long id) throws ServiceException {
         Optional<AutoShowService> autoShowService = Optional.empty();
         try {

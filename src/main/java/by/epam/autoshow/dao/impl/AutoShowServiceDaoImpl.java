@@ -43,10 +43,9 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(INSERT);
-            preparedStatement.setLong(1, autoShowService.getServiceId());
-            preparedStatement.setString(2, autoShowService.getTitle());
-            preparedStatement.setBigDecimal(3, autoShowService.getCost());
-            preparedStatement.setString(4, autoShowService.getDescription());
+            preparedStatement.setString(1, autoShowService.getTitle());
+            preparedStatement.setBigDecimal(2, autoShowService.getCost());
+            preparedStatement.setString(3, autoShowService.getDescription());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -85,10 +84,10 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(UPDATE);
-            preparedStatement.setLong(1, autoShowService.getServiceId());
-            preparedStatement.setString(2, autoShowService.getTitle());
-            preparedStatement.setBigDecimal(3, autoShowService.getCost());
-            preparedStatement.setString(4, autoShowService.getDescription());
+            preparedStatement.setString(1, autoShowService.getTitle());
+            preparedStatement.setBigDecimal(2, autoShowService.getCost());
+            preparedStatement.setString(3, autoShowService.getDescription());
+            preparedStatement.setLong(4, autoShowService.getServiceId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);

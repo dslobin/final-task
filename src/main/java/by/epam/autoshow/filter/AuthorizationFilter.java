@@ -29,7 +29,6 @@ public class AuthorizationFilter implements Filter {
         if (session.getAttribute(USER_ROLE_ATTRIBUTE) == null) {
             session.setAttribute(USER_ROLE_ATTRIBUTE, UserRole.GUEST);
         }
-        logger.debug("Authorization filter has worked");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
