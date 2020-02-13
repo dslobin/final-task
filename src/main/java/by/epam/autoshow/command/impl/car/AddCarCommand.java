@@ -59,7 +59,7 @@ public class AddCarCommand implements ActionCommand {
         car.setStatus(SaleStatus.valueOf(status));
         car.setDescription(description);
         car.setImageUrl(imageUrl);
-        CarServiceImpl carServiceImpl = CarServiceImpl.getInstance();
+        CarServiceImpl carService = CarServiceImpl.getInstance();
         /*try {
             boolean isCarAdded = carServiceImpl.insertCar(car, color, bodyType);
             if (isCarAdded) {

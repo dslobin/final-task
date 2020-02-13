@@ -20,9 +20,9 @@ public class GetAllCarsCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        CarServiceImpl userServiceImpl = CarServiceImpl.getInstance();
+        CarServiceImpl carService = CarServiceImpl.getInstance();
         try {
-            List<Car> cars = userServiceImpl.findAllCars();
+            List<Car> cars = carService.findAllCars();
             logger.debug("CAR LIST: " + cars);
             sessionRequestContent.setRequestAttributes(PARAM_CAR_LIST, cars);
             page = PagePathManager.getProperty(PagePathPropertyProvider.CAR_OVERVIEW_PAGE_PROPERTY);

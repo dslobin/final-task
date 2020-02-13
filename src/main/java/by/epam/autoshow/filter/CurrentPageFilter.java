@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 public class CurrentPageFilter implements Filter {
     private static final String REFERER = "referer";
     private static final String PATH_REGEX = "/controller.+";
-    private static final String CURRENT_PAGE_ATTRIBUTE = "current_page";
+    private static final String CURRENT_PAGE_ATTRIBUTE = "currentPage";
     private static final Logger logger = LogManager.getLogger();
 
     public void destroy() {
@@ -32,10 +32,10 @@ public class CurrentPageFilter implements Filter {
         HttpSession session = request.getSession(true);
         String url = request.getHeader(REFERER);
         String path = substringPathWithRegex(url);
-        logger.debug("Current page filter has worked.");
         logger.debug("url = " + url);
-        logger.debug("path = " + url);
+        logger.debug("path = " + path);
         session.setAttribute(CURRENT_PAGE_ATTRIBUTE, path);
+        logger.debug("Current page filter has worked.");
         chain.doFilter(req, resp);
     }
 

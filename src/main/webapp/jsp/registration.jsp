@@ -14,8 +14,10 @@
 </head>
 
 <body>
-<div class="form-wrapper">
 
+<jsp:include page="../fragments/guestHeader.jsp"/>
+
+<div class="form-wrapper">
     <div class="registration-form">
         <h1 class="h3 mb-3 font-weight-normal text-center">Favorite-Motors</h1>
 

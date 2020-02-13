@@ -14,6 +14,8 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+
+//FIXME: refactor connection pool initialize method
 public enum ConnectionPool {
     INSTANCE;
 

@@ -18,10 +18,10 @@
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
                 <span class="display-1 d-block">
-                <fmt:message key="errorPage.label.header" bundle="${rb}"/>!
+                    <fmt:message key="errorPage.label.main" bundle="${rb}"/>
                 </span>
                 <div class="mb-4 lead">
-                    <fmt:message key="errorPage.label.main" bundle="${rb}"/>
+                    <fmt:message key="errorPage.label.header" bundle="${rb}"/>!
                 </div>
                 <div class="mb-4">${wrongAction}</div>
                 <a href="controller?command=get_home_page" class="btn btn-link">

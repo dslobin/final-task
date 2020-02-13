@@ -7,10 +7,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 class DaoManager {
-    private ConnectionPool connectionPool;
+    private ConnectionPool connectionPool = ConnectionPool.INSTANCE;
 
-    DaoManager() {
-        connectionPool = ConnectionPool.INSTANCE;
+    public DaoManager() {
     }
 
     public Connection getConnection() throws DaoException {
@@ -28,7 +27,7 @@ class DaoManager {
             if (!connection.getAutoCommit()) {
                 connection.setAutoCommit(true);
             }
-            connection.close();
+            connectionPool.releaseConnection(connection);
         } catch (SQLException e) {
             throw new DaoException("Error closing connection: ", e);
         }
