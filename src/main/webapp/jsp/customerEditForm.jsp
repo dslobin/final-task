@@ -20,28 +20,76 @@
     <form class="needs-validation" action="controller" method="post">
 
         <!-- hidden input -->
-        <input type="hidden" name="command" value="edit_customer"/>
+        <c:if test="${customer == null}">
+            <input type="hidden" name="command" value="add_customer"/>
+        </c:if>
+
+        <c:if test="${customer != null}">
+            <input type="hidden" name="command" value="edit_customer"/>
+        </c:if>
         <!-- /hidden input -->
+
+        <div class="user-data">
+            <div class="form-group">
+                <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
+                <input type="text" id="username" name="username" value="${user.username}" class="form-control"
+                       minlength="1" maxlength="30" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password"><fmt:message key="editUser.label.password" bundle="${rb}"/>: </label>
+                <input type="password" id="password" name="password" value="${user.password}" class="form-control"
+                       minlength="6" maxlength="30" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
+                <select id="userStatus" name="userStatus" class="form-control">
+                    <c:if test="${user == null}">
+                        <c:forEach items="${userStatusArray}" var="status">
+                            <option>${status}</option>
+                        </c:forEach>
+                    </c:if>
+
+                    <c:if test="${user != null}">
+                        <c:forEach items="${userStatusArray}" var="status">
+                            <c:if test="${status == user.status}">
+                                <option selected>${status}</option>
+                            </c:if>
+                            <c:if test="${status != user.status}">
+                                <option>${status}</option>
+                            </c:if>
+                        </c:forEach>
+                    </c:if>
+                </select>
+            </div>
+        </div>
 
         <div class="customer-data">
             <div class="form-group">
                 <label for="surname"><fmt:message key="editCustomer.label.surname" bundle="${rb}"/>: </label>
-                <input type="text" id="surname" name="surname" class="form-control" required autofocus>
+                <input type="text" id="surname" name="surname" class="form-control"
+                       minlength="2" maxlength="30" value="${customer.surname}" required autofocus>
             </div>
 
             <div class="form-group">
                 <label for="name"><fmt:message key="editCustomer.label.name" bundle="${rb}"/>: </label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" class="form-control"
+                       minlength="2" maxlength="30" value="${customer.name}" required>
             </div>
 
             <div class="form-group">
                 <label for="email"><fmt:message key="editCustomer.label.email" bundle="${rb}"/>: </label>
-                <input type="email" id="email" name="email" class="form-control" required autofocus>
+                <input type="email" id="email" name="email" class="form-control"
+                       pattern="^([\p{L}-\.]+){1,64}@([\p{L}&&[^_]]+){2,255}.[a-z]{2,}$" maxlength="120"
+                       value="${customer.email}" required>
             </div>
 
             <div class="form-group">
                 <label for="phoneNumber"><fmt:message key="editCustomer.label.phoneNumber" bundle="${rb}"/>: </label>
-                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                       pattern="^(((8[\\- ]?)(\\(?\\d{3}\\)?[\\- ]?))|(\\+375[\\-]?)(\\(?\\d{2}\\)?[\\- ]?))?[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$"
+                       value="${customer.phoneNumber}" required>
             </div>
         </div>
 
@@ -56,7 +104,7 @@
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/static/js/show-customer-form.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/main.js"/>"></script>
 <!-- /scripts -->
 </body>
 </html>

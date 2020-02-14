@@ -105,4 +105,17 @@ public class UserManager extends DaoManager {
         }
         return userList;
     }
+
+    public User updateUser(User user) throws DaoException {
+        Connection connection = getConnection();
+        try {
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            userDao.update(user);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return user;
+    }
 }

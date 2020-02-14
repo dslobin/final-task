@@ -14,4 +14,6 @@ public interface CustomerService {
     Optional<Customer> findCustomerById(long id) throws ServiceException;
 
     boolean registerCustomer(User user, Customer customer) throws ServiceException;
+
+    boolean updateCustomer(User user, Customer customer) throws ServiceException;
 }

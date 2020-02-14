@@ -46,6 +46,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(User user) throws ServiceException {
+        try {
+            userManager.updateUser(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return user;
+    }
+
+    @Override
     public Optional<User> findUserById(long id) throws ServiceException {
         Optional<User> user = Optional.empty();
         try {

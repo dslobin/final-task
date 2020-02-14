@@ -14,5 +14,7 @@ public interface UserService {
 
     boolean registerUser(User user) throws ServiceException;
 
+    User updateUser(User user) throws ServiceException;
+
     Optional<User> findUserById(long id) throws ServiceException;
 }

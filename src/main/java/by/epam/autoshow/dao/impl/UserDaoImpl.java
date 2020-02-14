@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
             "INSERT INTO users (username, password, role, status) VALUES (?, ?, ?, ?)";
 
     private static final String UPDATE =
-            "UPDATE users SET username = ?, password = ?, role = ?, status = ?";
+            "UPDATE users SET username = ?, password = ?, role = ?, status = ? WHERE user_id = ?";
 
     private static final String DELETE =
             "DELETE FROM users WHERE user_id = ?";
@@ -148,6 +148,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getRole().name());
             preparedStatement.setString(4, user.getStatus().name());
+            preparedStatement.setLong(5, user.getUserId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);

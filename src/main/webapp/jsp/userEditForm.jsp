@@ -21,8 +21,6 @@
     <div class="registration-form">
         <h1 class="h3 mb-3 font-weight-normal text-center">Favorite-Motors</h1>
 
-        <jsp:useBean id="user" class="by.epam.autoshow.model.User" scope="request"/>
-
         <form class="needs-validation" action="controller" method="post">
 
             <!-- hidden input -->
@@ -35,33 +33,41 @@
             </c:if>
             <!-- /hidden input -->
 
+            <c:if test="${user != null}">
+                <input type="hidden" class="form-control" name="userId" value="${user.userId}">
+            </c:if>
+
             <div class="form-group">
-                <label for="login"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
-                <input type="text" id="login" name="login" value="${user.username}"
-                       class="form-control" required autofocus>
+                <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
+                <input type="text" id="username" name="username" value="${user.username}" class="form-control"
+                       minlength="1" maxlength="30" required autofocus>
             </div>
 
             <div class="form-group">
                 <label for="password"><fmt:message key="editUser.label.password" bundle="${rb}"/>: </label>
-                <input type="password" id="password" name="password" value="${user.password}"
-                       class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="userRole"><fmt:message key="editUser.label.role" bundle="${rb}"/>: </label>
-                <select id="userRole" name="useRole" class="form-control">
-                    <option disabled>--Role--</option>
-                    <option value="ADMIN">Administrator</option>
-                    <option value="USER">Client</option>
-                </select>
+                <input type="password" id="password" name="password" value="${user.password}" class="form-control"
+                       minlength="6" maxlength="30" required>
             </div>
 
             <div class="form-group">
                 <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
                 <select id="userStatus" name="userStatus" class="form-control">
-                    <option disabled>--Status--</option>
-                    <option value="ACTIVE">Active</option>
-                    <option value="BLOCKED">Blocked</option>
+                    <c:if test="${user == null}">
+                        <c:forEach items="${userStatusArray}" var="status">
+                            <option>${status}</option>
+                        </c:forEach>
+                    </c:if>
+
+                    <c:if test="${user != null}">
+                        <c:forEach items="${userStatusArray}" var="status">
+                            <c:if test="${status == user.status}">
+                                <option selected>${status}</option>
+                            </c:if>
+                            <c:if test="${status != user.status}">
+                                <option>${status}</option>
+                            </c:if>
+                        </c:forEach>
+                    </c:if>
                 </select>
             </div>
 

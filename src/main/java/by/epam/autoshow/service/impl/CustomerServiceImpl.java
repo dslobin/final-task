@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +39,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean updateCustomer(User user, Customer customer) throws ServiceException {
+        try {
+            customerManger.updateCustomer(user, customer);
+        } catch (DaoException | SQLException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    //FIXME: change find by id method
+    @Override
     public Optional<Customer> findCustomerById(long id) throws ServiceException {
-        return Optional.empty();
+        Optional<Customer> customer = Optional.empty();
+        try {
+            customer = customerManger.findCustomerByLogin(String.valueOf(id));
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return customer;
     }
 
     @Override

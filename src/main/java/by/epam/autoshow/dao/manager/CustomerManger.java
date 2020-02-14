@@ -86,4 +86,21 @@ public class CustomerManger extends DaoManager {
         }
         return customerList;
     }
+
+    public boolean updateCustomer(User user, Customer customer) throws DaoException, SQLException {
+        Connection connection = getTXNConnection();
+        try {
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
+            userDao.update(user);
+            customerDao.update(customer);
+            connection.commit();
+        } catch (DaoException e) {
+            connection.rollback();
+            throw new DaoException("Transaction failure, customer not updated", e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
 }

@@ -1,6 +1,7 @@
 package by.epam.autoshow.command;
 
 import by.epam.autoshow.command.impl.*;
+import by.epam.autoshow.command.impl.car.AddCarCommand;
 import by.epam.autoshow.command.impl.car.EditCarCommand;
 import by.epam.autoshow.command.impl.car.GetAllCarsCommand;
 import by.epam.autoshow.command.impl.carservice.*;
@@ -30,10 +31,10 @@ public enum CommandType {
     GET_SERVICE_ADD_PAGE(new GetServiceAddPageCommand()),
     GET_SERVICE_EDIT_PAGE(new GetServiceEditPageCommand()),
 
-    ADD_USER(new EditUserCommand()),
+    ADD_USER(new AddUserCommand()),
     EDIT_USER(new EditUserCommand()),
 
-    ADD_CAR(new EditCarCommand()),
+    ADD_CAR(new AddCarCommand()),
     EDIT_CAR(new EditCarCommand()),
 
     ADD_SERVICE(new AddAutoShowServiceCommand()),
