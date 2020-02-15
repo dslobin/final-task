@@ -20,14 +20,14 @@ public class GetAllCarsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         CarServiceImpl carService = CarServiceImpl.getInstance();
         try {
             List<Car> cars = carService.findAllCars();
             logger.debug("CAR LIST: " + cars);
-            sessionRequestContent.setRequestAttributes(PARAM_CAR_LIST, cars);
-            UserRole userRole = (UserRole) sessionRequestContent.getSessionAttributes(ATTRIBUTE_USER_ROLE);
+            content.setRequestAttributes(PARAM_CAR_LIST, cars);
+            UserRole userRole = (UserRole) content.getSessionAttributes(ATTRIBUTE_USER_ROLE);
             if (UserRole.ADMIN.equals(userRole)) {
                 page = PagePathManager.getProperty(PagePathProperty.ADMIN_CAR_OVERVIEW_PAGE_PROPERTY);
             } else {

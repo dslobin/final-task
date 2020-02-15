@@ -7,7 +7,7 @@ import by.epam.autoshow.util.manager.PagePathProperty;
 
 public class GetOrderAddPageCommand implements ActionCommand {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = PagePathManager.getProperty(PagePathProperty.ORDER_EDIT_PAGE_PROPERTY);
         return page;
     }

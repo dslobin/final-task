@@ -7,9 +7,9 @@ import by.epam.autoshow.util.manager.PagePathManager;
 
 public class LogoutCommand implements ActionCommand {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = PagePathManager.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
-        sessionRequestContent.invalidateSession();
+        content.invalidateSession();
         return page;
     }
 }

@@ -4,51 +4,59 @@ import by.epam.autoshow.model.AutoShowService;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Basic Auto Show Service Data Access Object interface.
+ * Provides CRUD operations with {@link AutoShowService} objects.
+ *
+ * @author Daniil Slobin
+ */
+
 public interface AutoShowServiceDao {
     /**
-     * Save the autoShowService object.
+     * Save the entity object.
      *
-     * @param entity object to save
+     * @param autoShowService object to save
      * @return {@code true} if object has been added to the data storage
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
-    boolean insert(AutoShowService entity) throws DaoException;
+    boolean insert(AutoShowService autoShowService) throws DaoException;
 
     /**
      * Find the object by id.
      *
      * @param id entity unique identifier
      * @return optional of entity object
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
     Optional<AutoShowService> findById(long id) throws DaoException;
 
     /**
      * Update the entity object.
      *
-     * @param entity object to save
+     * @param autoShowService object to update
      * @return updated object
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
-    AutoShowService update(AutoShowService entity) throws DaoException;
+    AutoShowService update(AutoShowService autoShowService) throws DaoException;
 
     /**
      * Delete the object from data storage.
      *
-     * @param entity
+     * @param autoShowService object to delete
      * @return {@code true} if object has been deleted from the data storage
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
-     boolean delete(AutoShowService entity) throws DaoException;
+    boolean delete(AutoShowService autoShowService) throws DaoException;
 
     /**
      * Find entity objects in data storage.
      *
      * @return list of objects
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
     List<AutoShowService> findAll() throws DaoException;
 
@@ -57,12 +65,12 @@ public interface AutoShowServiceDao {
      *
      * @see Statement
      */
-     void close(Statement statement);
+    void close(Statement statement);
 
     /**
      * Close result set.
      *
      * @see ResultSet
      */
-     void close(ResultSet resultSet);
+    void close(ResultSet resultSet);
 }

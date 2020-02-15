@@ -28,9 +28,9 @@ public class GetProfilePageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String login = (String) sessionRequestContent.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
+        String login = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             OrderService orderService = OrderServiceImpl.getInstance();
@@ -38,10 +38,10 @@ public class GetProfilePageCommand implements ActionCommand {
             if (customer.isPresent()) {
                 long customerId = customer.get().getCustomerId();
                 List<Order> orders = orderService.findCustomerOrders(customerId);
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
+                content.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
+                content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_ERROR, MessageManager.getProperty(ERROR_PROPERTY));
+                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageManager.getProperty(ERROR_PROPERTY));
             }
         } catch (ServiceException e) {
             logger.error(e);

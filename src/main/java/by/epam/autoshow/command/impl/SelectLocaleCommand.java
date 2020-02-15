@@ -7,10 +7,10 @@ public class SelectLocaleCommand implements ActionCommand {
     private static final String PARAM_LANGUAGE = "language";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String locale = sessionRequestContent.getRequestParameter(PARAM_LANGUAGE);
-        sessionRequestContent.setSessionAttributes(PARAM_LANGUAGE, locale);
+        String locale = content.getRequestParameter(PARAM_LANGUAGE);
+        content.setSessionAttributes(PARAM_LANGUAGE, locale);
         return null;
     }
 }

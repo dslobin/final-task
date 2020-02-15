@@ -26,14 +26,14 @@ public class AddCustomerCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
-        String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
-        String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
-        String status = sessionRequestContent.getRequestParameter(PARAM_USER_STATUS);
-        String surname = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_SURNAME);
-        String name = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_NAME);
-        String email = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_EMAIL);
-        String phoneNumber = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
+    public String execute(SessionRequestContent content) {
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
+        String status = content.getRequestParameter(PARAM_USER_STATUS);
+        String surname = content.getRequestParameter(PARAM_CUSTOMER_SURNAME);
+        String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
+        String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
+        String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
         String page = null;
         try {
             User user = new User();

@@ -32,16 +32,16 @@ public class EditCustomerCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
-        String id = sessionRequestContent.getRequestParameter(PARAM_USER_ID);
-        String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
-        String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
-        String status = sessionRequestContent.getRequestParameter(PARAM_USER_STATUS);
-        String customerId = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_ID);
-        String surname = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_SURNAME);
-        String name = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_NAME);
-        String email = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_EMAIL);
-        String phoneNumber = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
+    public String execute(SessionRequestContent content) {
+        String id = content.getRequestParameter(PARAM_USER_ID);
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
+        String status = content.getRequestParameter(PARAM_USER_STATUS);
+        String customerId = content.getRequestParameter(PARAM_CUSTOMER_ID);
+        String surname = content.getRequestParameter(PARAM_CUSTOMER_SURNAME);
+        String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
+        String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
+        String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
         String page = null;
         try {
             Long userId = Long.parseLong(id);

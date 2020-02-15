@@ -36,21 +36,21 @@ public class AddCarCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String model = sessionRequestContent.getRequestParameter(PARAM_MODEL);
-        String mileage = sessionRequestContent.getRequestParameter(PARAM_MILEAGE);
-        String fuelType = sessionRequestContent.getRequestParameter(PARAM_FUEL_TYPE);
-        String bodyType = sessionRequestContent.getRequestParameter(PARAM_BODY_TYPE);
-        String volume = sessionRequestContent.getRequestParameter(PARAM_VOLUME);
-        String transmission = sessionRequestContent.getRequestParameter(PARAM_TRANSMISSION);
-        String driveUnit = sessionRequestContent.getRequestParameter(PARAM_DRIVE_UNIT);
-        String color = sessionRequestContent.getRequestParameter(PARAM_COLOR);
-        String issueYear = sessionRequestContent.getRequestParameter(PARAM_ISSUE_YEAR);
-        String price = sessionRequestContent.getRequestParameter(PARAM_PRICE);
-        String status = sessionRequestContent.getRequestParameter(PARAM_STATUS);
-        String description = sessionRequestContent.getRequestParameter(PARAM_DESCRIPTION);
-        String imageUrl = sessionRequestContent.getRequestParameter(PARAM_IMG_URL);
+        String model = content.getRequestParameter(PARAM_MODEL);
+        String mileage = content.getRequestParameter(PARAM_MILEAGE);
+        String fuelType = content.getRequestParameter(PARAM_FUEL_TYPE);
+        String bodyType = content.getRequestParameter(PARAM_BODY_TYPE);
+        String volume = content.getRequestParameter(PARAM_VOLUME);
+        String transmission = content.getRequestParameter(PARAM_TRANSMISSION);
+        String driveUnit = content.getRequestParameter(PARAM_DRIVE_UNIT);
+        String color = content.getRequestParameter(PARAM_COLOR);
+        String issueYear = content.getRequestParameter(PARAM_ISSUE_YEAR);
+        String price = content.getRequestParameter(PARAM_PRICE);
+        String status = content.getRequestParameter(PARAM_STATUS);
+        String description = content.getRequestParameter(PARAM_DESCRIPTION);
+        String imageUrl = content.getRequestParameter(PARAM_IMG_URL);
         try {
             Car car = new Car();
             car.setModel(model);

@@ -152,11 +152,6 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public boolean delete(Car car) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public List<Car> findAll() throws DaoException {
         List<Car> carList = new ArrayList<>();
         Statement statement = null;

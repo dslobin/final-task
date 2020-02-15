@@ -20,14 +20,14 @@ public class GetCarEditPageCommand implements ActionCommand {
     private static final String PARAM_CAR = "car";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String carId = sessionRequestContent.getRequestParameter(PARAM_CAR_ID);
+        String carId = content.getRequestParameter(PARAM_CAR_ID);
         try {
             CarService carService = CarServiceImpl.getInstance();
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));
             logger.debug("Car: " + car);
-            sessionRequestContent.setRequestAttributes(PARAM_CAR, car.get());
+            content.setRequestAttributes(PARAM_CAR, car.get());
         } catch (ServiceException e) {
             logger.error(e);
         }

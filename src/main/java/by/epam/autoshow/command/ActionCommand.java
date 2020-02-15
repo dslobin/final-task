@@ -3,7 +3,7 @@ package by.epam.autoshow.command;
 import by.epam.autoshow.controller.SessionRequestContent;
 
 /**
- * Basic servlet action command interface.
+ * Servlet action command interface.
  * Provides execution of {@link SessionRequestContent} data.
  *
  * @author Daniil Slobin
@@ -12,8 +12,8 @@ public interface ActionCommand {
     /**
      * Function for extracting and processing data from a request or session
      *
-     * @param sessionRequestContent - data in the request and in the session
-     * @return the page at the specified URL
+     * @param content data in the request and in the session
+     * @return page path
      */
-    String execute(SessionRequestContent sessionRequestContent);
+    String execute(SessionRequestContent content);
 }

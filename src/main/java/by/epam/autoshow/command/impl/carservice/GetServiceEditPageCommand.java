@@ -19,15 +19,15 @@ public class GetServiceEditPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
-        String serviceId = sessionRequestContent.getRequestParameter(PARAM_SERVICE_ID);
+        String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         try {
             Optional<AutoShowService> autoShowService = serviceManagement
                     .findServiceById(Long.parseLong(serviceId));
             logger.debug("Auto show service: " + autoShowService);
-            sessionRequestContent.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
+            content.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
             page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
         } catch (
                 ServiceException e) {

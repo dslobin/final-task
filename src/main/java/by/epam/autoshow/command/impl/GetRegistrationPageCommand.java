@@ -7,7 +7,7 @@ import by.epam.autoshow.util.manager.PagePathProperty;
 
 public class GetRegistrationPageCommand implements ActionCommand {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = PagePathManager.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
         return page;
     }

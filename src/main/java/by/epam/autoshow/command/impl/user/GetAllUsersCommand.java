@@ -18,13 +18,13 @@ public class GetAllUsersCommand implements ActionCommand {
     private static final String PARAM_USER_LIST = "userList";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
         try {
             List<User> users = userServiceImpl.findAllUsers();
             logger.debug("USER LIST: " + users);
-            sessionRequestContent.setRequestAttributes(PARAM_USER_LIST, users);
+            content.setRequestAttributes(PARAM_USER_LIST, users);
             page = PagePathManager.getProperty(PagePathProperty.USER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);

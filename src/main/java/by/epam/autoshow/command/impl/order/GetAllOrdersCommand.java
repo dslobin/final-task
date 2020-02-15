@@ -18,13 +18,13 @@ public class GetAllOrdersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         OrderServiceImpl orderService = OrderServiceImpl.getInstance();
         try {
             List<Order> orders = orderService.findNewOrders();
             logger.debug("ORDER LIST: " + orders);
-            sessionRequestContent.setRequestAttributes(PARAM_ORDER_LIST, orders);
+            content.setRequestAttributes(PARAM_ORDER_LIST, orders);
         } catch (ServiceException e) {
             logger.error(e);
         }

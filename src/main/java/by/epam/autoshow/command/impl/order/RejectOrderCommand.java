@@ -21,9 +21,9 @@ public class RejectOrderCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String orderId = sessionRequestContent.getRequestParameter(PARAM_ORDER_ID);
+        String orderId = content.getRequestParameter(PARAM_ORDER_ID);
         try {
             Order order = new Order();
             order.setOrderId(Long.parseLong(orderId));
@@ -31,7 +31,7 @@ public class RejectOrderCommand implements ActionCommand {
             OrderService orderService = OrderServiceImpl.getInstance();
             orderService.updateOrderStatus(order);
             List<Order> orders = orderService.findAllOrders();
-            sessionRequestContent.setRequestAttributes(PARAM_ORDER_LIST, orders);
+            content.setRequestAttributes(PARAM_ORDER_LIST, orders);
         } catch (ServiceException e) {
             logger.error(e);
         }

@@ -19,13 +19,13 @@ public class GetAllCustomersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             List<Customer> customers = customerService.findAllCustomers();
             logger.debug("CUSTOMER LIST: " + customers);
-            sessionRequestContent.setRequestAttributes(PARAM_CUSTOMER_LIST, customers);
+            content.setRequestAttributes(PARAM_CUSTOMER_LIST, customers);
             page = PagePathManager.getProperty(PagePathProperty.CUSTOMER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);

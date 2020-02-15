@@ -20,7 +20,7 @@ public class RegistrationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         /*String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
         String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);

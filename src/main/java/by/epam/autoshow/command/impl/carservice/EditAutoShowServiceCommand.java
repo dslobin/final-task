@@ -21,12 +21,12 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String serviceId = sessionRequestContent.getRequestParameter(PARAM_SERVICE_ID);
-        String serviceTitle = sessionRequestContent.getRequestParameter(PARAM_TITLE);
-        String cost = sessionRequestContent.getRequestParameter(PARAM_COST);
-        String description = sessionRequestContent.getRequestParameter(PARAM_DESCRIPTION);
+        String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
+        String serviceTitle = content.getRequestParameter(PARAM_TITLE);
+        String cost = content.getRequestParameter(PARAM_COST);
+        String description = content.getRequestParameter(PARAM_DESCRIPTION);
         try {
             AutoShowService autoShowService = new AutoShowService();
             autoShowService.setServiceId(Long.parseLong(serviceId));

@@ -20,14 +20,14 @@ public class GetAllServicesCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
         try {
             List<AutoShowService> services = serviceManagement.findAllServices();
             logger.debug("SERVICE LIST: " + services);
-            sessionRequestContent.setRequestAttributes(PARAM_SERVICE_LIST, services);
-            UserRole userRole = (UserRole) sessionRequestContent.getSessionAttributes(ATTRIBUTE_USER_ROLE);
+            content.setRequestAttributes(PARAM_SERVICE_LIST, services);
+            UserRole userRole = (UserRole) content.getSessionAttributes(ATTRIBUTE_USER_ROLE);
             if (UserRole.ADMIN.equals(userRole)) {
                 page = PagePathManager.getProperty(PagePathProperty.ADMIN_SERVICE_OVERVIEW_PAGE_PROPERTY);
             } else {

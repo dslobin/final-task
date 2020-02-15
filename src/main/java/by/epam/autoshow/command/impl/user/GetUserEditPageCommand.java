@@ -21,15 +21,15 @@ public class GetUserEditPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String userId = sessionRequestContent.getRequestParameter(PARAM_USER_ID);
+        String userId = content.getRequestParameter(PARAM_USER_ID);
         try {
             UserServiceImpl userService = UserServiceImpl.getInstance();
             Optional<User> user = userService.findUserById(Long.parseLong(userId));
             logger.debug("User: " + user);
-            sessionRequestContent.setRequestAttributes(PARAM_USER, user.get());
-            sessionRequestContent.setRequestAttributes(ATTRIBUTE_USER_STATUS_VALUES, UserStatus.values());
+            content.setRequestAttributes(PARAM_USER, user.get());
+            content.setRequestAttributes(ATTRIBUTE_USER_STATUS_VALUES, UserStatus.values());
         } catch (ServiceException e) {
             logger.error(e);
         }

@@ -10,8 +10,8 @@ public class GetUserAddPageCommand implements ActionCommand {
     private static final String ATTRIBUTE_USER_STATUS = "userStatusArray";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
-        sessionRequestContent.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
+    public String execute(SessionRequestContent content) {
+        content.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
         String page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         return page;
     }

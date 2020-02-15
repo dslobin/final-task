@@ -8,6 +8,13 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Basic Color Data Access Object interface.
+ * Provides CRUD operations with {@link Color} objects.
+ *
+ * @author Daniil Slobin
+ */
+
 public interface ColorDao {
 
     /**
@@ -15,16 +22,16 @@ public interface ColorDao {
      *
      * @param id entity unique identifier
      * @return optional of entity object
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
     Optional<Color> findById(long id) throws DaoException;
 
     /**
-     * Find the object by id.
+     * Find the object by color code.
      *
      * @param color entity color
      * @return optional of entity object
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
     Optional<Color> findByCode(String color) throws DaoException;
 
@@ -32,7 +39,7 @@ public interface ColorDao {
      * Find entity objects in data storage.
      *
      * @return list of objects
-     * @throws DaoException if a database access error occurs
+     * @throws DaoException if a data store access error occurs
      */
     List<Color> findAll() throws DaoException;
 

@@ -22,15 +22,15 @@ public class GetCustomerEditPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         CustomerService customerService = CustomerServiceImpl.getInstance();
-        String customerId = sessionRequestContent.getRequestParameter(PARAM_CUSTOMER_ID);
+        String customerId = content.getRequestParameter(PARAM_CUSTOMER_ID);
         try {
             Optional<Customer> customer = customerService.findCustomerById(Long.parseLong(customerId));
             logger.debug("Customer: " + customer);
-            sessionRequestContent.setRequestAttributes(PARAM_CUSTOMER, customer.get());
-            sessionRequestContent.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
+            content.setRequestAttributes(PARAM_CUSTOMER, customer.get());
+            content.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
             page = PagePathManager.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);

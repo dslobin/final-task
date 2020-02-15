@@ -24,21 +24,21 @@ public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
-        String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
         boolean isRegistered = false;
         UserServiceImpl userService = UserServiceImpl.getInstance();
         try {
             Optional<User> user = userService.authorizeUser(login, password);
             isRegistered = user.isPresent();
             if (isRegistered) {
-                sessionRequestContent.setSessionAttributes(ATTRIBUTE_USER_LOGIN, user.get().getUsername());
-                sessionRequestContent.setSessionAttributes(ATTRIBUTE_USER_ROLE, user.get().getRole());
+                content.setSessionAttributes(ATTRIBUTE_USER_LOGIN, user.get().getUsername());
+                content.setSessionAttributes(ATTRIBUTE_USER_ROLE, user.get().getRole());
                 page = PagePathManager.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
             } else {
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_ERROR_MESSAGE,
+                content.setRequestAttributes(ATTRIBUTE_ERROR_MESSAGE,
                         MessageManager.getProperty(ERROR_MESSAGE_PROPERTY));
                 page = PagePathManager.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
             }

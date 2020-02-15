@@ -21,12 +21,12 @@ public class EditUserCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
-        String userId = sessionRequestContent.getRequestParameter(PARAM_USER_ID);
-        String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
-        String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
-        String status = sessionRequestContent.getRequestParameter(PARAM_USER_STATUS);
+        String userId = content.getRequestParameter(PARAM_USER_ID);
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
+        String status = content.getRequestParameter(PARAM_USER_STATUS);
         try {
             User user = new User();
             user.setUserId(Long.parseLong(userId));
