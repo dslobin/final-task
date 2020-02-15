@@ -4,6 +4,7 @@ import by.epam.autoshow.model.Color;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,15 @@ public interface ColorDao {
      * @throws DaoException if a database access error occurs
      */
     Optional<Color> findById(long id) throws DaoException;
+
+    /**
+     * Find the object by id.
+     *
+     * @param color entity color
+     * @return optional of entity object
+     * @throws DaoException if a database access error occurs
+     */
+    Optional<Color> findByCode(String color) throws DaoException;
 
     /**
      * Find entity objects in data storage.

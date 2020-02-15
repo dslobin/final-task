@@ -3,6 +3,7 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.CarDao;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.SqlColumnName;
+import by.epam.autoshow.model.BodyType;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.FuelType;
 import by.epam.autoshow.model.SaleStatus;
@@ -19,32 +20,30 @@ public class CarDaoImpl implements CarDao {
     private Connection connection;
 
     private static final String INSERT =
-            "INSERT INTO cars (model, mileage, fuel_type, body_type_id, volume," +
+            "INSERT INTO cars (model, mileage, fuel_type, body_type, volume," +
                     " transmission, drive_unit, issue_year, price, sale_status, description, image_url)" +
                     " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE =
-            "UPDATE cars SET model = ?, mileage = ?, fuel_type = ?, body_type_id = ?," +
+            "UPDATE cars SET model = ?, mileage = ?, fuel_type = ?, body_type = ?," +
                     " volume = ?, transmission = ?, drive_unit = ?, issue_year = ?, price = ?, sale_status = ?," +
                     " description = ?, image_url = ? WHERE car_id = ?";
 
     private static final String FIND_ALL =
-            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_types.body_type_id," +
-                    " body_types.title, cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
+            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_type," +
+                    " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
                     " cars.price, cars.sale_status, colors.color_id, colors.code," +
                     " cars.description, cars.image_url FROM cars" +
                     " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
-                    " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
-                    " INNER JOIN body_types ON cars.body_type_id = body_types.body_type_id";
+                    " LEFT JOIN colors ON car_coloring.color_id = colors.color_id";
 
     private static final String FIND_BY_ID =
-            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_types.body_type_id AS body_id," +
-                    " body_types.title AS body_title, cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
+            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_type" +
+                    " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
                     " cars.price, cars.sale_status, colors.color_id AS color_id, colors.code AS color_code," +
                     " cars.description, cars.image_url FROM cars" +
                     " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
-                    " INNER JOIN body_types ON cars.body_type_id = body_types.body_type_id" +
                     " WHERE car_id = ?";
 
     private static final Logger logger = LogManager.getLogger();
@@ -54,15 +53,16 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public boolean insert(Car car) throws DaoException {
+    public long insert(Car car) throws DaoException {
         PreparedStatement preparedStatement = null;
+        long carId = -1;
         try {
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(INSERT);
+            preparedStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, car.getModel());
             preparedStatement.setInt(2, car.getMileage());
             preparedStatement.setString(3, car.getFuelType().name());
-            preparedStatement.setLong(4, car.getBodyType().getBodyTypeId());
+            preparedStatement.setString(4, car.getBodyType().name());
             preparedStatement.setInt(5, car.getVolume());
             preparedStatement.setString(6, car.getTransmission());
             preparedStatement.setString(7, car.getDriveUnit());
@@ -72,12 +72,22 @@ public class CarDaoImpl implements CarDao {
             preparedStatement.setString(11, car.getDescription());
             preparedStatement.setString(12, car.getImageUrl());
             preparedStatement.executeUpdate();
+            carId = getInsertedRecordId(preparedStatement);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(preparedStatement);
         }
-        return true;
+        return carId;
+    }
+
+    private long getInsertedRecordId(Statement statement) throws SQLException {
+        ResultSet resultSet = statement.getGeneratedKeys();
+        long id = -1;
+        if (resultSet.next()) {
+            id = resultSet.getLong(SqlColumnName.CAR_ID);
+        }
+        return id;
     }
 
     @Override
@@ -94,8 +104,7 @@ public class CarDaoImpl implements CarDao {
                 car.setModel(resultSet.getString(SqlColumnName.CAR_MODEL));
                 car.setMileage(resultSet.getInt(SqlColumnName.MILEAGE));
                 car.setFuelType(FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)));
-                car.getBodyType().setBodyTypeId(resultSet.getLong(SqlColumnName.BODY_TYPE_ID));
-                car.getBodyType().setTitle(resultSet.getString(SqlColumnName.TITLE));
+                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE_ID)));
                 car.setVolume(resultSet.getInt(SqlColumnName.VOLUME));
                 car.setTransmission(resultSet.getString(SqlColumnName.TRANSMISSION));
                 car.setDriveUnit(resultSet.getString(SqlColumnName.DRIVE_UNIT));
@@ -124,7 +133,7 @@ public class CarDaoImpl implements CarDao {
             preparedStatement.setString(1, car.getModel());
             preparedStatement.setInt(2, car.getMileage());
             preparedStatement.setString(3, car.getFuelType().name());
-            preparedStatement.setLong(4, car.getBodyType().getBodyTypeId());
+            preparedStatement.setString(4, car.getBodyType().name());
             preparedStatement.setInt(5, car.getVolume());
             preparedStatement.setString(6, car.getTransmission());
             preparedStatement.setString(7, car.getDriveUnit());
@@ -161,8 +170,7 @@ public class CarDaoImpl implements CarDao {
                 car.setModel(resultSet.getString(SqlColumnName.CAR_MODEL));
                 car.setMileage(resultSet.getInt(SqlColumnName.MILEAGE));
                 car.setFuelType(FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)));
-                car.getBodyType().setBodyTypeId(resultSet.getLong(SqlColumnName.BODY_TYPE_ID));
-                car.getBodyType().setTitle(resultSet.getString(SqlColumnName.TITLE));
+                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE_ID)));
                 car.setVolume(resultSet.getInt(SqlColumnName.VOLUME));
                 car.setTransmission(resultSet.getString(SqlColumnName.TRANSMISSION));
                 car.setDriveUnit(resultSet.getString(SqlColumnName.DRIVE_UNIT));

@@ -67,4 +67,13 @@ public class OrderServiceImpl implements OrderService {
         return customerOrders;
     }
 
+    @Override
+    public boolean updateOrderStatus(Order order) throws ServiceException {
+        try {
+            orderManager.updateOrderStatus(order);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
 }

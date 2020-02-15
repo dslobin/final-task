@@ -26,6 +26,9 @@ public class OrderDaoImpl implements OrderDao {
     private static final String UPDATE =
             "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, overall_price = ?, status = ? WHERE order_id = ?";
 
+    private static final String UPDATE_ORDER_STATUS =
+            "UPDATE orders SET status = ? WHERE order_id = ?";
+
     private static final String FIND_ALL =
             "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders";
 
@@ -130,6 +133,22 @@ public class OrderDaoImpl implements OrderDao {
             close(preparedStatement);
         }
         return order;
+    }
+
+    @Override
+    public boolean updateOrderStatus(Order order) throws DaoException {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(UPDATE_ORDER_STATUS);
+            preparedStatement.setLong(1, order.getOrderId());
+            preparedStatement.setString(2, order.getStatus().name());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            close(preparedStatement);
+        }
+        return true;
     }
 
     @Override

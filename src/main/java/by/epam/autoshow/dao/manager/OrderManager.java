@@ -74,4 +74,17 @@ public class OrderManager extends DaoManager {
         }
         return customerOrders;
     }
+
+    public boolean updateOrderStatus(Order order) throws DaoException {
+        Connection connection = getConnection();
+        try {
+            OrderDaoImpl orderDao = new OrderDaoImpl(connection);
+            orderDao.updateOrderStatus(order);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
 }

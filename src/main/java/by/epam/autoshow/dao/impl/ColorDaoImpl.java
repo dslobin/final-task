@@ -91,12 +91,12 @@ public class ColorDaoImpl implements ColorDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = connection.prepareStatement(FIND_COLOR_BY_ID);
+            preparedStatement = connection.prepareStatement(FIND_COLOR_BY_CODE);
             preparedStatement.setString(1, code);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                color.setColorId(resultSet.getLong(SqlColumnName.USER_ID));
-                color.setCode(resultSet.getString(SqlColumnName.USERNAME));
+                color.setColorId(resultSet.getLong(SqlColumnName.COLOR_ID));
+                color.setCode(resultSet.getString(SqlColumnName.CODE));
             }
         } catch (SQLException e) {
             throw new DaoException(e);

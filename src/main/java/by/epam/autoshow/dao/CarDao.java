@@ -19,10 +19,10 @@ public interface CarDao {
      * Save the entity object.
      *
      * @param entity object to save
-     * @return {@code true} if object has been added to the data storage
+     * @return inserted row id
      * @throws DaoException if a database access error occurs
      */
-    boolean insert(Car entity) throws DaoException;
+    long insert(Car entity) throws DaoException;
 
     /**
      * Find the object by id.

@@ -10,5 +10,7 @@ public interface CarService {
 
     Optional<Car> findCarById(long id) throws ServiceException;
 
-    boolean addCar(Car car) throws ServiceException;
+    boolean addCar(Car car, String colorCode) throws ServiceException;
+
+    boolean updateCar(Car car, String color) throws ServiceException;
 }

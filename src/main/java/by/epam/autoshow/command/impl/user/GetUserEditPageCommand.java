@@ -17,23 +17,23 @@ import java.util.Optional;
 public class GetUserEditPageCommand implements ActionCommand {
     private static final String PARAM_USER = "user";
     private static final String PARAM_USER_ID = "userId";
-    private static final String ATTRIBUTE_USER_STATUS = "userStatusArray";
+    private static final String ATTRIBUTE_USER_STATUS_VALUES = "userStatusArray";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        UserServiceImpl userService = UserServiceImpl.getInstance();
         String userId = sessionRequestContent.getRequestParameter(PARAM_USER_ID);
         try {
+            UserServiceImpl userService = UserServiceImpl.getInstance();
             Optional<User> user = userService.findUserById(Long.parseLong(userId));
             logger.debug("User: " + user);
             sessionRequestContent.setRequestAttributes(PARAM_USER, user.get());
-            sessionRequestContent.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
-            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
+            sessionRequestContent.setRequestAttributes(ATTRIBUTE_USER_STATUS_VALUES, UserStatus.values());
         } catch (ServiceException e) {
             logger.error(e);
         }
+        page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         return page;
     }
 }

@@ -10,4 +10,6 @@ public interface OrderService {
     List<Order> findNewOrders() throws ServiceException;
 
     List<Order> findCustomerOrders(long customerId) throws ServiceException;
+
+    boolean updateOrderStatus(Order order) throws ServiceException;
 }

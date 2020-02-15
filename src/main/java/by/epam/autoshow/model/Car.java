@@ -41,7 +41,6 @@ public class Car {
     public Car() {
         super();
         color = new Color();
-        bodyType = new BodyType();
     }
 
     public Long getCarId() {

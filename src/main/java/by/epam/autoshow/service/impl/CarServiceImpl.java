@@ -9,6 +9,8 @@ import by.epam.autoshow.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +38,23 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean addCar(Car car) throws ServiceException {
-        return false;
+    public boolean updateCar(Car car, String colorCode) throws ServiceException {
+        try {
+            carManager.updateCar(car, colorCode);
+        } catch (DaoException | SQLException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addCar(Car car, String colorCode) throws ServiceException {
+        try {
+            carManager.addCar(car, colorCode);
+        } catch (DaoException | SQLException e) {
+            throw new ServiceException(e);
+        }
+        return true;
     }
 
     @Override

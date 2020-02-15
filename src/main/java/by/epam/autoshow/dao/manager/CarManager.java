@@ -2,12 +2,16 @@ package by.epam.autoshow.dao.manager;
 
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.CarDaoImpl;
+import by.epam.autoshow.dao.impl.ColorDaoImpl;
 import by.epam.autoshow.model.Car;
+import by.epam.autoshow.model.Color;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+
+import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +38,41 @@ public class CarManager extends DaoManager {
         return carManager;
     }
 
-    public boolean addCar(Car car) throws DaoException {
-        return false;
+    public boolean updateCar(Car car, String colorCode) throws DaoException, SQLException {
+        Connection connection = getTXNConnection();
+        try {
+            CarDaoImpl carDao = new CarDaoImpl(connection);
+            ColorDaoImpl colorDao = new ColorDaoImpl(connection);
+            carDao.update(car);
+            Optional<Color> color = colorDao.findByCode(colorCode);
+            colorDao.updateCarColor(car.getCarId(), color.get().getColorId());
+            connection.commit();
+        } catch (DaoException e) {
+            connection.rollback();
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
+
+    public boolean addCar(Car car, String colorCode) throws DaoException, SQLException {
+        Connection connection = getTXNConnection();
+        try {
+            CarDaoImpl carDao = new CarDaoImpl(connection);
+            ColorDaoImpl colorDao = new ColorDaoImpl(connection);
+            carDao.insert(car);
+            Optional<Color> color = colorDao.findByCode(colorCode);
+            long carId = carDao.insert(car);
+            colorDao.insertCarColor(carId, color.get().getColorId());
+            connection.commit();
+        } catch (DaoException e) {
+            connection.rollback();
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
     }
 
     public Optional<Car> findById(long id) throws DaoException {

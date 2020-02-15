@@ -37,6 +37,8 @@ public interface OrderDao {
      */
     Order update(Order entity) throws DaoException;
 
+    boolean updateOrderStatus(Order order) throws DaoException;
+
     /**
      * Find entity objects in data storage.
      *
