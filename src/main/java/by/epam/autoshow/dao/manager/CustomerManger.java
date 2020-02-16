@@ -12,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CustomerManger extends DaoManager {
     private static volatile CustomerManger INSTANCE;
@@ -102,5 +100,19 @@ public class CustomerManger extends DaoManager {
             close(connection);
         }
         return true;
+    }
+
+    public Map<String, Customer> findCustomerUserNames() throws DaoException {
+        Connection connection = getConnection();
+        Map<String, Customer> customers = new HashMap<>();
+        try {
+            CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
+            customers = customerDao.findCustomerUserNames();
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return customers;
     }
 }

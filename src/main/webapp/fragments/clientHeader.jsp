@@ -11,11 +11,11 @@
                 <fmt:message key="header.label.profile" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_car_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_cars">
                 <fmt:message key="header.label.cars" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_service_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_services">
                 <fmt:message key="header.label.services" bundle="${rb}"/>
             </a>
 

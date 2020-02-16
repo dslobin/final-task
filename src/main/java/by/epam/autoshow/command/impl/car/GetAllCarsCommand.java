@@ -22,8 +22,8 @@ public class GetAllCarsCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent content) {
         String page = null;
-        CarServiceImpl carService = CarServiceImpl.getInstance();
         try {
+            CarServiceImpl carService = CarServiceImpl.getInstance();
             List<Car> cars = carService.findAllCars();
             logger.debug("CAR LIST: " + cars);
             content.setRequestAttributes(PARAM_CAR_LIST, cars);

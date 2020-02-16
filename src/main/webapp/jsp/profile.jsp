@@ -7,48 +7,51 @@
 <fmt:setBundle basename="properties/pageContent" var="rb"/>
 <%--${language}--%>
 
-<html>
-
+<html lang="ru">
 <head>
-    <title>Profile</title>
+    <title><fmt:message key="profile.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
     <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
-
 <body>
 
 <jsp:useBean id="userRole" scope="session" type="by.epam.autoshow.model.UserRole"/>
 <jsp:useBean id="userLogin" scope="session" type="java.lang.String"/>
 
-
 <jsp:include page="../fragments/clientHeader.jsp"/>
-
 
 <%-- PROFILE --%>
 <div class="container">
-
-    <h2>Personal information</h2>
+    <h2><fmt:message key="profile.label.personalInformation" bundle="${rb}"/></h2>
     <div class="row">
-        <div class="col-6">
-            <h4>Username: ${userLogin}</h4>
-            <h4>Role: <tags:role userRole="${userRole}"/></h4>
-        </div>
-        <jsp:useBean id="customer" scope="request" type="by.epam.autoshow.model.Customer"/>
         <c:when test="${customer != null}">
             <div class="col-6">
-                <h4>
-                    Name:
+                <h4><fmt:message key="profile.label.name" bundle="${rb}"/>:
                     <c:out value="${customer.name}"/>
                 </h4>
-                <h4>
-                    Surname:
+                <h4><fmt:message key="profile.label.surname" bundle="${rb}"/>:
                     <c:out value="${customer.surname}"/>
+                </h4>
+                <h4><fmt:message key="profile.label.email" bundle="${rb}"/>:
+                    <c:out value="${customer.email}"/>
+                </h4>
+                <h4><fmt:message key="profile.label.phoneNumber" bundle="${rb}"/>:
+                    <c:out value="${customer.phoneNumber}"/>
                 </h4>
             </div>
         </c:when>
+
+        <div class="col-6">
+            <h4><fmt:message key="profile.label.username" bundle="${rb}"/>:
+                <c:out value="${userLogin}"/>
+            </h4>
+            <h4><fmt:message key="profile.label.role" bundle="${rb}"/>:
+                <tags:role userRole="${userRole}"/>
+            </h4>
+        </div>
     </div>
 
-    <h2>Service order history:</h2>
+    <h2><fmt:message key="profile.label.orderHistory" bundle="${rb}"/>:</h2>
     <div class="page-wrap">
         <jsp:useBean id="customerOrders" class="java.util.ArrayList" scope="request"/>
         <c:choose>
@@ -62,6 +65,7 @@
                             <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.action" bundle="${rb}"/></th>
                         </tr>
                         </thead>
                         <tbody id="page">
@@ -83,7 +87,7 @@
             </c:when>
 
             <c:otherwise>
-                <h2><c:out value="Order list is empty"/></h2>
+                <h2><fmt:message key="profile.label.emptyHistory" bundle="${rb}"/></h2>
             </c:otherwise>
         </c:choose>
 

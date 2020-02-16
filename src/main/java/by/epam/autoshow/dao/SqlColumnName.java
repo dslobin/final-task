@@ -4,6 +4,7 @@ public final class SqlColumnName {
     public static final String CAR_ID = "car_id";
     public static final String CAR_MODEL = "model";
     public static final String MILEAGE = "mileage";
+    public static final String BODY_TYPE = "body_type";
     public static final String FUEL_TYPE = "fuel_type";
     public static final String VOLUME = "volume";
     public static final String TRANSMISSION = "transmission";
@@ -36,6 +37,4 @@ public final class SqlColumnName {
 
     public static final String COLOR_ID = "color_id";
     public static final String CODE = "code";
-
-    public static final String BODY_TYPE_ID = "body_type_id";
 }

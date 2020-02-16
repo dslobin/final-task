@@ -4,6 +4,7 @@ import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface CustomerService {
@@ -16,4 +17,6 @@ public interface CustomerService {
     boolean registerCustomer(User user, Customer customer) throws ServiceException;
 
     boolean updateCustomer(User user, Customer customer) throws ServiceException;
+
+    Map<String, Customer> findCustomerUserNames() throws ServiceException;
 }

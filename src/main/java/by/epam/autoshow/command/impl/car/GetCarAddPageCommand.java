@@ -5,7 +5,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathProperty;
 
-public class GetAddCarPageCommand implements ActionCommand {
+public class GetCarAddPageCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent content) {
         String page = PagePathManager.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);

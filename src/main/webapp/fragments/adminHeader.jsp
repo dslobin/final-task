@@ -10,23 +10,23 @@
         </h5>
         <nav class="my-2 my-md-0 mr-md-3">
 
-            <a class="p-2 text-dark" href="controller?command=get_car_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_cars">
                 <fmt:message key="header.label.cars" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_service_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_services">
                 <fmt:message key="header.label.services" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_user_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_users">
                 <fmt:message key="header.label.users" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_client_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_customers">
                 <fmt:message key="header.label.customers" bundle="${rb}"/>
             </a>
 
-            <a class="p-2 text-dark" href="controller?command=get_order_page">
+            <a class="p-2 text-dark" href="controller?command=get_all_orders">
                 <fmt:message key="header.label.orders" bundle="${rb}"/>
             </a>
 

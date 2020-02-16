@@ -26,8 +26,8 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th><fmt:message key="orderOverview.tableHeader.serviceId" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.customerId" bundle="${rb}"/></th>
+                        <th><fmt:message key="orderOverview.tableHeader.serviceId" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
                         <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
@@ -37,21 +37,21 @@
                     <tbody id="page">
                     <c:forEach var="order" items="${orderList}">
                         <tr class="table-row">
-                            <td><c:out value="${order.serviceId}"/></td>
                             <td><c:out value="${order.customerId}"/></td>
+                            <td><c:out value="${order.serviceId}"/></td>
                             <td><c:out value="${order.orderDate}"/></td>
                             <td><c:out value="${order.overallPrice}"/></td>
                             <td><c:out value="${order.status}"/></td>
                             <td>
-                                <p class="text-success">
-                                    <a href="controller?command=edit_order_command&orderId=${order.orderId}">
-                                        <fmt:message key="orderOverview.label.acceptOrder" bundle="${rb}"/></a>
-                                </p>
+                                <a href="controller?command=edit_order_command&orderId=${order.orderId}"
+                                   class="text-success mr-2">
+                                    <fmt:message key="orderOverview.label.acceptOrder" bundle="${rb}"/>
+                                </a>
 
-                                <p class="text-danger">
-                                    <a href="controller?command=edit_order_command&orderId=${order.orderId}">
-                                        <fmt:message key="orderOverview.label.rejectOrder" bundle="${rb}"/></a>
-                                </p>
+                                <a href="controller?command=edit_order_command&orderId=${order.orderId}"
+                                   class="text-danger ml-2">
+                                    <fmt:message key="orderOverview.label.rejectOrder" bundle="${rb}"/>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

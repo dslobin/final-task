@@ -104,7 +104,7 @@ public class CarDaoImpl implements CarDao {
                 car.setModel(resultSet.getString(SqlColumnName.CAR_MODEL));
                 car.setMileage(resultSet.getInt(SqlColumnName.MILEAGE));
                 car.setFuelType(FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)));
-                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE_ID)));
+                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)));
                 car.setVolume(resultSet.getInt(SqlColumnName.VOLUME));
                 car.setTransmission(resultSet.getString(SqlColumnName.TRANSMISSION));
                 car.setDriveUnit(resultSet.getString(SqlColumnName.DRIVE_UNIT));
@@ -165,7 +165,7 @@ public class CarDaoImpl implements CarDao {
                 car.setModel(resultSet.getString(SqlColumnName.CAR_MODEL));
                 car.setMileage(resultSet.getInt(SqlColumnName.MILEAGE));
                 car.setFuelType(FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)));
-                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE_ID)));
+                car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)));
                 car.setVolume(resultSet.getInt(SqlColumnName.VOLUME));
                 car.setTransmission(resultSet.getString(SqlColumnName.TRANSMISSION));
                 car.setDriveUnit(resultSet.getString(SqlColumnName.DRIVE_UNIT));

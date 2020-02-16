@@ -9,9 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("Duplicates")
 public class CustomerDaoImpl implements CustomerDao {
@@ -24,8 +22,9 @@ public class CustomerDaoImpl implements CustomerDao {
     private static final String UPDATE =
             "UPDATE customers SET user_id = ?, surname = ?, name = ?, email = ?, phone_number = ? WHERE customer_id = ?";
 
-    private static final String DELETE =
-            "DELETE FROM customers WHERE customer_id = ?";
+    private static final String FIND_CUSTOMER_USER_NAMES =
+            "SELECT customers.customer_id, customers.user_id, users.username, surname, name, email, phone_number" +
+                    " FROM customers INNER JOIN users ON customers.user_id = users.user_id";
 
     private static final String FIND_ALL =
             "SELECT customer_id, user_id, surname, customer_id, user_id, surname, name, email, phone_number FROM customers";
@@ -130,18 +129,32 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public boolean delete(Customer customer) throws DaoException {
-        PreparedStatement preparedStatement = null;
+    public Map<String, Customer> findCustomerUserNames() throws DaoException {
+        Map<String, Customer> customers = new HashMap<>();
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setLong(1, customer.getCustomerId());
-            preparedStatement.execute();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_CUSTOMER_USER_NAMES);
+            String username = null;
+            while (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
+                customer.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
+                customer.setSurname(resultSet.getString(SqlColumnName.SURNAME));
+                customer.setName(resultSet.getString(SqlColumnName.NAME));
+                customer.setEmail(resultSet.getString(SqlColumnName.EMAIL));
+                customer.setPhoneNumber(resultSet.getString(SqlColumnName.PHONE_NUMBER));
+                username = resultSet.getString(SqlColumnName.USERNAME);
+                customers.put(username, customer);
+            }
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            close(preparedStatement);
+            close(resultSet);
+            close(statement);
         }
-        return true;
+        return customers;
     }
 
     @Override

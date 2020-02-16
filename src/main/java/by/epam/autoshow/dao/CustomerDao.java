@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -44,13 +45,12 @@ public interface CustomerDao {
     Customer update(Customer customer) throws DaoException;
 
     /**
-     * Delete the object from data storage.
+     * Find the customer usernames
      *
-     * @param customer object to delete
-     * @return {@code true} if object has been deleted from the data storage
+     * @return map which contains the username as a key and customer data as a value
      * @throws DaoException if a data store access error occurs
      */
-    boolean delete(Customer customer) throws DaoException;
+    Map<String, Customer> findCustomerUserNames() throws DaoException;
 
     /**
      * Find entity objects in data storage.

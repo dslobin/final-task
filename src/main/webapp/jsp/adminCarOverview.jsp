@@ -23,7 +23,7 @@
         <c:when test="${not empty carList}">
 
             <div class="">
-                <table class="table table-borderless">
+                <table class="table table-borderless table-striped">
                     <tbody id="page">
                     <c:forEach var="car" items="${carList}">
                         <tr class="table-row">

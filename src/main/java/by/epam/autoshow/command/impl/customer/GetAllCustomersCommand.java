@@ -12,10 +12,10 @@ import by.epam.autoshow.util.manager.PagePathProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.util.Map;
 
 public class GetAllCustomersCommand implements ActionCommand {
-    private static final String PARAM_CUSTOMER_LIST = "customerList";
+    private static final String PARAM_CUSTOMER_MAP = "customerMap";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -23,9 +23,9 @@ public class GetAllCustomersCommand implements ActionCommand {
         String page = null;
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
-            List<Customer> customers = customerService.findAllCustomers();
-            logger.debug("CUSTOMER LIST: " + customers);
-            content.setRequestAttributes(PARAM_CUSTOMER_LIST, customers);
+            Map<String, Customer> customers = customerService.findCustomerUserNames();
+            logger.debug("CUSTOMER MAP: " + customers);
+            content.setRequestAttributes(PARAM_CUSTOMER_MAP, customers);
             page = PagePathManager.getProperty(PagePathProperty.CUSTOMER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);

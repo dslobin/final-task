@@ -1,11 +1,13 @@
 package by.epam.autoshow.command;
 
 import by.epam.autoshow.command.impl.*;
-import by.epam.autoshow.command.impl.car.AddCarCommand;
-import by.epam.autoshow.command.impl.car.EditCarCommand;
-import by.epam.autoshow.command.impl.car.GetAllCarsCommand;
+import by.epam.autoshow.command.impl.car.*;
 import by.epam.autoshow.command.impl.carservice.*;
+import by.epam.autoshow.command.impl.customer.GetAllCustomersCommand;
+import by.epam.autoshow.command.impl.order.AcceptOrderCommand;
 import by.epam.autoshow.command.impl.order.GetAllOrdersCommand;
+import by.epam.autoshow.command.impl.order.GetOrderAddPageCommand;
+import by.epam.autoshow.command.impl.order.RejectOrderCommand;
 import by.epam.autoshow.command.impl.user.*;
 
 public enum CommandType {
@@ -15,10 +17,12 @@ public enum CommandType {
     REGAIN_PASSWORD(new RegistrationCommand()),
     CHANGE_LOCALE(new SelectLocaleCommand()),
 
-    GET_USER_PAGE(new GetAllUsersCommand()),
-    GET_CAR_PAGE(new GetAllCarsCommand()),
-    GET_SERVICE_PAGE(new GetAllServicesCommand()),
-    GET_ORDER_PAGE(new GetAllOrdersCommand()),
+    GET_ALL_USERS(new GetAllUsersCommand()),
+    GET_ALL_CARS(new GetAllCarsCommand()),
+    GET_ALL_SERVICES(new GetAllServicesCommand()),
+    GET_ALL_ORDERS(new GetAllOrdersCommand()),
+    GET_ALL_CUSTOMERS(new GetAllCustomersCommand()),
+
     GET_HOME_PAGE(new GetHomePageCommand()),
     GET_PROFILE_PAGE(new GetProfilePageCommand()),
     GET_LOGIN_PAGE(new GetLoginPageCommand()),
@@ -30,6 +34,14 @@ public enum CommandType {
 
     GET_SERVICE_ADD_PAGE(new GetServiceAddPageCommand()),
     GET_SERVICE_EDIT_PAGE(new GetServiceEditPageCommand()),
+
+    GET_CAR_ADD_PAGE(new GetCarAddPageCommand()),
+    GET_CAR_EDIT_PAGE(new GetCarEditPageCommand()),
+
+    GET_ORDER_ADD_PAGE(new GetOrderAddPageCommand()),
+
+    ACCEPT_ORDER(new AcceptOrderCommand()),
+    REJECT_ORDER(new RejectOrderCommand()),
 
     ADD_USER(new AddUserCommand()),
     EDIT_USER(new EditUserCommand()),

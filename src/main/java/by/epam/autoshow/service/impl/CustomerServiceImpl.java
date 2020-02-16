@@ -12,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CustomerServiceImpl implements CustomerService {
     private static volatile CustomerServiceImpl INSTANCE;
@@ -90,5 +88,16 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ServiceException(e);
         }
         return true;
+    }
+
+    @Override
+    public Map<String, Customer> findCustomerUserNames() throws ServiceException {
+        Map<String, Customer> customers = new HashMap<>();
+        try {
+             customers = customerManger.findCustomerUserNames();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return customers;
     }
 }
