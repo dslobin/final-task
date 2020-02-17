@@ -19,10 +19,10 @@ public class AddCustomerCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_ROLE = "userRole";
     private static final String PARAM_USER_STATUS = "userStatus";
-    private static final String PARAM_CUSTOMER_SURNAME = "userStatus";
-    private static final String PARAM_CUSTOMER_NAME = "userStatus";
-    private static final String PARAM_CUSTOMER_EMAIL = "userStatus";
-    private static final String PARAM_CUSTOMER_PHONE_NUMBER = "userStatus";
+    private static final String PARAM_CUSTOMER_SURNAME = "surname";
+    private static final String PARAM_CUSTOMER_NAME = "name";
+    private static final String PARAM_CUSTOMER_EMAIL = "email";
+    private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final Logger logger = LogManager.getLogger();
 
     @Override

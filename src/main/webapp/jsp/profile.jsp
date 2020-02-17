@@ -22,9 +22,9 @@
 
 <%-- PROFILE --%>
 <div class="container">
-    <h2><fmt:message key="profile.label.personalInformation" bundle="${rb}"/></h2>
+    <h2><fmt:message key="profile.label.personalInformation" bundle="${rb}"/>:</h2>
     <div class="row">
-        <c:when test="${customer != null}">
+        <c:if test="${customer != null}">
             <div class="col-6">
                 <h4><fmt:message key="profile.label.name" bundle="${rb}"/>:
                     <c:out value="${customer.name}"/>
@@ -39,7 +39,7 @@
                     <c:out value="${customer.phoneNumber}"/>
                 </h4>
             </div>
-        </c:when>
+        </c:if>
 
         <div class="col-6">
             <h4><fmt:message key="profile.label.username" bundle="${rb}"/>:
@@ -51,8 +51,8 @@
         </div>
     </div>
 
-    <h2><fmt:message key="profile.label.orderHistory" bundle="${rb}"/>:</h2>
-    <div class="page-wrap">
+    <h2 class="mt-3"><fmt:message key="profile.label.orderHistory" bundle="${rb}"/>:</h2>
+    <div class="">
         <jsp:useBean id="customerOrders" class="java.util.ArrayList" scope="request"/>
         <c:choose>
             <c:when test="${not empty customerOrders}">
@@ -75,6 +75,12 @@
                                 <td><c:out value="${order.orderDate}"/></td>
                                 <td><c:out value="${order.overallPrice}"/></td>
                                 <td><c:out value="${order.status}"/></td>
+                                <td>
+                                    <c:if test="${order.status == 'NEW'}">
+                                        <a href="controller?command=cancel_order&orderId=${order.orderId}">
+                                            <fmt:message key="profile.label.cancelOrder" bundle="${rb}"/></a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -108,5 +114,10 @@
 <%-- /PROFILE --%>
 
 <jsp:include page="../fragments/footer.jsp"/>
+
+<!-- scripts -->
+<script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/pagination.js"/>"></script>
+<!-- /scripts -->
 </body>
 </html>

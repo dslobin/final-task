@@ -68,7 +68,7 @@ public class CustomerDaoImpl implements CustomerDao {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                customer.setCustomerId(resultSet.getLong(SqlColumnName.USER_ID));
+                customer.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
                 customer.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
                 customer.setSurname(resultSet.getString(SqlColumnName.SURNAME));
                 customer.setName(resultSet.getString(SqlColumnName.NAME));
@@ -119,6 +119,7 @@ public class CustomerDaoImpl implements CustomerDao {
             preparedStatement.setString(3, customer.getName());
             preparedStatement.setString(4, customer.getEmail());
             preparedStatement.setString(5, customer.getPhoneNumber());
+            preparedStatement.setLong(6, customer.getCustomerId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);

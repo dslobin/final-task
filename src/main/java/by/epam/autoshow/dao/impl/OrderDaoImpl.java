@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
             "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders WHERE status = ?";
 
     private static final String FIND_CUSTOMER_ORDERS =
-            "SELECT service_id, date, overall_price, status FROM orders WHERE customer_id = ?";
+            "SELECT order_id, service_id, date, overall_price, status FROM orders WHERE customer_id = ?";
 
     public OrderDaoImpl(Connection connection) {
         this.connection = connection;
@@ -99,8 +99,9 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement = connection.prepareStatement(FIND_CUSTOMER_ORDERS);
             preparedStatement.setLong(1, customerId);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 Order order = new Order();
+                order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
                 order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
                 order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
                 order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
@@ -140,8 +141,8 @@ public class OrderDaoImpl implements OrderDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(UPDATE_ORDER_STATUS);
-            preparedStatement.setLong(1, order.getOrderId());
-            preparedStatement.setString(2, order.getStatus().name());
+            preparedStatement.setString(1, order.getStatus().name());
+            preparedStatement.setLong(2, order.getOrderId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);

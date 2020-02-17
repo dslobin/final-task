@@ -3,7 +3,7 @@ package by.epam.autoshow.command;
 import by.epam.autoshow.command.impl.*;
 import by.epam.autoshow.command.impl.car.*;
 import by.epam.autoshow.command.impl.carservice.*;
-import by.epam.autoshow.command.impl.customer.GetAllCustomersCommand;
+import by.epam.autoshow.command.impl.customer.*;
 import by.epam.autoshow.command.impl.order.AcceptOrderCommand;
 import by.epam.autoshow.command.impl.order.GetAllOrdersCommand;
 import by.epam.autoshow.command.impl.order.GetOrderAddPageCommand;
@@ -15,7 +15,7 @@ public enum CommandType {
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationCommand()),
     REGAIN_PASSWORD(new RegistrationCommand()),
-    CHANGE_LOCALE(new SelectLocaleCommand()),
+    CHANGE_LOCALE(new ChangeLocaleCommand()),
 
     GET_ALL_USERS(new GetAllUsersCommand()),
     GET_ALL_CARS(new GetAllCarsCommand()),
@@ -35,22 +35,28 @@ public enum CommandType {
     GET_SERVICE_ADD_PAGE(new GetServiceAddPageCommand()),
     GET_SERVICE_EDIT_PAGE(new GetServiceEditPageCommand()),
 
+    GET_CUSTOMER_ADD_PAGE(new GetCustomerAddPageCommand()),
+    GET_CUSTOMER_EDIT_PAGE(new GetCustomerEditPageCommand()),
+
     GET_CAR_ADD_PAGE(new GetCarAddPageCommand()),
     GET_CAR_EDIT_PAGE(new GetCarEditPageCommand()),
 
     GET_ORDER_ADD_PAGE(new GetOrderAddPageCommand()),
 
-    ACCEPT_ORDER(new AcceptOrderCommand()),
-    REJECT_ORDER(new RejectOrderCommand()),
-
     ADD_USER(new AddUserCommand()),
     EDIT_USER(new EditUserCommand()),
+
+    ADD_SERVICE(new AddAutoShowServiceCommand()),
+    EDIT_SERVICE(new EditAutoShowServiceCommand()),
+
+    ADD_CUSTOMER(new AddCustomerCommand()),
+    EDIT_CUSTOMER(new EditCustomerCommand()),
 
     ADD_CAR(new AddCarCommand()),
     EDIT_CAR(new EditCarCommand()),
 
-    ADD_SERVICE(new AddAutoShowServiceCommand()),
-    EDIT_SERVICE(new EditAutoShowServiceCommand());
+    ACCEPT_ORDER(new AcceptOrderCommand()),
+    REJECT_ORDER(new RejectOrderCommand());
 
     ActionCommand command;
 

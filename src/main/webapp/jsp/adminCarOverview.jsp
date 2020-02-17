@@ -43,7 +43,7 @@
                                 <c:out value="${car.mileage}"/>
                             </td>
                             <td>
-                                <a href="controller?command=edit_user_command&userId=${car.carId}">
+                                <a href="controller?command=get_car_edit_page&carId=${car.carId}">
                                     <fmt:message key="carOverview.label.edit" bundle="${rb}"/>
                                 </a>
                             </td>

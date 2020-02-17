@@ -30,7 +30,7 @@ public class CarDaoImpl implements CarDao {
                     " description = ?, image_url = ? WHERE car_id = ?";
 
     private static final String FIND_ALL =
-            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_type," +
+            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, cars.body_type," +
                     " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
                     " cars.price, cars.sale_status, colors.color_id, colors.code," +
                     " cars.description, cars.image_url FROM cars" +
@@ -38,13 +38,13 @@ public class CarDaoImpl implements CarDao {
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id";
 
     private static final String FIND_BY_ID =
-            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, body_type" +
+            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, cars.body_type," +
                     " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
-                    " cars.price, cars.sale_status, colors.color_id AS color_id, colors.code AS color_code," +
+                    " cars.price, cars.sale_status, colors.color_id, colors.code," +
                     " cars.description, cars.image_url FROM cars" +
                     " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
-                    " WHERE car_id = ?";
+                    " WHERE cars.car_id = ?";
 
     private static final Logger logger = LogManager.getLogger();
 

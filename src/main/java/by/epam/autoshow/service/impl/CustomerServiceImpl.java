@@ -46,12 +46,11 @@ public class CustomerServiceImpl implements CustomerService {
         return true;
     }
 
-    //FIXME: change find by id method
     @Override
     public Optional<Customer> findCustomerById(long id) throws ServiceException {
         Optional<Customer> customer = Optional.empty();
         try {
-            customer = customerManger.findCustomerByLogin(String.valueOf(id));
+            customer = customerManger.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -20,6 +20,7 @@ public class ServletSecurityFilter implements Filter {
     private static final String REFERER = "referer";
     private static final String USER_ROLE_ATTRIBUTE = "userRole";
     private static final String PATH_REGEX = "command=.+";
+    private static final String URI_REGEX = "((\\/[\\w\\-]*)+)(\\/)?(\\?[a-zA-Z\\d]+\\=[\\w\\-]*)?(\\&[a-zA-z\\d]+\\=[\\w\\-]*)?$";
     private static final Logger logger = LogManager.getLogger();
 
     @Override

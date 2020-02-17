@@ -30,6 +30,7 @@ public class AcceptOrderCommand implements ActionCommand {
             order.setStatus(OrderStatus.CONFIRMED);
             OrderService orderService = OrderServiceImpl.getInstance();
             orderService.updateOrderStatus(order);
+            logger.debug("Accepted order" + order);
             List<Order> orders = orderService.findAllOrders();
             content.setRequestAttributes(PARAM_ORDER_LIST, orders);
         } catch (ServiceException e) {

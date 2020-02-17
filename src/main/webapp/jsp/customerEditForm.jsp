@@ -16,7 +16,7 @@
 
 <jsp:include page="../fragments/adminHeader.jsp"/>
 
-<div class="form-wrapper mb-3">
+<div class="form-wrapper mb-3 ml-3 col-4">
     <form class="needs-validation" action="controller" method="post">
 
         <!-- hidden input -->
@@ -30,6 +30,11 @@
         <!-- /hidden input -->
 
         <div class="user-data">
+
+            <c:if test="${user != null}">
+                <input type="hidden" class="form-control" name="userId" value="${user.userId}">
+            </c:if>
+
             <div class="form-group">
                 <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
                 <input type="text" id="username" name="username" value="${user.username}" class="form-control"
@@ -66,6 +71,11 @@
         </div>
 
         <div class="customer-data">
+
+            <c:if test="${customer != null}">
+                <input type="hidden" class="form-control" name="customerId" value="${customer.customerId}">
+            </c:if>
+
             <div class="form-group">
                 <label for="surname"><fmt:message key="editCustomer.label.surname" bundle="${rb}"/>: </label>
                 <input type="text" id="surname" name="surname" class="form-control"

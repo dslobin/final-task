@@ -36,9 +36,12 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="language">
-                <a class="dropdown-item" href="controller?command=change_locale&language=ru">Русский</a>
+                <%--<a class="dropdown-item" href="controller?command=change_locale&language=ru">Русский</a>
                 <a class="dropdown-item" href="controller?command=change_locale&language=by">Беларуская</a>
-                <a class="dropdown-item" href="controller?command=change_locale&language=en">English</a>
+                <a class="dropdown-item" href="controller?command=change_locale&language=en">English</a>--%>
+                    <a class="dropdown-item" href="?sessionLocale=ru">Русский</a>
+                    <a class="dropdown-item" href="?sessionLocale=by">Беларуская</a>
+                    <a class="dropdown-item" href="?sessionLocale=en">English</a>
             </div>
 
         </nav>

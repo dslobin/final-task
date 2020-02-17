@@ -38,6 +38,7 @@ public class GetProfilePageCommand implements ActionCommand {
             if (customer.isPresent()) {
                 long customerId = customer.get().getCustomerId();
                 List<Order> orders = orderService.findCustomerOrders(customerId);
+                logger.debug("Customer orders: " + orders);
                 content.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
                 content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {

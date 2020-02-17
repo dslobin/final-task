@@ -43,15 +43,17 @@
                             <td><c:out value="${order.overallPrice}"/></td>
                             <td><c:out value="${order.status}"/></td>
                             <td>
-                                <a href="controller?command=edit_order_command&orderId=${order.orderId}"
-                                   class="text-success mr-2">
-                                    <fmt:message key="orderOverview.label.acceptOrder" bundle="${rb}"/>
-                                </a>
+                                <c:if test="${order.status == 'NEW'}">
+                                    <a href="controller?command=accept_order&orderId=${order.orderId}"
+                                       class="text-success mr-2">
+                                        <fmt:message key="orderOverview.label.acceptOrder" bundle="${rb}"/>
+                                    </a>
 
-                                <a href="controller?command=edit_order_command&orderId=${order.orderId}"
-                                   class="text-danger ml-2">
-                                    <fmt:message key="orderOverview.label.rejectOrder" bundle="${rb}"/>
-                                </a>
+                                    <a href="controller?command=reject_order&orderId=${order.orderId}"
+                                       class="text-danger ml-2">
+                                        <fmt:message key="orderOverview.label.rejectOrder" bundle="${rb}"/>
+                                    </a>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -65,7 +67,7 @@
 
         </c:when>
         <c:otherwise>
-            <h2><c:out value="Order list is empty"/></h2>
+            <h2><fmt:message key="orderOverview.label.emptyList" bundle="${rb}"/></h2>
         </c:otherwise>
     </c:choose>
 

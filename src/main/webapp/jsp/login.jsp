@@ -2,11 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<fmt:setLocale value="ru_RU" scope="session"/>
+<fmt:setLocale value="${language}" scope="session"/>
 <fmt:setBundle basename="properties/pageContent" var="rb"/>
 
-<%--${language}--%>
-<html lang="ru">
+<html lang="${language}">
 <head>
     <title><fmt:message key="login.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>

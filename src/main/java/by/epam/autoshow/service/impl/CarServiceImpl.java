@@ -3,6 +3,7 @@ package by.epam.autoshow.service.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.manager.CarManager;
 import by.epam.autoshow.model.Car;
+import by.epam.autoshow.model.Color;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 
@@ -61,7 +62,7 @@ public class CarServiceImpl implements CarService {
     public Optional<Car> findCarById(long id) throws ServiceException {
         Optional<Car> car = Optional.empty();
         try {
-            carManager.findById(id);
+            car = carManager.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -77,5 +78,16 @@ public class CarServiceImpl implements CarService {
             throw new ServiceException(e);
         }
         return cars;
+    }
+
+    @Override
+    public List<Color> findAllColors() throws ServiceException {
+        List<Color> colors = new ArrayList<>();
+        try {
+            colors = carManager.findAllCarColors();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return colors;
     }
 }

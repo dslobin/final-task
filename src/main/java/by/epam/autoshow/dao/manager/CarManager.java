@@ -1,5 +1,6 @@
 package by.epam.autoshow.dao.manager;
 
+import by.epam.autoshow.dao.ColorDao;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.impl.CarDaoImpl;
 import by.epam.autoshow.dao.impl.ColorDaoImpl;
@@ -101,5 +102,19 @@ public class CarManager extends DaoManager {
             close(connection);
         }
         return carList;
+    }
+
+    public List<Color> findAllCarColors() throws DaoException {
+        Connection connection = getConnection();
+        List<Color> colors = new ArrayList<>();
+        try {
+            ColorDao colorDao = new ColorDaoImpl(connection);
+            colors = colorDao.findAll();
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return colors;
     }
 }

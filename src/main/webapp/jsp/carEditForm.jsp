@@ -17,9 +17,7 @@
 <jsp:include page="../fragments/adminHeader.jsp"/>
 
 <div class="col-md-8 order-md-1">
-    <h4 class="mb-3">Car Information</h4>
-
-    <form class="needs-validation" action="controller" method="post">
+    <form class="needs-validation mb-3" action="controller" method="post">
 
         <div class="mb-3 custom-file">
             <label for="carImage" class="custom-file-label" data-browse="Search">
@@ -55,7 +53,7 @@
                     <label for="mileage"><fmt:message key="editCar.label.mileage" bundle="${rb}"/></label>
 
                     <input type="number" class="form-control" id="mileage" name="mileage"
-                           value="${car.mileage}" required>
+                           min="0" value="${car.mileage}" required>
                 </div>
 
                 <div class="mb-3">
@@ -71,7 +69,7 @@
                         <c:if test="${car != null}">
                             <c:forEach items="${fuelTypeList}" var="fuel">
                                 <c:if test="${fuel == car.fuelType}">
-                                    <option selected>${status}</option>
+                                    <option selected>${fuel}</option>
                                 </c:if>
                                 <c:if test="${fuel != car.fuelType}">
                                     <option>${fuel}</option>
@@ -107,7 +105,8 @@
                 <div class="mb-3">
                     <label for="volume"><fmt:message key="editCar.label.volume" bundle="${rb}"/></label>
 
-                    <input type="number" class="form-control" id="volume" name="volume" value="${car.volume}">
+                    <input type="number" class="form-control" id="volume" name="volume"
+                           min="1000" max="8400" step="100" value="${car.volume}">
                 </div>
 
                 <div class="mb-3">
@@ -132,17 +131,17 @@
                     <select type="text" class="form-control" id="color" name="color" required>
                         <c:if test="${car == null}">
                             <c:forEach items="${colorList}" var="color">
-                                <option>${color}</option>
+                                <option>${color.code}</option>
                             </c:forEach>
                         </c:if>
 
                         <c:if test="${car != null}">
                             <c:forEach items="${colorList}" var="color">
                                 <c:if test="${color == car.color}">
-                                    <option selected>${color}</option>
+                                    <option selected>${color.code}</option>
                                 </c:if>
                                 <c:if test="${color != car.color}">
-                                    <option>${color}</option>
+                                    <option>${color.code}</option>
                                 </c:if>
                             </c:forEach>
                         </c:if>
@@ -153,7 +152,7 @@
                     <label for="issueYear"><fmt:message key="editCar.label.issueYear" bundle="${rb}"/></label>
 
                     <input type="number" class="form-control" id="issueYear" name="issueYear"
-                           minlength="4" maxlength="4" value="${car.issueYear}" required>
+                           min="1960" max="2020" minlength="4" maxlength="4" value="${car.issueYear}" required>
                 </div>
 
                 <div class="mb-3">
@@ -168,13 +167,13 @@
 
                     <select type="text" class="form-control" id="status" name="status" required>
                         <c:if test="${car == null}">
-                            <c:forEach items="${saleSatusList}" var="status">
+                            <c:forEach items="${saleStatusList}" var="status">
                                 <option>${status}</option>
                             </c:forEach>
                         </c:if>
 
                         <c:if test="${car != null}">
-                            <c:forEach items="${saleSatusList}" var="status">
+                            <c:forEach items="${saleStatusList}" var="status">
                                 <c:if test="${status == car.status}">
                                     <option selected>${status}</option>
                                 </c:if>

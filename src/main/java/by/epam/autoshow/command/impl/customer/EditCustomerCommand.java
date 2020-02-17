@@ -2,7 +2,6 @@ package by.epam.autoshow.command.impl.customer;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
-
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
@@ -23,12 +22,11 @@ public class EditCustomerCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_ROLE = "userRole";
     private static final String PARAM_USER_STATUS = "userStatus";
-    private static final String PARAM_CUSTOMER = "customer";
     private static final String PARAM_CUSTOMER_ID = "customerId";
-    private static final String PARAM_CUSTOMER_SURNAME = "userStatus";
-    private static final String PARAM_CUSTOMER_NAME = "userStatus";
-    private static final String PARAM_CUSTOMER_EMAIL = "userStatus";
-    private static final String PARAM_CUSTOMER_PHONE_NUMBER = "userStatus";
+    private static final String PARAM_CUSTOMER_SURNAME = "surname";
+    private static final String PARAM_CUSTOMER_NAME = "name";
+    private static final String PARAM_CUSTOMER_EMAIL = "email";
+    private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
