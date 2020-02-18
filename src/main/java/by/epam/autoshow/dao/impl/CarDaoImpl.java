@@ -33,7 +33,7 @@ public class CarDaoImpl implements CarDao {
             "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, cars.body_type," +
                     " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
                     " cars.price, cars.sale_status, colors.color_id, colors.code," +
-                    " cars.description, cars.image_url FROM cars" +
+                    " cars.description, IFNULL(image_url, DEFAULT(image_url)) AS image_url FROM cars" +
                     " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id";
 
@@ -41,7 +41,7 @@ public class CarDaoImpl implements CarDao {
             "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, cars.body_type," +
                     " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
                     " cars.price, cars.sale_status, colors.color_id, colors.code," +
-                    " cars.description, cars.image_url FROM cars" +
+                    " cars.description, IFNULL(image_url, DEFAULT(image_url)) AS image_url FROM cars" +
                     " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
                     " WHERE cars.car_id = ?";

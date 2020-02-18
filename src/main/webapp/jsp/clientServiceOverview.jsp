@@ -2,10 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<fmt:setLocale value="ru_RU" scope="session"/>
-<fmt:setBundle basename="properties/pageContent" var="rb"/>
+<fmt:setLocale value="${sessionScope.language}" scope="session"/>
+<fmt:setBundle basename="properties.pageContent" var="rb"/>
 
-<html lang="ru">
+<html lang="${sessionScope.language}">
 <head>
     <title><fmt:message key="serviceOverview.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
@@ -13,7 +13,15 @@
 </head>
 <body>
 
-<jsp:include page="../fragments/clientHeader.jsp"/>
+<c:choose>
+    <c:when test="${userRole == 'CLIENT'}">
+        <jsp:include page="../fragments/clientHeader.jsp"/>
+    </c:when>
+
+    <c:otherwise>
+        <jsp:include page="../fragments/guestHeader.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <div class="page-wrap">
     <jsp:useBean id="autoShowServiceList" class="java.util.ArrayList" scope="request"/>
@@ -37,9 +45,11 @@
                             <td><c:out value="${autoShowService.cost}"/></td>
                             <td><c:out value="${autoShowService.description}"/></td>
                             <td>
-                                <a href="controller?command=edit_service_command&serviceId=${autoShowService.serviceId}">
-                                    <fmt:message key="serviceOverview.label.signUp" bundle="${rb}"/>
-                                </a>
+                                <c:if test="${userRole != 'GUEST'}">
+                                    <a href="controller?command=edit_service_command&serviceId=${autoShowService.serviceId}">
+                                        <fmt:message key="serviceOverview.label.signUp" bundle="${rb}"/>
+                                    </a>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>

@@ -1,6 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<fmt:setLocale value="${sessionScope.language}" scope="session"/>
+<fmt:setBundle basename="properties.pageContent" var="rb"/>
+
+<html lang="${sessionScope.language}">
 <head>
     <title>Favorite Motors</title>
     <link href="<c:url value="/static/css/bootstrap.min.css" />" rel="stylesheet"/>
@@ -27,7 +32,7 @@
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light header">
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-4 font-weight-normal">Favorite Motors</h1>
-        <p class="lead font-weight-normal">Car sales in the Belarus.</p>
+        <p class="lead font-weight-normal"><fmt:message key="home.text.autoShowInfo" bundle="${rb}"/></p>
     </div>
 </div>
 

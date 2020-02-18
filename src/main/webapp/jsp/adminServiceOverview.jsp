@@ -2,10 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<fmt:setLocale value="ru_RU" scope="session"/>
-<fmt:setBundle basename="properties/pageContent" var="rb"/>
+<fmt:setLocale value="${sessionScope.language}" scope="session"/>
+<fmt:setBundle basename="properties.pageContent" var="rb"/>
 
-<html lang="ru">
+<html lang="${sessionScope.language}">
 <head>
     <title><fmt:message key="serviceOverview.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
@@ -76,6 +76,7 @@
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/pagination.js"/>"></script>
 <!-- /scripts -->
 </body>
