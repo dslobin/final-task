@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Basic Customer Data Access Object interface.
+ * Customer data access object interface.
  * Provides CRUD operations with {@link Customer} objects.
  *
  * @author Daniil Slobin

@@ -35,6 +35,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public boolean addOrder(Order order) throws ServiceException {
+        try {
+            orderManager.insertOrder(order);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    @Override
     public List<Order> findAllOrders() throws ServiceException {
         List<Order> orders = new ArrayList<>();
         try {

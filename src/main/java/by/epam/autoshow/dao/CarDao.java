@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Basic Car Data Access Object interface.
+ * Car data access object interface.
  * Provides CRUD operations with {@link Car} objects.
  *
  * @author Daniil Slobin

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,25 +22,26 @@ public class OrderDaoImpl implements OrderDao {
     private static final Logger logger = LogManager.getLogger();
 
     private static final String INSERT =
-            "INSERT INTO orders (customer_id, service_id, date, overall_price, status) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO orders (customer_id, service_id, date, time, price, status) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE =
-            "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, overall_price = ?, status = ? WHERE order_id = ?";
+            "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, time = ?," +
+                    " price = ?, status = ? WHERE order_id = ?";
 
     private static final String UPDATE_ORDER_STATUS =
             "UPDATE orders SET status = ? WHERE order_id = ?";
 
     private static final String FIND_ALL =
-            "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders";
+            "SELECT order_id, service_id, customer_id, date, time, price, status FROM orders";
 
     private static final String FIND_BY_ID =
-            "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders WHERE order_id = ?";
+            "SELECT order_id, service_id, customer_id, date, time, price, status FROM orders WHERE order_id = ?";
 
     private static final String FIND_NEW_ORDERS =
-            "SELECT order_id, service_id, customer_id, date, overall_price, status FROM orders WHERE status = ?";
+            "SELECT order_id, service_id, customer_id, date, time, price, status FROM orders WHERE status = ?";
 
     private static final String FIND_CUSTOMER_ORDERS =
-            "SELECT order_id, service_id, date, overall_price, status FROM orders WHERE customer_id = ?";
+            "SELECT order_id, service_id, date, time, price, status FROM orders WHERE customer_id = ?";
 
     public OrderDaoImpl(Connection connection) {
         this.connection = connection;
@@ -52,9 +54,10 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement = connection.prepareStatement(INSERT);
             preparedStatement.setLong(1, order.getCustomerId());
             preparedStatement.setLong(2, order.getServiceId());
-            preparedStatement.setDate(3, Date.valueOf(order.getOrderDate()));
-            preparedStatement.setBigDecimal(4, order.getOverallPrice());
-            preparedStatement.setString(5, order.getStatus().name());
+            preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
+            preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
+            preparedStatement.setBigDecimal(5, order.getPrice());
+            preparedStatement.setString(6, order.getStatus().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -69,6 +72,7 @@ public class OrderDaoImpl implements OrderDao {
         Order order = new Order();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        LocalDateTime serviceTime = null;
         try {
             preparedStatement = connection.prepareStatement(FIND_BY_ID);
             preparedStatement.setLong(1, id);
@@ -77,8 +81,9 @@ public class OrderDaoImpl implements OrderDao {
                 order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
                 order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
                 order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
-                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
-                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
+                order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
+                        .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
+                order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
             }
         } catch (SQLException e) {
@@ -103,8 +108,9 @@ public class OrderDaoImpl implements OrderDao {
                 Order order = new Order();
                 order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
                 order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
-                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
-                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
+                order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
+                        .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
+                order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
                 orders.add(order);
             }
@@ -124,9 +130,10 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setLong(1, order.getCustomerId());
             preparedStatement.setLong(2, order.getServiceId());
-            preparedStatement.setDate(3, Date.valueOf(order.getOrderDate()));
-            preparedStatement.setBigDecimal(4, order.getOverallPrice());
-            preparedStatement.setString(5, order.getStatus().name());
+            preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
+            preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
+            preparedStatement.setBigDecimal(5, order.getPrice());
+            preparedStatement.setString(6, order.getStatus().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -163,10 +170,11 @@ public class OrderDaoImpl implements OrderDao {
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
-                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
                 order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
-                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
-                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
+                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
+                order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
+                        .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
+                order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
                 orderList.add(order);
             }
@@ -190,10 +198,11 @@ public class OrderDaoImpl implements OrderDao {
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
-                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
                 order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
-                order.setOrderDate(resultSet.getDate(SqlColumnName.DATE).toLocalDate());
-                order.setOverallPrice(resultSet.getBigDecimal(SqlColumnName.OVERALL_PRICE));
+                order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
+                order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
+                        .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
+                order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
                 orderList.add(order);
             }

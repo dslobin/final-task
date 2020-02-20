@@ -29,22 +29,30 @@
                         <tr class="table-row">
                             <td width="200px">
                                 <img class="card-img-top"
-                                     src="${pageContext.request.contextPath}/static/img/default-car-image.png"
+                                     src="${pageContext.request.contextPath}<c:out value="${car.imageUrl}"/>"
                                      alt="Car image" width="200" height="80">
-                                <%--<c:out value="${car.imageUrl}"/>--%>
                             </td>
                             <td>
-                                <c:out value="${car.issueYear}"/>
-                                <c:out value="${car.price}"/>
+                                <p><c:out value="${car.issueYear}"/></p>
+                                <p><strong><c:out value="${car.price}"/></strong>, $</p>
                             </td>
                             <td>
-                                <c:out value="${car.model}"/>
-                                <c:out value="${car.fuelType}"/>
-                                <c:out value="${car.mileage}"/>
+                                <p class="text-info"><strong><c:out value="${car.model}"/></strong></p>
+                                <p>
+                                    <c:out value="${car.transmission}"/>,
+                                    <c:out value="${car.mileage}"/> km,
+                                    <c:out value="${car.fuelType}"/>,
+                                    <c:out value="${car.bodyType}"/>
+                                </p>
+                                <p class="text-muted"><c:out value="${car.description}"/></p>
                             </td>
                             <td>
-                                <a href="controller?command=get_car_edit_page&carId=${car.carId}">
+                                <a class="mr-2" href="controller?command=get_car_edit_page&carId=${car.carId}">
                                     <fmt:message key="carOverview.label.edit" bundle="${rb}"/>
+                                </a>
+
+                                <a class="text-warning ml-2" href="controller?command=upload_car_image&carId=${car.carId}">
+                                    <fmt:message key="carOverview.label.addPhoto" bundle="${rb}"/>
                                 </a>
                             </td>
                         </tr>

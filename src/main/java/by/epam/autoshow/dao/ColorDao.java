@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Basic Color Data Access Object interface.
+ * Color data access object interface.
  * Provides CRUD operations with {@link Color} objects.
  *
  * @author Daniil Slobin

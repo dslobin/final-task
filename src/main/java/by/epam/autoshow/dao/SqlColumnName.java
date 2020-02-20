@@ -33,7 +33,7 @@ public final class SqlColumnName {
 
     public static final String ORDER_ID = "order_id";
     public static final String DATE = "date";
-    public static final String OVERALL_PRICE = "overall_price";
+    public static final String TIME = "time";
 
     public static final String COLOR_ID = "color_id";
     public static final String CODE = "code";

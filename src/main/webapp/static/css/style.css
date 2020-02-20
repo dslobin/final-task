@@ -17,6 +17,10 @@
     height: 100%;
 }
 
+.profile-order-history {
+    height: 400px;
+}
+
 .registration-form {
     width: 400px;
     margin: 5px auto;

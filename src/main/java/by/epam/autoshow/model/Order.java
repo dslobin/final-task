@@ -1,24 +1,24 @@
 package by.epam.autoshow.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Order {
     private Long orderId;
     private Long serviceId;
     private Long customerId;
-    private LocalDate orderDate;
-    private BigDecimal overallPrice;
+    private LocalDateTime serviceTime;
+    private BigDecimal price;
     private OrderStatus status;
 
-    public Order(Long id, Long serviceId, Long customerId, LocalDate orderDate,
-                 BigDecimal overallPrice, OrderStatus status) {
+    public Order(Long id, Long serviceId, Long customerId, LocalDateTime serviceTime,
+                 BigDecimal price, OrderStatus status) {
         this.orderId = id;
         this.serviceId = serviceId;
         this.customerId = customerId;
-        this.orderDate = orderDate;
-        this.overallPrice = overallPrice;
+        this.serviceTime = serviceTime;
+        this.price = price;
         this.status = status;
     }
 
@@ -49,20 +49,20 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public LocalDate getOrderDate() {
-        return orderDate;
+    public LocalDateTime getServiceTime() {
+        return serviceTime;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
+    public void setServiceTime(LocalDateTime orderDate) {
+        this.serviceTime = orderDate;
     }
 
-    public BigDecimal getOverallPrice() {
-        return overallPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setOverallPrice(BigDecimal overallPrice) {
-        this.overallPrice = overallPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public OrderStatus getStatus() {
@@ -84,14 +84,14 @@ public class Order {
         Order order = (Order) o;
         return Objects.equals(serviceId, order.serviceId) &&
                 Objects.equals(customerId, order.customerId) &&
-                Objects.equals(orderDate, order.orderDate) &&
-                Objects.equals(overallPrice, order.overallPrice) &&
+                Objects.equals(serviceTime, order.serviceTime) &&
+                Objects.equals(price, order.price) &&
                 status == order.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serviceId, customerId, orderDate, overallPrice, status);
+        return Objects.hash(serviceId, customerId, serviceTime, price, status);
     }
 
     @Override
@@ -100,8 +100,8 @@ public class Order {
         sb.append("orderId=").append(orderId);
         sb.append(", serviceId=").append(serviceId);
         sb.append(", customerId=").append(customerId);
-        sb.append(", orderDate=").append(orderDate);
-        sb.append(", overallPrice=").append(overallPrice);
+        sb.append(", serviceTime=").append(serviceTime);
+        sb.append(", price=").append(price);
         sb.append(", status=").append(status);
         sb.append('}');
         return sb.toString();

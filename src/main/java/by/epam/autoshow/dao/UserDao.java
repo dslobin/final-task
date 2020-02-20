@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Basic User Data Access Object interface.
+ * User data access object interface.
  * Provides CRUD operations with {@link User} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.UserDaoImpl
  */
 
 public interface UserDao {

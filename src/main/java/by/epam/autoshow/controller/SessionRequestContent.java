@@ -31,7 +31,7 @@ public class SessionRequestContent {
         while (sessionAttributesIterator.hasNext()) {
             String name = sessionAttributesIterator.next();
             Object sessionAttribute = httpSession.getAttribute(name);
-            logger.debug("\nSESSION ATTRIBUTE: name = " + name + " object = " + sessionAttribute);
+            //logger.debug("\nSESSION ATTRIBUTE: name = " + name + " object = " + sessionAttribute);
             sessionAttributes.put(name, sessionAttribute);
         }
         Iterator<String> requestAttributesIterator = request.getAttributeNames().asIterator();

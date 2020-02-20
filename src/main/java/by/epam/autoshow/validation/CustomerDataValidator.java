@@ -17,7 +17,7 @@ public class CustomerDataValidator implements AbstractValidator<Customer> {
                     "[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$");
     private static final int MAX_PHONE_NUMBER_LENGTH = 20;
 
-    private boolean isSurnameValid(String surname) {
+    boolean isSurnameValid(String surname) {
         if (surname == null) {
             return false;
         }
@@ -25,7 +25,7 @@ public class CustomerDataValidator implements AbstractValidator<Customer> {
         return surnameLength > MIN_SURNAME_LENGTH && surnameLength < MAX_SURNAME_LENGTH;
     }
 
-    private boolean isNameValid(String name) {
+    boolean isNameValid(String name) {
         if (name == null) {
             return false;
         }
@@ -33,14 +33,14 @@ public class CustomerDataValidator implements AbstractValidator<Customer> {
         return nameLength > MIN_NAME_LENGTH && nameLength < MAX_NAME_LENGTH;
     }
 
-    private boolean isEmailValid(String email) {
+    boolean isEmailValid(String email) {
         if (email == null) {
             return false;
         }
         return EMAIL_PATTERN.matcher(email).matches() && email.length() < MAX_EMAIL_LENGTH;
     }
 
-    private boolean isPhoneNumberValid(String phoneNumber) {
+    boolean isPhoneNumberValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;
         }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Basic Oder Data Access Object interface.
+ * Oder data access object interface.
  * Provides CRUD operations with {@link Order} objects.
  *
  * @author Daniil Slobin

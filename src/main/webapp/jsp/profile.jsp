@@ -51,7 +51,7 @@
     </div>
 
     <h2 class="mt-3"><fmt:message key="profile.label.orderHistory" bundle="${rb}"/>:</h2>
-    <div class="">
+    <div class="profile-order-history">
         <jsp:useBean id="customerOrders" class="java.util.ArrayList" scope="request"/>
         <c:choose>
             <c:when test="${not empty customerOrders}">
@@ -71,8 +71,8 @@
                         <c:forEach var="order" items="${customerOrders}">
                             <tr class="table-row">
                                 <td><c:out value="${order.serviceId}"/></td>
-                                <td><c:out value="${order.orderDate}"/></td>
-                                <td><c:out value="${order.overallPrice}"/></td>
+                                <td><c:out value="${order.serviceTime}"/></td>
+                                <td><c:out value="${order.price}"/></td>
                                 <td><c:out value="${order.status}"/></td>
                                 <td>
                                     <c:if test="${order.status == 'NEW'}">

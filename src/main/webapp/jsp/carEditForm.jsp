@@ -12,7 +12,7 @@
     <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
 
-<body lang="ru">
+<body>
 
 <jsp:include page="../fragments/adminHeader.jsp"/>
 

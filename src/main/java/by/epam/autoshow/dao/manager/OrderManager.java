@@ -33,6 +33,19 @@ public class OrderManager extends DaoManager {
         return orderManager;
     }
 
+    public boolean insertOrder(Order order) throws DaoException {
+        Connection connection = getConnection();
+        try {
+            OrderDaoImpl orderDao = new OrderDaoImpl(connection);
+            orderDao.insert(order);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
+
     public List<Order> findOrderList() throws DaoException {
         Connection connection = getConnection();
         List<Order> orderList = new ArrayList<>();

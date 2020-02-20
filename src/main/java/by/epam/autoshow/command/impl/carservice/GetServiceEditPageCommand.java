@@ -29,8 +29,7 @@ public class GetServiceEditPageCommand implements ActionCommand {
             logger.debug("Auto show service: " + autoShowService);
             content.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
             page = PagePathManager.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
-        } catch (
-                ServiceException e) {
+        } catch (ServiceException e) {
             logger.error(e);
         }
         return page;

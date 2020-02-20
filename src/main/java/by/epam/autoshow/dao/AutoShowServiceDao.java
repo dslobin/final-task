@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Basic Auto Show Service Data Access Object interface.
+ * Auto Show Service data access object interface.
  * Provides CRUD operations with {@link AutoShowService} objects.
  *
  * @author Daniil Slobin

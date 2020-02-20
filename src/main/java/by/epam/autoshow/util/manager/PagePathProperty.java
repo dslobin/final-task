@@ -2,6 +2,7 @@ package by.epam.autoshow.util.manager;
 
 public final class PagePathProperty {
     public static final String INDEX_PAGE_PROPERTY = "path.page.index";
+    public static final String FILE_UPLOAD_PAGE_PROPERTY = "path.page.fileUpload";
     public static final String HOME_PAGE_PROPERTY = "path.page.home";
     public static final String LOGIN_PAGE_PROPERTY = "path.page.login";
     public static final String REGISTRATION_PAGE_PROPERTY = "path.page.registration";

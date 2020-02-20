@@ -33,12 +33,12 @@ public class MainServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionRequestContent sessionRequestContent = new SessionRequestContent(request);
+        SessionRequestContent content = new SessionRequestContent(request);
         ActionFactory client = new ActionFactory();
-        ActionCommand command = client.defineCommand(sessionRequestContent);
-        String page = command.execute(sessionRequestContent);
+        ActionCommand command = client.defineCommand(content);
+        String page = command.execute(content);
         logger.debug("Loaded page: " + page);
-        sessionRequestContent.insert(request);
+        content.insert(request);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }

@@ -46,7 +46,7 @@
                             <td><c:out value="${autoShowService.description}"/></td>
                             <td>
                                 <c:if test="${userRole != 'GUEST'}">
-                                    <a href="controller?command=edit_service_command&serviceId=${autoShowService.serviceId}">
+                                    <a href="controller?command=get_order_add_page&serviceId=${autoShowService.serviceId}">
                                         <fmt:message key="serviceOverview.label.signUp" bundle="${rb}"/>
                                     </a>
                                 </c:if>

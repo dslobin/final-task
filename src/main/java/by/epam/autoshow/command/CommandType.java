@@ -4,10 +4,7 @@ import by.epam.autoshow.command.impl.*;
 import by.epam.autoshow.command.impl.car.*;
 import by.epam.autoshow.command.impl.carservice.*;
 import by.epam.autoshow.command.impl.customer.*;
-import by.epam.autoshow.command.impl.order.AcceptOrderCommand;
-import by.epam.autoshow.command.impl.order.GetAllOrdersCommand;
-import by.epam.autoshow.command.impl.order.GetOrderAddPageCommand;
-import by.epam.autoshow.command.impl.order.RejectOrderCommand;
+import by.epam.autoshow.command.impl.order.*;
 import by.epam.autoshow.command.impl.user.*;
 
 public enum CommandType {
@@ -56,6 +53,7 @@ public enum CommandType {
     EDIT_CAR(new EditCarCommand()),
 
     ACCEPT_ORDER(new AcceptOrderCommand()),
+    CREATE_ORDER(new CreateOrderCommand()),
     REJECT_ORDER(new RejectOrderCommand());
 
     ActionCommand command;
