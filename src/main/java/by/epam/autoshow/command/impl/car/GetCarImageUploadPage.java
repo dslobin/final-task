@@ -12,16 +12,11 @@ import by.epam.autoshow.util.manager.PagePathProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
-public class GetCarEditPageCommand implements ActionCommand {
-    private static final String ATTRIBUTE_CAR_FUEL_TYPE_VALUES = "fuelTypeList";
-    private static final String ATTRIBUTE_CAR_BODY_TYPE_VALUES = "bodyTypeList";
-    private static final String ATTRIBUTE_SALE_STATUS_VALUES = "saleStatusList";
-    private static final String ATTRIBUTE_CAR_COLOR_VALUES = "colorList";
+public class GetCarImageUploadPage implements ActionCommand {
     private static final String PARAM_CAR_ID = "carId";
-    private static final String PARAM_CAR = "car";
+    private static final String ATTRIBUTE_CAR = "car";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -31,17 +26,12 @@ public class GetCarEditPageCommand implements ActionCommand {
         try {
             CarService carService = CarServiceImpl.getInstance();
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));
-            List<Color> colors = carService.findAllColors();
-            content.setRequestAttributes(ATTRIBUTE_CAR_COLOR_VALUES, colors);
-            content.setRequestAttributes(PARAM_CAR, car.get());
+            content.setRequestAttributes(ATTRIBUTE_CAR, car.get());
             logger.debug("Car: " + car);
         } catch (ServiceException e) {
             logger.error(e);
         }
-        content.setRequestAttributes(ATTRIBUTE_CAR_FUEL_TYPE_VALUES, FuelType.values());
-        content.setRequestAttributes(ATTRIBUTE_CAR_BODY_TYPE_VALUES, BodyType.values());
-        content.setRequestAttributes(ATTRIBUTE_SALE_STATUS_VALUES, SaleStatus.values());
-        page = PagePathManager.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
+        page = PagePathManager.getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY);
         return page;
     }
 }

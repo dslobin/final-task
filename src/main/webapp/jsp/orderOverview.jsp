@@ -38,7 +38,7 @@
                         <tr class="table-row">
                             <td><c:out value="${order.customerId}"/></td>
                             <td><c:out value="${order.serviceId}"/></td>
-                            <td><c:out value="${order.serviceDate}"/></td>
+                            <td><c:out value="${order.serviceTime}"/></td>
                             <td><c:out value="${order.price}"/></td>
                             <td><c:out value="${order.status}"/></td>
                             <td>

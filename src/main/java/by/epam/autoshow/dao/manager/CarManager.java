@@ -57,6 +57,19 @@ public class CarManager extends DaoManager {
         return true;
     }
 
+    public boolean updateCarImage(Car car) throws DaoException {
+        Connection connection = getConnection();
+        try {
+            CarDaoImpl carDao = new CarDaoImpl(connection);
+            carDao.updateCarImage(car);
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
+
     public boolean addCar(Car car, String colorCode) throws DaoException, SQLException {
         Connection connection = getTXNConnection();
         try {

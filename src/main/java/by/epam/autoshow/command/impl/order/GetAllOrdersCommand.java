@@ -22,7 +22,7 @@ public class GetAllOrdersCommand implements ActionCommand {
         String page = null;
         OrderServiceImpl orderService = OrderServiceImpl.getInstance();
         try {
-            List<Order> orders = orderService.findNewOrders();
+            List<Order> orders = orderService.findAllOrders();
             logger.debug("ORDER LIST: " + orders);
             content.setRequestAttributes(PARAM_ORDER_LIST, orders);
         } catch (ServiceException e) {

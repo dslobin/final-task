@@ -2,9 +2,6 @@ package by.epam.autoshow.dao;
 
 import by.epam.autoshow.model.Car;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -44,24 +41,19 @@ public interface CarDao {
     Car update(Car car) throws DaoException;
 
     /**
+     * Update car image.
+     *
+     * @param car object to update
+     * @return updated object
+     * @throws DaoException if a data store access error occurs
+     */
+    Car updateCarImage(Car car) throws DaoException;
+
+    /**
      * Find car objects in data storage.
      *
      * @return list of objects
      * @throws DaoException if a data store access error occurs
      */
     List<Car> findAll() throws DaoException;
-
-    /**
-     * Close statement.
-     *
-     * @see Statement
-     */
-    void close(Statement statement);
-
-    /**
-     * Close result set.
-     *
-     * @see ResultSet
-     */
-    void close(ResultSet resultSet);
 }

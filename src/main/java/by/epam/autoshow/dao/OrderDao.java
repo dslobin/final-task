@@ -3,9 +3,6 @@ package by.epam.autoshow.dao;
 import by.epam.autoshow.model.Order;
 import by.epam.autoshow.model.Customer;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -69,18 +66,4 @@ public interface OrderDao {
      * @throws DaoException if a data store access error occurs
      */
     List<Order> findAll() throws DaoException;
-
-    /**
-     * Close statement.
-     *
-     * @see Statement
-     */
-    void close(Statement statement);
-
-    /**
-     * Close result set.
-     *
-     * @see ResultSet
-     */
-    void close(ResultSet resultSet);
 }

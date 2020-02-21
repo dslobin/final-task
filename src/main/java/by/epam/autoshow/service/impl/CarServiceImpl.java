@@ -49,6 +49,16 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public boolean updateCarImage(Car car) throws ServiceException {
+        try {
+            carManager.updateCarImage(car);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    @Override
     public boolean addCar(Car car, String colorCode) throws ServiceException {
         try {
             carManager.addCar(car, colorCode);

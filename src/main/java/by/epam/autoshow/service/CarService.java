@@ -33,6 +33,8 @@ public interface CarService {
      */
     Optional<Car> findCarById(long id) throws ServiceException;
 
+    boolean updateCarImage(Car car) throws ServiceException;
+
     /**
      *
      * @param car data

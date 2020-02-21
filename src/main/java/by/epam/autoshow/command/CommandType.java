@@ -37,6 +37,7 @@ public enum CommandType {
 
     GET_CAR_ADD_PAGE(new GetCarAddPageCommand()),
     GET_CAR_EDIT_PAGE(new GetCarEditPageCommand()),
+    GET_CAR_IMAGE_UPLOAD_PAGE(new GetCarImageUploadPage()),
 
     GET_ORDER_ADD_PAGE(new GetOrderAddPageCommand()),
 

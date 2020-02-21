@@ -56,17 +56,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findNewOrders() throws ServiceException {
-        List<Order> newOrders = new ArrayList<>();
-        try {
-            newOrders = orderManager.findNewOrders();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return newOrders;
-    }
-
-    @Override
     public List<Order> findCustomerOrders(long customerId) throws ServiceException {
         List<Order> customerOrders = new ArrayList<>();
         try {

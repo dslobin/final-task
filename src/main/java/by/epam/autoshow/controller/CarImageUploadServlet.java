@@ -12,6 +12,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import by.epam.autoshow.model.Car;
+import by.epam.autoshow.service.CarService;
+import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.service.impl.CarServiceImpl;
+import by.epam.autoshow.util.manager.MessageManager;
+import by.epam.autoshow.util.manager.PagePathManager;
 import by.epam.autoshow.util.manager.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,30 +27,42 @@ import org.apache.logging.log4j.Logger;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class CarImageUploadServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "D:\\Work\\uploads";
-    private static final String FILE_UPLOAD_ERROR_RESULT = "Произошла ошибка, не удалось загрузить файл.";
-    private static final String FILE_VALIDATION_SUCCESS_RESULT = "Файл загружен успешно!";
-    private static final String PARAM_UPLOAD_RESULT = "uploadResult";
+    private static final String ATTRIBUTE_UPLOAD_RESULT = "uploadResult";
     private static final String PART_PARAMETER_FILENAME = "filename";
     private static final String EMPTY_STRING = "";
+    private static final String PARAM_CAR_ID = "carId";
+    private static final String FILE_UPLOAD_ERROR_RESULT = "label.errorUploadResult";
+    private static final String FILE_UPLOAD_SUCCESS_RESULT = "label.successUploadResult";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String carId = request.getParameter(PARAM_CAR_ID);
         try {
             String imageFileName = uploadFile(request);
+            logger.debug("FILE NAME = " + imageFileName);
+            Car car = new Car();
+            car.setCarId(Long.parseLong(carId));
+            car.setImageUrl(imageFileName);
+            CarService carService = CarServiceImpl.getInstance();
+            carService.updateCarImage(car);
+            logger.debug("UPDATED CAR: " + car);
             logger.debug(imageFileName);
-            request.setAttribute(PARAM_UPLOAD_RESULT, FILE_VALIDATION_SUCCESS_RESULT);
-            request.getRequestDispatcher(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY).forward(request, response);
-        } catch (FileNotFoundException e) {
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageManager.getProperty(FILE_UPLOAD_SUCCESS_RESULT));
+            request.getRequestDispatcher(PagePathManager
+                    .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
+                    .forward(request, response);
+        } catch (FileNotFoundException | ServiceException e) {
             logger.error(e);
-            request.setAttribute(PARAM_UPLOAD_RESULT, FILE_UPLOAD_ERROR_RESULT);
-            request.getRequestDispatcher(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY).forward(request, response);
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageManager.getProperty(FILE_UPLOAD_ERROR_RESULT));
+            request.getRequestDispatcher(PagePathManager
+                    .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
+                    .forward(request, response);
         }
     }
 
-    private String uploadFile(HttpServletRequest request)
-            throws IOException, ServletException {
+    private String uploadFile(HttpServletRequest request) throws IOException, ServletException {
         String uploadFileDir = UPLOAD_DIR + File.separator;
         File fileSaveDir = new File(uploadFileDir);
         if (!fileSaveDir.exists()) {

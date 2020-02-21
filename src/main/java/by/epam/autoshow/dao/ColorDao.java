@@ -2,9 +2,6 @@ package by.epam.autoshow.dao;
 
 import by.epam.autoshow.model.Color;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -42,18 +39,4 @@ public interface ColorDao {
      * @throws DaoException if a data store access error occurs
      */
     List<Color> findAll() throws DaoException;
-
-    /**
-     * Close statement.
-     *
-     * @see Statement
-     */
-    void close(Statement statement);
-
-    /**
-     * Close result set.
-     *
-     * @see ResultSet
-     */
-    void close(ResultSet resultSet);
 }

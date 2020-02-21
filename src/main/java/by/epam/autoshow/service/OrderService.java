@@ -32,14 +32,6 @@ public interface OrderService {
     List<Order> findAllOrders() throws ServiceException;
 
     /**
-     * Find new orders
-     *
-     * @return list of orders with {@code OrderStatus.NEW}
-     * @throws ServiceException if dao manager errors occurs
-     */
-    List<Order> findNewOrders() throws ServiceException;
-
-    /**
      * Finds orders by customer id
      *
      * @param customerId customer unique identifier

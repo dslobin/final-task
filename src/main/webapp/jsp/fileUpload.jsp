@@ -10,37 +10,46 @@
 <head>
     <title><fmt:message key="editCar.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
-    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/></head>
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
+</head>
 <body>
 
 <jsp:include page="../fragments/adminHeader.jsp"/>
 
-<form class="needs-validation mb-3" action="image-upload" method="post">
+<div class="page-wrap align-items-center">
+    <div class="col-4">
+        <form action="image-upload" enctype="multipart/form-data" method="post">
 
-    <c:if test="${car != null}">
-        <input type="hidden" class="form-control" name="carId" value="${car.carId}">
-    </c:if>
+            <c:if test="${car != null}">
+                <input type="hidden" class="form-control" name="carId" value="${car.carId}">
+            </c:if>
 
-    <div class="mb-3 custom-file">
-        <label for="carImage" class="custom-file-label" data-browse="Search">
-            <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
-        </label>
+            <div class="mb-3 custom-file">
+                <label for="carImageUploader" class="custom-file-label" data-browse="Search">
+                    <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
+                </label>
+                <input type="file" id="carImageUploader" name="carImageUploader"
+                       class="custom-file-input" accept="image/*" size="50" required>
+            </div>
 
-        <input type="file" id="carImage" class="custom-file-input" accept="image/*" size="50" required>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">
+                <fmt:message key="editCar.button.submit" bundle="${rb}"/>
+            </button>
+        </form>
     </div>
 
-<button class="btn btn-primary btn-lg btn-block" type="submit">
-    <fmt:message key="editCar.button.submit" bundle="${rb}"/>
-</button>
-
-</form>
+    <div>
+        <h3 class="text-info"><c:out value="${requestScope.uploadResult}"/></h3>
+    </div>
+</div>
 
 <jsp:include page="../fragments/footer.jsp"/>
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/static/js/pagination.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/check-file-extension.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/change-file-input-title.js"/>"></script>
 <!-- /scripts -->
 </body>
 </html>

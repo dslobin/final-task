@@ -18,15 +18,6 @@
 
 <div class="col-md-8 order-md-1">
     <form class="needs-validation mb-3" action="controller" method="post">
-
-        <div class="mb-3 custom-file">
-            <label for="carImage" class="custom-file-label" data-browse="Search">
-                <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
-            </label>
-
-            <input type="file" id="carImage" class="custom-file-input" accept="image/*" size="50" required>
-        </div>
-
         <!-- hidden input -->
         <c:if test="${car == null}">
             <input type="hidden" name="command" value="add_car"/>
@@ -163,9 +154,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="status"><fmt:message key="editCar.label.status" bundle="${rb}"/></label>
+                    <label for="saleStatus"><fmt:message key="editCar.label.status" bundle="${rb}"/></label>
 
-                    <select type="text" class="form-control" id="status" name="status" required>
+                    <select type="text" class="form-control" id="saleStatus" name="saleStatus" required>
                         <c:if test="${car == null}">
                             <c:forEach items="${saleStatusList}" var="status">
                                 <option>${status}</option>
@@ -190,7 +181,7 @@
         <div class="mb-3">
             <label for="carDescription"><fmt:message key="editCar.label.additionalInformation" bundle="${rb}"/></label>
 
-            <textarea class="form-control" id="carDescription" cols="40" rows="3"
+            <textarea class="form-control" id="carDescription" name="carDescription" cols="40" rows="3"
                       minlength="0" maxlength="4096" required>
                 <c:out value="${car.description}"/>
             </textarea>

@@ -29,7 +29,7 @@
                         <tr class="table-row">
                             <td width="200px">
                                 <img class="card-img-top"
-                                     src="${pageContext.request.contextPath}<c:out value="${car.imageUrl}"/>"
+                                     src="<%--${pageContext.request.contextPath}--%><c:out value="${car.imageUrl}"/>"
                                      alt="Car image" width="200" height="80">
                             </td>
                             <td>
@@ -51,7 +51,8 @@
                                     <fmt:message key="carOverview.label.edit" bundle="${rb}"/>
                                 </a>
 
-                                <a class="text-warning ml-2" href="controller?command=upload_car_image&carId=${car.carId}">
+                                <a class="text-warning ml-2"
+                                   href="controller?command=get_car_image_upload_page&carId=${car.carId}">
                                     <fmt:message key="carOverview.label.addPhoto" bundle="${rb}"/>
                                 </a>
                             </td>

@@ -14,7 +14,7 @@
 
 <jsp:include page="../fragments/clientHeader.jsp"/>
 
-<div class="col-md-8 order-md-1">
+<div class="col-md-8 order-md-1 page-wrap">
     <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
     <form class="needs-validation" novalidate>
 
@@ -28,12 +28,14 @@
 
                 <div class="mb-3">
                     <label for="firstName"><fmt:message key="editOrder.label.firstName" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" value="" required>
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           value="${customer.name}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="lastName"><fmt:message key="editOrder.label.lastName" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" value="" required>
+                    <input type="text" class="form-control" id="lastName" name="lastName"
+                           value="${customer.surname}" required>
                 </div>
 
             </div>
@@ -43,12 +45,14 @@
 
                 <div class="mb-3">
                     <label for="serviceTitle"><fmt:message key="editOrder.label.serviceTitle" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="serviceTitle" name="serviceTitle" value="" required>
+                    <input type="text" class="form-control" id="serviceTitle" name="serviceTitle"
+                           value="${service.title}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="serviceCost"><fmt:message key="editOrder.label.serviceCost" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="serviceCost" name="serviceCost" value="" required>
+                    <input type="text" class="form-control" id="serviceCost" name="serviceCost"
+                           value="${service.cost}" required>
                 </div>
             </div>
         </div>
@@ -64,8 +68,7 @@
                 <label for="serviceDatePicker">
                     <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>
                 </label>
-                <input type="date" class="form-control" id="serviceDatePicker" name="serviceDatePicker"
-                       placeholder="" required>
+                <input type="date" class="form-control" id="serviceDatePicker" name="serviceDatePicker" required>
                 <div class="invalid-feedback">
                     Desired service date is required
                 </div>
@@ -75,8 +78,7 @@
                 <label for="serviceTimePicker">
                     <fmt:message key="editOrder.label.desiredServiceTime" bundle="${rb}"/>
                 </label>
-                <input type="time" class="form-control" id="serviceTimePicker" name="serviceTimePicker"
-                       placeholder="" required>
+                <input type="time" class="form-control" id="serviceTimePicker" name="serviceTimePicker" required>
                 <div class="invalid-feedback">
                     Desired service time is required
                 </div>
@@ -91,7 +93,9 @@
             </label>
         </div>
 
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">
+            <fmt:message key="editOrder.button.submit" bundle="${rb}"/>
+        </button>
     </form>
 </div>
 

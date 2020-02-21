@@ -5,19 +5,14 @@ import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.SqlColumnName;
 import by.epam.autoshow.model.AutoShowService;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("Duplicates")
 public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
     private Connection connection;
-    private static final Logger logger = LogManager.getLogger();
 
     private static final String INSERT =
             "INSERT INTO services (title, cost, description) VALUES (?, ?, ?)";
@@ -40,17 +35,13 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
 
     @Override
     public boolean insert(AutoShowService autoShowService) throws DaoException {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(INSERT);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT)) {
             preparedStatement.setString(1, autoShowService.getTitle());
             preparedStatement.setBigDecimal(2, autoShowService.getCost());
             preparedStatement.setString(3, autoShowService.getDescription());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            close(preparedStatement);
         }
         return true;
     }
@@ -58,32 +49,25 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
     @Override
     public Optional<AutoShowService> findById(long id) throws DaoException {
         AutoShowService autoShowService = new AutoShowService();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = connection.prepareStatement(FIND_BY_ID);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                autoShowService.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
-                autoShowService.setTitle(resultSet.getString(SqlColumnName.TITLE));
-                autoShowService.setCost(resultSet.getBigDecimal(SqlColumnName.COST));
-                autoShowService.setDescription(resultSet.getString(SqlColumnName.DESCRIPTION));
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                if (resultSet.next()) {
+                    autoShowService.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
+                    autoShowService.setTitle(resultSet.getString(SqlColumnName.TITLE));
+                    autoShowService.setCost(resultSet.getBigDecimal(SqlColumnName.COST));
+                    autoShowService.setDescription(resultSet.getString(SqlColumnName.DESCRIPTION));
+                }
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            close(resultSet);
-            close(preparedStatement);
         }
         return Optional.of(autoShowService);
     }
 
     @Override
     public AutoShowService update(AutoShowService autoShowService) throws DaoException {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(UPDATE);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, autoShowService.getTitle());
             preparedStatement.setBigDecimal(2, autoShowService.getCost());
             preparedStatement.setString(3, autoShowService.getDescription());
@@ -91,23 +75,17 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            close(preparedStatement);
         }
         return autoShowService;
     }
 
     @Override
     public boolean delete(AutoShowService autoShowService) throws DaoException {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(DELETE);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
             preparedStatement.setLong(1, autoShowService.getServiceId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            close(preparedStatement);
         }
         return true;
     }
@@ -115,11 +93,8 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
     @Override
     public List<AutoShowService> findAll() throws DaoException {
         List<AutoShowService> autoShowServiceList = new ArrayList<>();
-        Statement statement = null;
-        ResultSet resultSet = null;
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(FIND_ALL);
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
             while (resultSet.next()) {
                 AutoShowService autoShowService = new AutoShowService();
                 autoShowService.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
@@ -130,32 +105,7 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            close(resultSet);
-            close(statement);
         }
         return autoShowServiceList;
-    }
-
-    @Override
-    public void close(Statement statement) {
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-    }
-
-    @Override
-    public void close(ResultSet resultSet) {
-        try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-        }
     }
 }

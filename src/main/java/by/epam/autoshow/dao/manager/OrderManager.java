@@ -60,20 +60,6 @@ public class OrderManager extends DaoManager {
         return orderList;
     }
 
-    public List<Order> findNewOrders() throws DaoException {
-        Connection connection = getConnection();
-        List<Order> newOrders = new ArrayList<>();
-        try {
-            OrderDaoImpl orderDao = new OrderDaoImpl(connection);
-            newOrders = orderDao.findNewOrders();
-        } catch (DaoException e) {
-            throw new DaoException(e);
-        } finally {
-            close(connection);
-        }
-        return newOrders;
-    }
-
     public List<Order> findCustomerOrders(long customerId) throws DaoException {
         Connection connection = getConnection();
         List<Order> customerOrders = new ArrayList<>();

@@ -26,5 +26,5 @@ public final class PagePathProperty {
     public static final String CUSTOMER_EDIT_PAGE_PROPERTY = "path.page.customerEditForm";
 
     public static final String ORDER_OVERVIEW_PAGE_PROPERTY = "path.page.orderOverview";
-    public static final String ORDER_EDIT_PAGE_PROPERTY = "path.page.orderForm";
+    public static final String ORDER_EDIT_PAGE_PROPERTY = "path.page.serviceOrder";
 }

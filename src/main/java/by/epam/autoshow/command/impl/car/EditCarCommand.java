@@ -30,8 +30,7 @@ public class EditCarCommand implements ActionCommand {
     private static final String PARAM_ISSUE_YEAR = "issueYear";
     private static final String PARAM_PRICE = "price";
     private static final String PARAM_STATUS = "saleStatus";
-    private static final String PARAM_DESCRIPTION = "description";
-    private static final String PARAM_IMG_URL = "imgUrl";
+    private static final String PARAM_DESCRIPTION = "carDescription";
 
     private static final Logger logger = LogManager.getLogger();
     private static final String ERROR_MESSAGE_PROPERTY = "";
@@ -53,7 +52,6 @@ public class EditCarCommand implements ActionCommand {
         String price = content.getRequestParameter(PARAM_PRICE);
         String status = content.getRequestParameter(PARAM_STATUS);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
-        String imageUrl = content.getRequestParameter(PARAM_IMG_URL);
         try {
             Car car = new Car();
             car.setCarId(Long.parseLong(carId));
@@ -68,7 +66,6 @@ public class EditCarCommand implements ActionCommand {
             car.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
             car.setStatus(SaleStatus.valueOf(status));
             car.setDescription(description);
-            car.setImageUrl(imageUrl);
             CarService carService = CarServiceImpl.getInstance();
             carService.updateCar(car, color);
         } catch (ServiceException e) {
