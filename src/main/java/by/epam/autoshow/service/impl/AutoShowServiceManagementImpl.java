@@ -1,7 +1,7 @@
 package by.epam.autoshow.service.impl;
 
-import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.manager.AutoShowServiceManager;
+import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.ServiceException;
@@ -15,10 +15,11 @@ import java.util.Optional;
 
 public class AutoShowServiceManagementImpl implements AutoShowServiceManagement {
     private static volatile AutoShowServiceManagementImpl INSTANCE;
+    private AutoShowServiceManager autoShowServiceManager;
     private static final Logger logger = LogManager.getLogger();
-    private AutoShowServiceManager autoShowServiceManager = AutoShowServiceManager.getInstance();
 
     private AutoShowServiceManagementImpl() {
+        autoShowServiceManager = AutoShowServiceManager.getInstance();
     }
 
     public static AutoShowServiceManagementImpl getInstance() {
@@ -39,7 +40,7 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
         List<AutoShowService> services = new ArrayList<>();
         try {
             services = autoShowServiceManager.findServiceList();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return services;
@@ -49,7 +50,7 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     public boolean addService(AutoShowService autoShowService) throws ServiceException {
         try {
             autoShowServiceManager.addAutoShowService(autoShowService);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -59,7 +60,7 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException {
         try {
             autoShowServiceManager.updateAutoShowService(autoShowService);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return autoShowService;
@@ -70,7 +71,7 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
         Optional<AutoShowService> autoShowService = Optional.empty();
         try {
             autoShowService = autoShowServiceManager.findServiceById(id);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return autoShowService;

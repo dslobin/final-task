@@ -1,7 +1,7 @@
 package by.epam.autoshow.service.impl;
 
-import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.manager.CarManager;
+import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.Color;
 import by.epam.autoshow.service.CarService;
@@ -18,11 +18,11 @@ import java.util.Optional;
 
 public class CarServiceImpl implements CarService {
     private static volatile CarServiceImpl INSTANCE;
+    private CarManager carManager;
     private static final Logger logger = LogManager.getLogger();
-    private CarManager carManager = CarManager.getInstance();
 
     private CarServiceImpl() {
-
+        carManager = CarManager.getInstance();
     }
 
     public static CarServiceImpl getInstance() {
@@ -42,7 +42,7 @@ public class CarServiceImpl implements CarService {
     public boolean updateCar(Car car, String colorCode) throws ServiceException {
         try {
             carManager.updateCar(car, colorCode);
-        } catch (DaoException | SQLException e) {
+        } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -52,7 +52,7 @@ public class CarServiceImpl implements CarService {
     public boolean updateCarImage(Car car) throws ServiceException {
         try {
             carManager.updateCarImage(car);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -62,7 +62,7 @@ public class CarServiceImpl implements CarService {
     public boolean addCar(Car car, String colorCode) throws ServiceException {
         try {
             carManager.addCar(car, colorCode);
-        } catch (DaoException | SQLException e) {
+        } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -73,7 +73,7 @@ public class CarServiceImpl implements CarService {
         Optional<Car> car = Optional.empty();
         try {
             car = carManager.findById(id);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return car;
@@ -84,7 +84,7 @@ public class CarServiceImpl implements CarService {
         List<Car> cars = new ArrayList<>();
         try {
             cars = carManager.findCarList();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return cars;
@@ -95,7 +95,7 @@ public class CarServiceImpl implements CarService {
         List<Color> colors = new ArrayList<>();
         try {
             colors = carManager.findAllCarColors();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return colors;

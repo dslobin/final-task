@@ -34,54 +34,54 @@ public class AutoShowServiceManager extends DaoManager {
         return autoShowServiceManager;
     }
 
-    public List<AutoShowService> findServiceList() throws DaoException {
+    public List<AutoShowService> findServiceList() throws ManagerException {
         Connection connection = getConnection();
         List<AutoShowService> services = new ArrayList<>();
         try {
             AutoShowServiceDaoImpl autoShowServiceDao = new AutoShowServiceDaoImpl(connection);
             services = autoShowServiceDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return services;
     }
 
-    public boolean addAutoShowService(AutoShowService autoShowService) throws DaoException {
+    public boolean addAutoShowService(AutoShowService autoShowService) throws ManagerException {
         Connection connection = getConnection();
         try {
             AutoShowServiceDaoImpl autoShowServiceDao = new AutoShowServiceDaoImpl(connection);
             autoShowServiceDao.insert(autoShowService);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public AutoShowService updateAutoShowService(AutoShowService autoShowService) throws DaoException {
+    public AutoShowService updateAutoShowService(AutoShowService autoShowService) throws ManagerException {
         Connection connection = getConnection();
         try {
             AutoShowServiceDaoImpl autoShowServiceDao = new AutoShowServiceDaoImpl(connection);
             autoShowServiceDao.update(autoShowService);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return autoShowService;
     }
 
-    public Optional<AutoShowService> findServiceById(long id) throws DaoException {
+    public Optional<AutoShowService> findServiceById(long id) throws ManagerException {
         Connection connection = getConnection();
         Optional<AutoShowService> autoShowService = Optional.empty();
         try {
             AutoShowServiceDaoImpl autoShowServiceManagement = new AutoShowServiceDaoImpl(connection);
             autoShowService = autoShowServiceManagement.findById(id);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }

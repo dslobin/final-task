@@ -35,7 +35,7 @@ public class CustomerManger extends DaoManager {
         return customerManger;
     }
 
-    public void insertCustomer(User user, Customer customer) throws DaoException, SQLException {
+    public void insertCustomer(User user, Customer customer) throws ManagerException, SQLException {
         Connection connection = getTXNConnection();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
@@ -48,13 +48,13 @@ public class CustomerManger extends DaoManager {
             connection.commit();
         } catch (DaoException e) {
             connection.rollback();
-            throw new DaoException("Transaction failure, customer not inserted", e);
+            throw new ManagerException("Transaction failure, customer not inserted", e);
         } finally {
             close(connection);
         }
     }
 
-    public Optional<Customer> findCustomerByLogin(String login) throws DaoException {
+    public Optional<Customer> findCustomerByLogin(String login) throws ManagerException {
         Connection connection = getConnection();
         Optional<Customer> customer = Optional.empty();
         try {
@@ -64,42 +64,42 @@ public class CustomerManger extends DaoManager {
             Long userId = searchedUser.get().getUserId();
             customer = customerDao.findByUserId(userId);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return customer;
     }
 
-    public Optional<Customer> findById(long id) throws DaoException {
+    public Optional<Customer> findById(long id) throws ManagerException {
         Connection connection = getConnection();
         Optional<Customer> customer = Optional.empty();
         try {
             CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
             customer = customerDao.findById(id);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return customer;
     }
 
-    public List<Customer> findCustomerList() throws DaoException {
+    public List<Customer> findCustomerList() throws ManagerException {
         Connection connection = getConnection();
         List<Customer> customerList = new ArrayList<>();
         try {
             CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
             customerList = customerDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return customerList;
     }
 
-    public boolean updateCustomer(User user, Customer customer) throws DaoException, SQLException {
+    public boolean updateCustomer(User user, Customer customer) throws ManagerException, SQLException {
         Connection connection = getTXNConnection();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
@@ -109,21 +109,21 @@ public class CustomerManger extends DaoManager {
             connection.commit();
         } catch (DaoException e) {
             connection.rollback();
-            throw new DaoException("Transaction failure, customer not updated", e);
+            throw new ManagerException("Transaction failure, customer not updated", e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public Map<String, Customer> findCustomerUserNames() throws DaoException {
+    public Map<String, Customer> findCustomerUserNames() throws ManagerException {
         Connection connection = getConnection();
         Map<String, Customer> customers = new HashMap<>();
         try {
             CustomerDaoImpl customerDao = new CustomerDaoImpl(connection);
             customers = customerDao.findCustomerUserNames();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }

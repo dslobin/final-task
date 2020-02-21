@@ -1,6 +1,6 @@
 package by.epam.autoshow.service.impl;
 
-import by.epam.autoshow.dao.DaoException;
+import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.dao.manager.UserManager;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
@@ -15,11 +15,11 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private static volatile UserServiceImpl INSTANCE;
+    private UserManager userManager;
     private static final Logger logger = LogManager.getLogger();
-    private UserManager userManager = UserManager.getInstance();
 
     private UserServiceImpl() {
-
+        userManager = UserManager.getInstance();
     }
 
     public static UserServiceImpl getInstance() {
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public boolean registerUser(User user) throws ServiceException {
         try {
             userManager.addUser(user);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) throws ServiceException {
         try {
             userManager.updateUser(user);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return user;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = Optional.empty();
         try {
             user = userManager.findById(id);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return user;
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = Optional.empty();
         try {
             user = userManager.findByUsername(username);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return user;
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> registeredUser = Optional.empty();
         try {
             registeredUser = userManager.authorizeUser(login, password);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return registeredUser;
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = new ArrayList<>();
         try {
             users = userManager.findUserList();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return users;

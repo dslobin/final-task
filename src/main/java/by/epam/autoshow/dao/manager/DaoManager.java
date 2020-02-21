@@ -1,6 +1,5 @@
 package by.epam.autoshow.dao.manager;
 
-import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.db.ConnectionPool;
 
 import java.sql.Connection;
@@ -29,9 +28,9 @@ abstract class DaoManager {
      * Gets a connection from connection pool
      *
      * @return connection
-     * @throws DaoException if data storage access errors occurs
+     * @throws ManagerException if data storage access errors occurs
      */
-    public Connection getConnection() throws DaoException {
+    public Connection getConnection() throws ManagerException {
         return connectionPool.getConnection();
     }
 
@@ -39,7 +38,7 @@ abstract class DaoManager {
      * @return connection with disabled auto commit mode
      * @throws SQLException if database access errors occurs
      */
-    public Connection getTXNConnection() throws DaoException, SQLException {
+    public Connection getTXNConnection() throws ManagerException, SQLException {
         Connection connection = connectionPool.getConnection();
         connection.setAutoCommit(false);
         return connection;
@@ -49,16 +48,16 @@ abstract class DaoManager {
      * Close the connection, if autocommit mode disabled, set autoСommit(true)
      *
      * @param connection to be closed
-     * @throws DaoException id data base errors occurs
+     * @throws ManagerException id data base errors occurs
      */
-    public void close(Connection connection) throws DaoException {
+    public void close(Connection connection) throws ManagerException {
         try {
             if (!connection.getAutoCommit()) {
                 connection.setAutoCommit(true);
             }
             connectionPool.releaseConnection(connection);
         } catch (SQLException e) {
-            throw new DaoException("Error closing connection: ", e);
+            throw new ManagerException("Error closing connection: ", e);
         }
     }
 }

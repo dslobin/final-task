@@ -1,6 +1,6 @@
 package by.epam.autoshow.service.impl;
 
-import by.epam.autoshow.dao.DaoException;
+import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.dao.manager.OrderManager;
 import by.epam.autoshow.model.Order;
 import by.epam.autoshow.service.OrderService;
@@ -14,11 +14,11 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
     private static volatile OrderServiceImpl INSTANCE;
+    private OrderManager orderManager;
     private static final Logger logger = LogManager.getLogger();
-    private OrderManager orderManager = OrderManager.getInstance();
 
     private OrderServiceImpl() {
-
+        orderManager = OrderManager.getInstance();
     }
 
     public static OrderServiceImpl getInstance() {
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     public boolean addOrder(Order order) throws ServiceException {
         try {
             orderManager.insertOrder(order);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = new ArrayList<>();
         try {
             orders = orderManager.findOrderList();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return orders;
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> customerOrders = new ArrayList<>();
         try {
             customerOrders = orderManager.findCustomerOrders(customerId);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return customerOrders;
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     public boolean updateOrderStatus(Order order) throws ServiceException {
         try {
             orderManager.updateOrderStatus(order);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return true;

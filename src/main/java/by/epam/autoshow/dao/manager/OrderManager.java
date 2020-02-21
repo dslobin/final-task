@@ -33,54 +33,54 @@ public class OrderManager extends DaoManager {
         return orderManager;
     }
 
-    public boolean insertOrder(Order order) throws DaoException {
+    public boolean insertOrder(Order order) throws ManagerException {
         Connection connection = getConnection();
         try {
             OrderDaoImpl orderDao = new OrderDaoImpl(connection);
             orderDao.insert(order);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public List<Order> findOrderList() throws DaoException {
+    public List<Order> findOrderList() throws ManagerException {
         Connection connection = getConnection();
         List<Order> orderList = new ArrayList<>();
         try {
             OrderDaoImpl orderDao = new OrderDaoImpl(connection);
             orderList = orderDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return orderList;
     }
 
-    public List<Order> findCustomerOrders(long customerId) throws DaoException {
+    public List<Order> findCustomerOrders(long customerId) throws ManagerException {
         Connection connection = getConnection();
         List<Order> customerOrders = new ArrayList<>();
         try {
             OrderDaoImpl orderDao = new OrderDaoImpl(connection);
             customerOrders = orderDao.findByCustomerId(customerId);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return customerOrders;
     }
 
-    public boolean updateOrderStatus(Order order) throws DaoException {
+    public boolean updateOrderStatus(Order order) throws ManagerException {
         Connection connection = getConnection();
         try {
             OrderDaoImpl orderDao = new OrderDaoImpl(connection);
             orderDao.updateOrderStatus(order);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }

@@ -34,48 +34,48 @@ public class UserManager extends DaoManager {
         return userManager;
     }
 
-    public boolean addUser(User user) throws DaoException {
+    public boolean addUser(User user) throws ManagerException {
         Connection connection = getConnection();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             userDao.insert(user);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public Optional<User> findById(long id) throws DaoException {
+    public Optional<User> findById(long id) throws ManagerException {
         Connection connection = getConnection();
         Optional<User> user = Optional.empty();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             user = userDao.findById(id);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return user;
     }
 
-    public Optional<User> findByUsername(String username) throws DaoException {
+    public Optional<User> findByUsername(String username) throws ManagerException {
         Connection connection = getConnection();
         Optional<User> user = Optional.empty();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             user = userDao.findByUsername(username);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return user;
     }
 
-    public Optional<User> authorizeUser(String login, String password) throws DaoException {
+    public Optional<User> authorizeUser(String login, String password) throws ManagerException {
         Connection connection = getConnection();
         User user = new User();
         user.setUsername(login);
@@ -85,34 +85,34 @@ public class UserManager extends DaoManager {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             registeredUser = userDao.authorizeUser(user);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return registeredUser;
     }
 
-    public List<User> findUserList() throws DaoException {
+    public List<User> findUserList() throws ManagerException {
         Connection connection = getConnection();
         List<User> userList = new ArrayList<>();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             userList = userDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return userList;
     }
 
-    public User updateUser(User user) throws DaoException {
+    public User updateUser(User user) throws ManagerException {
         Connection connection = getConnection();
         try {
             UserDaoImpl userDao = new UserDaoImpl(connection);
             userDao.update(user);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }

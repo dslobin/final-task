@@ -39,7 +39,7 @@ public class CarManager extends DaoManager {
         return carManager;
     }
 
-    public boolean updateCar(Car car, String colorCode) throws DaoException, SQLException {
+    public boolean updateCar(Car car, String colorCode) throws ManagerException, SQLException {
         Connection connection = getTXNConnection();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
@@ -50,27 +50,27 @@ public class CarManager extends DaoManager {
             connection.commit();
         } catch (DaoException e) {
             connection.rollback();
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public boolean updateCarImage(Car car) throws DaoException {
+    public boolean updateCarImage(Car car) throws ManagerException {
         Connection connection = getConnection();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
             carDao.updateCarImage(car);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public boolean addCar(Car car, String colorCode) throws DaoException, SQLException {
+    public boolean addCar(Car car, String colorCode) throws ManagerException, SQLException {
         Connection connection = getTXNConnection();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
@@ -82,49 +82,49 @@ public class CarManager extends DaoManager {
             connection.commit();
         } catch (DaoException e) {
             connection.rollback();
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return true;
     }
 
-    public Optional<Car> findById(long id) throws DaoException {
+    public Optional<Car> findById(long id) throws ManagerException {
         Connection connection = getConnection();
         Optional<Car> car = Optional.empty();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
             car = carDao.findById(id);
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return car;
     }
 
-    public List<Car> findCarList() throws DaoException {
+    public List<Car> findCarList() throws ManagerException {
         Connection connection = getConnection();
         List<Car> carList = new ArrayList<>();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
             carList = carDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }
         return carList;
     }
 
-    public List<Color> findAllCarColors() throws DaoException {
+    public List<Color> findAllCarColors() throws ManagerException {
         Connection connection = getConnection();
         List<Color> colors = new ArrayList<>();
         try {
             ColorDao colorDao = new ColorDaoImpl(connection);
             colors = colorDao.findAll();
         } catch (DaoException e) {
-            throw new DaoException(e);
+            throw new ManagerException(e);
         } finally {
             close(connection);
         }

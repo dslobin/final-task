@@ -1,7 +1,7 @@
 package by.epam.autoshow.service.impl;
 
-import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.manager.CustomerManger;
+import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.CustomerService;
@@ -16,11 +16,11 @@ import java.util.*;
 
 public class CustomerServiceImpl implements CustomerService {
     private static volatile CustomerServiceImpl INSTANCE;
+    private CustomerManger customerManger;
     private static final Logger logger = LogManager.getLogger();
-    private CustomerManger customerManger = CustomerManger.getInstance();
 
     private CustomerServiceImpl() {
-
+        customerManger = CustomerManger.getInstance();
     }
 
     public static CustomerServiceImpl getInstance() {
@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean updateCustomer(User user, Customer customer) throws ServiceException {
         try {
             customerManger.updateCustomer(user, customer);
-        } catch (DaoException | SQLException e) {
+        } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customer = Optional.empty();
         try {
             customer = customerManger.findById(id);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return customer;
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customer = Optional.empty();
         try {
             customer = customerManger.findCustomerByLogin(login);
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return customer;
@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = new ArrayList<>();
         try {
            customers = customerManger.findCustomerList();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return customers;
@@ -83,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean registerCustomer(User user, Customer customer) throws ServiceException {
         try {
             customerManger.insertCustomer(user, customer);
-        } catch (DaoException | SQLException e) {
+        } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
@@ -94,7 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String, Customer> customers = new HashMap<>();
         try {
              customers = customerManger.findCustomerUserNames();
-        } catch (DaoException e) {
+        } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return customers;
