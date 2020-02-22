@@ -7,8 +7,8 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.model.UserStatus;
 import by.epam.autoshow.service.CustomerService;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 
@@ -47,7 +47,7 @@ public class EditCustomerCommand implements ActionCommand {
             Customer customer = new Customer(Long.parseLong(customerId), userId, surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
             customerService.updateCustomer(user, customer);
-            page = PagePathManager.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

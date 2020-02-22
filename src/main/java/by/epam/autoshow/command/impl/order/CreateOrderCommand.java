@@ -12,8 +12,8 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,7 +55,7 @@ public class CreateOrderCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.error(e);
         }
-        String page = PagePathManager.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         return page;
     }
 }

@@ -4,8 +4,8 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.UserRole;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
 
@@ -29,9 +29,9 @@ public class GetAllCarsCommand implements ActionCommand {
             content.setRequestAttributes(PARAM_CAR_LIST, cars);
             UserRole userRole = (UserRole) content.getSessionAttributes(ATTRIBUTE_USER_ROLE);
             if (UserRole.ADMIN.equals(userRole)) {
-                page = PagePathManager.getProperty(PagePathProperty.ADMIN_CAR_OVERVIEW_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.ADMIN_CAR_OVERVIEW_PAGE_PROPERTY);
             } else {
-                page = PagePathManager.getProperty(PagePathProperty.CLIENT_CAR_OVERVIEW_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.CLIENT_CAR_OVERVIEW_PAGE_PROPERTY);
             }
         } catch (ServiceException e) {
             logger.error(e);

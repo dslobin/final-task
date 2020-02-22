@@ -6,6 +6,7 @@ import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.ServiceException;
 
+import by.epam.autoshow.validation.ServiceDataValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class AutoShowServiceManagementImpl implements AutoShowServiceManagement {
     private static volatile AutoShowServiceManagementImpl INSTANCE;
     private AutoShowServiceManager autoShowServiceManager;
+    private ServiceDataValidator serviceDataValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private AutoShowServiceManagementImpl() {
         autoShowServiceManager = AutoShowServiceManager.getInstance();
+        serviceDataValidator = new ServiceDataValidator();
     }
 
     public static AutoShowServiceManagementImpl getInstance() {

@@ -4,7 +4,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
-import by.epam.autoshow.util.manager.MessageManager;
+import by.epam.autoshow.util.provider.MessageProvider;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class UserExistProcessor extends AuthenticationProcessor {
     public boolean check(User user) throws ServiceException {
         Optional<User> authorizeUser = userService.authorizeUser(user.getUsername(), user.getPassword());
         if (authorizeUser.isEmpty()) {
-            content.setRequestAttributes(ATTRIBUTE_ERROR_MESSAGE, MessageManager.getProperty(LOGIN_ERROR_MESSAGE_PROPERTY));
+            content.setRequestAttributes(ATTRIBUTE_ERROR_MESSAGE, MessageProvider.getProperty(LOGIN_ERROR_MESSAGE_PROPERTY));
             return false;
         }
         content.setSessionAttributes(ATTRIBUTE_USER_LOGIN, authorizeUser.get().getUsername());

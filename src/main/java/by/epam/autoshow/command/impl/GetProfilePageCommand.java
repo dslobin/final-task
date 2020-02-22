@@ -9,9 +9,9 @@ import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
-import by.epam.autoshow.util.manager.MessageManager;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,12 +42,12 @@ public class GetProfilePageCommand implements ActionCommand {
                 content.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
                 content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {
-                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageManager.getProperty(ERROR_PROPERTY));
+                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageProvider.getProperty(ERROR_PROPERTY));
             }
         } catch (ServiceException e) {
             logger.error(e);
         }
-        page = PagePathManager.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
+        page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         return page;
     }
 }

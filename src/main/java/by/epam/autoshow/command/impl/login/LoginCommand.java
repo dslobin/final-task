@@ -3,9 +3,9 @@ package by.epam.autoshow.command.impl.login;
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.UserService;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.util.manager.PagePathManager;
+import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 
@@ -33,9 +33,9 @@ public class LoginCommand implements ActionCommand {
             User user = new User(login, password);
             authenticationResult = userExistProcessor.check(user);
             if (authenticationResult) {
-                page = PagePathManager.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
             } else {
-                page = PagePathManager.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
             }
         } catch (ServiceException e) {
             logger.error(e);

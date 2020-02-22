@@ -7,8 +7,8 @@ import by.epam.autoshow.model.OrderStatus;
 import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +35,7 @@ public class RejectOrderCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.error(e);
         }
-        page = PagePathManager.getProperty(PagePathProperty.ORDER_OVERVIEW_PAGE_PROPERTY);
+        page = PagePathProvider.getProperty(PagePathProperty.ORDER_OVERVIEW_PAGE_PROPERTY);
         return page;
     }
 }

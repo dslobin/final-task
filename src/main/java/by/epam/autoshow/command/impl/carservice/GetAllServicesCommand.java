@@ -4,8 +4,8 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.model.UserRole;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.service.ServiceException;
 
@@ -29,9 +29,9 @@ public class GetAllServicesCommand implements ActionCommand {
             content.setRequestAttributes(PARAM_SERVICE_LIST, services);
             UserRole userRole = (UserRole) content.getSessionAttributes(ATTRIBUTE_USER_ROLE);
             if (UserRole.ADMIN.equals(userRole)) {
-                page = PagePathManager.getProperty(PagePathProperty.ADMIN_SERVICE_OVERVIEW_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.ADMIN_SERVICE_OVERVIEW_PAGE_PROPERTY);
             } else {
-                page = PagePathManager.getProperty(PagePathProperty.CLIENT_SERVICE_OVERVIEW_PAGE_PROPERTY);
+                page = PagePathProvider.getProperty(PagePathProperty.CLIENT_SERVICE_OVERVIEW_PAGE_PROPERTY);
             }
         } catch (ServiceException e) {
             logger.error(e);

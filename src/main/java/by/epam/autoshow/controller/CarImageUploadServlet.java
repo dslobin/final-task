@@ -16,9 +16,9 @@ import by.epam.autoshow.model.Car;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-import by.epam.autoshow.util.manager.MessageManager;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,14 +49,14 @@ public class CarImageUploadServlet extends HttpServlet {
             carService.updateCarImage(car);
             logger.debug("UPDATED CAR: " + car);
             logger.debug(imageFileName);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageManager.getProperty(FILE_UPLOAD_SUCCESS_RESULT));
-            request.getRequestDispatcher(PagePathManager
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider.getProperty(FILE_UPLOAD_SUCCESS_RESULT));
+            request.getRequestDispatcher(PagePathProvider
                     .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);
         } catch (FileNotFoundException | ServiceException e) {
             logger.error(e);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageManager.getProperty(FILE_UPLOAD_ERROR_RESULT));
-            request.getRequestDispatcher(PagePathManager
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider.getProperty(FILE_UPLOAD_ERROR_RESULT));
+            request.getRequestDispatcher(PagePathProvider
                     .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);
         }

@@ -9,8 +9,8 @@ import by.epam.autoshow.model.SaleStatus;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +36,7 @@ public class GetCarAddPageCommand implements ActionCommand {
         content.setRequestAttributes(ATTRIBUTE_CAR_FUEL_TYPE_VALUES, FuelType.values());
         content.setRequestAttributes(ATTRIBUTE_CAR_BODY_TYPE_VALUES, BodyType.values());
         content.setRequestAttributes(ATTRIBUTE_SALE_STATUS_VALUES, SaleStatus.values());
-        String page = PagePathManager.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         return page;
     }
 }

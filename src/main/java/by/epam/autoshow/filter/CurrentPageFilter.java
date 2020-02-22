@@ -1,7 +1,7 @@
 package by.epam.autoshow.filter;
 
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +47,7 @@ public class CurrentPageFilter implements Filter {
             if (matcher.find()) {
                 path = matcher.group(0);
             } else {
-                path = PagePathManager.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                path = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
             }
         }
         return path;

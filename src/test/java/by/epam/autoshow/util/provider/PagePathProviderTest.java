@@ -1,15 +1,15 @@
-package by.epam.autoshow.util.manager;
+package by.epam.autoshow.util.provider;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class PagePathManagerTest {
+public class PagePathProviderTest {
 
     @Test(dataProvider = "pagePathProvider")
     public void testGetProperty(String actual, String expected) {
-        String actualPagePath = PagePathManager.getProperty(actual);
+        String actualPagePath = PagePathProvider.getProperty(actual);
         assertEquals(actualPagePath, expected);
     }
 

@@ -1,4 +1,4 @@
-package by.epam.autoshow.util.manager;
+package by.epam.autoshow.util.provider;
 
 public final class PagePathProperty {
     public static final String INDEX_PAGE_PROPERTY = "path.page.index";

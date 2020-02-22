@@ -5,8 +5,8 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.model.UserStatus;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 
@@ -36,7 +36,7 @@ public class EditUserCommand implements ActionCommand {
             user.setStatus(UserStatus.valueOf(status));
             UserServiceImpl userService = UserServiceImpl.getInstance();
             userService.updateUser(user);
-            page = PagePathManager.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

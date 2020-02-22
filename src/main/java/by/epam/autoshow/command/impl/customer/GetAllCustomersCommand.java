@@ -6,8 +6,8 @@ import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
-import by.epam.autoshow.util.manager.PagePathManager;
-import by.epam.autoshow.util.manager.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +26,7 @@ public class GetAllCustomersCommand implements ActionCommand {
             Map<String, Customer> customers = customerService.findCustomerUserNames();
             logger.debug("CUSTOMER MAP: " + customers);
             content.setRequestAttributes(PARAM_CUSTOMER_MAP, customers);
-            page = PagePathManager.getProperty(PagePathProperty.CUSTOMER_OVERVIEW_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }
