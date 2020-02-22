@@ -15,11 +15,11 @@
 <body>
 
 <c:choose>
-    <c:when test="${userRole == 'ADMIN'}">
+    <c:when test="${sessionScope.userRole == 'ADMIN'}">
         <jsp:include page="../fragments/adminHeader.jsp"/>
     </c:when>
 
-    <c:when test="${userRole == 'CLIENT'}">
+    <c:when test="${sessionScope.userRole == 'CLIENT'}">
         <jsp:include page="../fragments/clientHeader.jsp"/>
     </c:when>
 
@@ -29,7 +29,7 @@
 </c:choose>
 
 <div class="success-content-wrapper align-items-center">
-    <p class="text-success">${completedRegistration}</p>
+    <p class="text-success">${requestScope.completedRegistration}</p>
 </div>
 
 <div class="form-wrapper mt-5">
@@ -77,7 +77,11 @@
         </div>
 
         <div class="text-danger">
-            <p>${errorLoginPasswordMessage}</p>
+            <p>${requestScope.errorLoginPasswordMessage}</p>
+        </div>
+
+        <div class="text-warning">
+            <p>${requestScope.errorBlockedUser}</p>
         </div>
 
         <button class="btn btn-lg btn-success btn-block" type="submit">

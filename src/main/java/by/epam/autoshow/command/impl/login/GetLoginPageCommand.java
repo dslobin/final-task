@@ -1,4 +1,4 @@
-package by.epam.autoshow.command.impl;
+package by.epam.autoshow.command.impl.login;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;

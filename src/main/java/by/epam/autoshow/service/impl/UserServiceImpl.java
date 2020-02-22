@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) throws ServiceException {
+    public Optional<User> findByUsername(String username) throws ServiceException {
         Optional<User> user = Optional.empty();
         try {
             user = userManager.findByUsername(username);

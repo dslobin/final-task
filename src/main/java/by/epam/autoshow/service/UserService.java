@@ -21,7 +21,7 @@ public interface UserService {
      * @return {@code Optional} of user
      * @throws ServiceException if dao manager errors occurs
      */
-    Optional<User> findUserByUsername(String username) throws ServiceException;
+    Optional<User> findByUsername(String username) throws ServiceException;
 
     /**
      * Finds a user by his login and password

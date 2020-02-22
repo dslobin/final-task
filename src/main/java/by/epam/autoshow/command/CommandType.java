@@ -4,6 +4,8 @@ import by.epam.autoshow.command.impl.*;
 import by.epam.autoshow.command.impl.car.*;
 import by.epam.autoshow.command.impl.carservice.*;
 import by.epam.autoshow.command.impl.customer.*;
+import by.epam.autoshow.command.impl.login.GetLoginPageCommand;
+import by.epam.autoshow.command.impl.login.LoginCommand;
 import by.epam.autoshow.command.impl.order.*;
 import by.epam.autoshow.command.impl.user.*;
 
