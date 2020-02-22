@@ -1,8 +1,6 @@
 package by.epam.autoshow.filter;
 
 import by.epam.autoshow.model.UserRole;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -14,7 +12,6 @@ import java.io.IOException;
 @WebFilter(filterName = "authorizationFilter", urlPatterns = "/*")
 public class AuthorizationFilter implements Filter {
     private static final String USER_ROLE_ATTRIBUTE = "userRole";
-    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

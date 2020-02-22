@@ -10,6 +10,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
+import by.epam.autoshow.validation.ValidatorException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testRegisterUser() throws DaoException, ServiceException {
+    public void testRegisterUser() throws DaoException, ServiceException, ValidatorException {
         when(userDao.insert(any(User.class))).thenReturn(true);
         User user = new User();
         assertThat(userService.registerUser(user), is(notNullValue()));

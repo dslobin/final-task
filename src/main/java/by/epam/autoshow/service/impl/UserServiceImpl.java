@@ -6,6 +6,8 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
 
+import by.epam.autoshow.validation.UserDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private static volatile UserServiceImpl INSTANCE;
     private UserManager userManager;
+    private UserDataValidator userValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private UserServiceImpl() {
+        userValidator = new UserDataValidator();
         userManager = UserManager.getInstance();
     }
 
@@ -36,7 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(User user) throws ServiceException {
+    public boolean registerUser(User user) throws ServiceException, ValidatorException {
+        if (!userValidator.validate(user)) {
+            throw new ValidatorException("Failed to insert row, user data not valid!");
+        }
         try {
             userManager.addUser(user);
         } catch (ManagerException e) {
@@ -46,7 +53,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) throws ServiceException {
+    public User updateUser(User user) throws ServiceException, ValidatorException {
+        if (!userValidator.validate(user)) {
+            throw new ValidatorException("Failed to update row, user data not valid!");
+        }
         try {
             userManager.updateUser(user);
         } catch (ManagerException e) {

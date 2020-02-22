@@ -10,7 +10,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class ServletContextInitializer implements ServletContextListener {
+public class ServletConnectionPoolHandler implements ServletContextListener {
     private static final Logger logger = LogManager.getLogger();
     private ConnectionPool connectionPool;
 

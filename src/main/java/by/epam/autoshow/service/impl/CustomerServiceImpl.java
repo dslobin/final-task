@@ -6,6 +6,8 @@ import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.validation.CustomerDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +19,11 @@ import java.util.*;
 public class CustomerServiceImpl implements CustomerService {
     private static volatile CustomerServiceImpl INSTANCE;
     private CustomerManger customerManger;
+    private CustomerDataValidator customerValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private CustomerServiceImpl() {
+        customerValidator = new CustomerDataValidator();
         customerManger = CustomerManger.getInstance();
     }
 
@@ -37,7 +41,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean updateCustomer(User user, Customer customer) throws ServiceException {
+    public boolean updateCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
+        if (!customerValidator.validate(customer)) {
+            throw new ValidatorException("Failed to update row, customer data not valid");
+        }
         try {
             customerManger.updateCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
@@ -80,7 +87,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean registerCustomer(User user, Customer customer) throws ServiceException {
+    public boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
+        if (!customerValidator.validate(customer)) {
+            throw new ValidatorException("Failed to insert row, customer data not valid");
+        }
         try {
             customerManger.insertCustomer(user, customer);
         } catch (ManagerException | SQLException e) {

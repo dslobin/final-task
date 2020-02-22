@@ -9,9 +9,12 @@ import by.epam.autoshow.model.SaleStatus;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.validation.ValidatorException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,8 +34,7 @@ public class AddCarCommand implements ActionCommand {
     private static final String PARAM_STATUS = "saleStatus";
     private static final String PARAM_DESCRIPTION = "description";
     private static final String PARAM_IMG_URL = "imgUrl";
-    private static final String ERROR_MESSAGE_PROPERTY = "";
-    private static final String ATTRIBUTE_ERROR_MESSAGE = "";
+    private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -68,6 +70,10 @@ public class AddCarCommand implements ActionCommand {
             CarService carService = CarServiceImpl.getInstance();
             carService.addCar(car, color);
         } catch (ServiceException e) {
+            logger.error(e);
+        } catch (ValidatorException e) {
+            content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
+                    MessageProvider.getProperty(MessageProperty.INVALID_CAR_ADDITION_PROPERTY));
             logger.error(e);
         }
         page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);

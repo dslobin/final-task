@@ -24,8 +24,7 @@ public class GetServiceEditPageCommand implements ActionCommand {
         AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         try {
-            Optional<AutoShowService> autoShowService = serviceManagement
-                    .findServiceById(Long.parseLong(serviceId));
+            Optional<AutoShowService> autoShowService = serviceManagement.findServiceById(Long.parseLong(serviceId));
             logger.debug("Auto show service: " + autoShowService);
             content.setRequestAttributes(PARAM_AUTO_SHOW_SERVICE, autoShowService.get());
             page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);

@@ -14,7 +14,6 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-
 //FIXME: refactor connection pool initialize method
 public enum ConnectionPool {
     INSTANCE;
@@ -29,8 +28,8 @@ public enum ConnectionPool {
 
     ConnectionPool() {
         logger = LogManager.getLogger();
-        initialize();
         usedConnections = new ArrayDeque<>();
+        initialize();
     }
 
     private void initialize() {

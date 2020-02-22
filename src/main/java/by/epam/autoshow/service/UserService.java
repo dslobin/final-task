@@ -1,6 +1,7 @@
 package by.epam.autoshow.service;
 
 import by.epam.autoshow.model.User;
+import by.epam.autoshow.validation.ValidatorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public interface UserService {
      * @return {@code true} if user registration was successful
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean registerUser(User user) throws ServiceException;
+    boolean registerUser(User user) throws ServiceException, ValidatorException;
 
     /**
      * Update user data
@@ -57,7 +58,7 @@ public interface UserService {
      * @return updated user object
      * @throws ServiceException if dao manager errors occurs
      */
-    User updateUser(User user) throws ServiceException;
+    User updateUser(User user) throws ServiceException, ValidatorException;
 
     /**
      * Finds user by id

@@ -5,8 +5,9 @@ import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.ServiceException;
-
 import by.epam.autoshow.validation.ServiceDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +51,10 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     }
 
     @Override
-    public boolean addService(AutoShowService autoShowService) throws ServiceException {
+    public boolean addService(AutoShowService autoShowService) throws ServiceException, ValidatorException {
+        if (!serviceDataValidator.validate(autoShowService)) {
+            throw new ValidatorException("Failed to insert record, auto show service data not valid!");
+        }
         try {
             autoShowServiceManager.addAutoShowService(autoShowService);
         } catch (ManagerException e) {
@@ -60,7 +64,10 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     }
 
     @Override
-    public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException {
+    public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException, ValidatorException {
+        if (!serviceDataValidator.validate(autoShowService)) {
+            throw new ValidatorException("Failed to update record, auto show service data not valid!");
+        }
         try {
             autoShowServiceManager.updateAutoShowService(autoShowService);
         } catch (ManagerException e) {

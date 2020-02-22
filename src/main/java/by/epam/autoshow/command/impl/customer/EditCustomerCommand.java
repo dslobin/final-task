@@ -7,26 +7,28 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.model.UserStatus;
 import by.epam.autoshow.service.CustomerService;
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
+import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EditCustomerCommand implements ActionCommand {
-    private static final String PARAM_USER = "user";
     private static final String PARAM_USER_ID = "userId";
     private static final String PARAM_USERNAME = "username";
     private static final String PARAM_PASSWORD = "password";
-    private static final String PARAM_USER_ROLE = "userRole";
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String PARAM_CUSTOMER_ID = "customerId";
     private static final String PARAM_CUSTOMER_SURNAME = "surname";
     private static final String PARAM_CUSTOMER_NAME = "name";
     private static final String PARAM_CUSTOMER_EMAIL = "email";
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
+    private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -49,6 +51,10 @@ public class EditCustomerCommand implements ActionCommand {
             customerService.updateCustomer(user, customer);
             page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
+            logger.error(e);
+        } catch (ValidatorException e) {
+            content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
+                    MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_UPDATE_PROPERTY));
             logger.error(e);
         }
         return page;
