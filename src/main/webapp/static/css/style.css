@@ -7,9 +7,44 @@
     color: white;
 }
 
+.page-top {
+    background-image: url(../img/about-company.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 400px;
+    color: white;
+}
+
+.listing-item-image {
+    display: block;
+    border: 0;
+    object-fit: cover;
+}
+
+.listing-item-image img {
+    width: 180px;
+    height: 135px;
+}
+
 .login-form {
     width: 400px;
     margin: 0 auto;
+}
+
+.registration-form {
+    width: 400px;
+    margin: 5px auto;
+}
+
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
 }
 
 .form-wrapper {
@@ -21,15 +56,6 @@
     height: 400px;
 }
 
-.registration-form {
-    width: 400px;
-    margin: 5px auto;
-}
-
-.background {
-    background: #F5F5F5;
-}
-
 .page-wrap {
     min-height: 100vh;
     height: 100%;
@@ -37,10 +63,6 @@
 
 .table-wrapper {
     height: 40vh;
-}
-
-.company-info-content-wrapper {
-    background: #dedede;
 }
 
 .error-content-wrapper {

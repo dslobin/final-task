@@ -27,10 +27,10 @@
                     <tbody id="page">
                     <c:forEach var="car" items="${carList}">
                         <tr class="table-row">
-                            <td width="200px">
-                                <img class="card-img-top"
-                                     src="<%--${pageContext.request.contextPath}--%><c:out value="${car.imageUrl}"/>"
-                                     alt="Car image" width="200" height="80">
+                            <td class="listing-item-image">
+                                <img src="${pageContext.request.contextPath}/static/img/default-car-image.png"
+                                     alt="Car image">
+                                    <%--<img src="<c:out value="${car.imageUrl}"/>" alt="Car image">--%>
                             </td>
                             <td>
                                 <p><c:out value="${car.issueYear}"/></p>
@@ -41,8 +41,8 @@
                                 <p>
                                     <c:out value="${car.transmission}"/>,
                                     <c:out value="${car.mileage}"/> km,
-                                    <c:out value="${car.fuelType}"/>,
-                                    <c:out value="${car.bodyType}"/>
+                                    <c:out value="${fn:toLowerCase(car.fuelType)}"/>,
+                                    <c:out value="${fn:toLowerCase(car.bodyType)}"/>
                                 </p>
                                 <p class="text-muted"><c:out value="${car.description}"/></p>
                             </td>

@@ -13,7 +13,7 @@
     <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
 
-<body>
+<body class="site">
 
 <c:choose>
     <c:when test="${userRole == 'CLIENT'}">
@@ -25,51 +25,53 @@
     </c:otherwise>
 </c:choose>
 
-<div class="page-wrap">
-    <jsp:useBean id="carList" class="java.util.ArrayList" scope="request"/>
-    <c:choose>
-        <c:when test="${not empty carList}">
+<main class="site-content">
+    <div>
+        <jsp:useBean id="carList" class="java.util.ArrayList" scope="request"/>
+        <c:choose>
+            <c:when test="${not empty carList}">
 
-            <div class="">
-                <table class="table table-borderless table-striped">
-                    <tbody id="page">
-                    <c:forEach var="car" items="${carList}">
-                        <tr class="table-row">
-                            <td width="200px">
-                                <img class="card-img-top"
-                                     src="${pageContext.request.contextPath}<c:out value="${car.imageUrl}"/>"
-                                     alt="Car image" width="200" height="80">
-                            </td>
-                            <td>
-                                <p><c:out value="${car.issueYear}"/></p>
-                                <p><strong><c:out value="${car.price}"/></strong>, $</p>
-                            </td>
-                            <td>
-                                <p class="text-info"><strong><c:out value="${car.model}"/></strong></p>
-                                <p>
-                                    <c:out value="${car.transmission}"/>,
-                                    <c:out value="${car.mileage}"/> km,
-                                    <c:out value="${car.fuelType}"/>,
-                                    <c:out value="${car.bodyType}"/>
-                                </p>
-                                <p class="text-muted"><c:out value="${car.description}"/></p>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                <div class="">
+                    <table class="table table-borderless table-striped">
+                        <tbody id="page">
+                        <c:forEach var="car" items="${carList}">
+                            <tr class="table-row">
+                                <td class="listing-item-image">
+                                    <img src="${pageContext.request.contextPath}/static/img/default-car-image.png"
+                                         alt="Car image">
+                                        <%--<img src="<c:out value="${car.imageUrl}"/>" alt="Car image">--%>
+                                </td>
+                                <td>
+                                    <p><c:out value="${car.issueYear}"/></p>
+                                    <p><strong><c:out value="${car.price}"/></strong>, $</p>
+                                </td>
+                                <td>
+                                    <p class="text-info"><strong><c:out value="${car.model}"/></strong></p>
+                                    <p>
+                                        <c:out value="${car.transmission}"/>,
+                                        <c:out value="${car.mileage}"/> km,
+                                        <c:out value="${car.fuelType}"/>,
+                                        <c:out value="${car.bodyType}"/>
+                                    </p>
+                                    <p class="text-muted"><c:out value="${car.description}"/></p>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="ml-3">
-                <jsp:include page="../fragments/pagination.jsp"/>
-            </div>
+                <div class="ml-3">
+                    <jsp:include page="../fragments/pagination.jsp"/>
+                </div>
 
-        </c:when>
-        <c:otherwise>
-            <h2><fmt:message key="carOverview.text.emptyList" bundle="${rb}"/></h2>
-        </c:otherwise>
-    </c:choose>
-</div>
+            </c:when>
+            <c:otherwise>
+                <h2><fmt:message key="carOverview.text.emptyList" bundle="${rb}"/></h2>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</main>
 
 <jsp:include page="../fragments/footer.jsp"/>
 

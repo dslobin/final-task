@@ -10,94 +10,97 @@
     <title><fmt:message key="editOrder.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
 </head>
-<body>
+
+<body class="site">
 
 <jsp:include page="../fragments/clientHeader.jsp"/>
 
-<div class="col-md-8 order-md-1 page-wrap">
-    <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
-    <form class="needs-validation" novalidate>
+<main class="site-content">
+    <div class="col-md-8 order-md-1">
+        <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
+        <form class="needs-validation" novalidate>
 
-        <!-- hidden input -->
-        <input type="hidden" name="command" value="createOrder"/>
-        <!-- /hidden input -->
+            <!-- hidden input -->
+            <input type="hidden" name="command" value="createOrder"/>
+            <!-- /hidden input -->
 
-        <div class="row">
-            <div class="col-md-6 align-top">
-                <h5 class="mb-3"><fmt:message key="editOrder.text.personalDetails" bundle="${rb}"/>:</h5>
+            <div class="row">
+                <div class="col-md-6 align-top">
+                    <h5 class="mb-3"><fmt:message key="editOrder.text.personalDetails" bundle="${rb}"/>:</h5>
 
-                <div class="mb-3">
-                    <label for="firstName"><fmt:message key="editOrder.label.firstName" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="firstName" name="firstName"
-                           value="${customer.name}" required>
+                    <div class="mb-3">
+                        <label for="firstName"><fmt:message key="editOrder.label.firstName" bundle="${rb}"/></label>
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                               value="${customer.name}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName"><fmt:message key="editOrder.label.lastName" bundle="${rb}"/></label>
+                        <input type="text" class="form-control" id="lastName" name="lastName"
+                               value="${customer.surname}" required>
+                    </div>
+
                 </div>
 
-                <div class="mb-3">
-                    <label for="lastName"><fmt:message key="editOrder.label.lastName" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="lastName" name="lastName"
-                           value="${customer.surname}" required>
-                </div>
+                <div class="col-md-6 align-top">
+                    <h5 class="mb-3"><fmt:message key="editOrder.text.serviceDetails" bundle="${rb}"/>:</h5>
 
+                    <div class="mb-3">
+                        <label for="serviceTitle"><fmt:message key="editOrder.label.serviceTitle" bundle="${rb}"/></label>
+                        <input type="text" class="form-control" id="serviceTitle" name="serviceTitle"
+                               value="${service.title}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="serviceCost"><fmt:message key="editOrder.label.serviceCost" bundle="${rb}"/></label>
+                        <input type="text" class="form-control" id="serviceCost" name="serviceCost"
+                               value="${service.cost}" required>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-6 align-top">
-                <h5 class="mb-3"><fmt:message key="editOrder.text.serviceDetails" bundle="${rb}"/>:</h5>
+            <hr class="mb-4">
 
-                <div class="mb-3">
-                    <label for="serviceTitle"><fmt:message key="editOrder.label.serviceTitle" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="serviceTitle" name="serviceTitle"
-                           value="${service.title}" required>
+            <div class="row">
+                <h2>
+                    <fmt:message key="editOrder.label.serviceTiming" bundle="${rb}"/>
+                </h2>
+
+                <div class="col-md-6">
+                    <label for="serviceDatePicker">
+                        <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>
+                    </label>
+                    <input type="date" class="form-control" id="serviceDatePicker" name="serviceDatePicker" required>
+                    <div class="invalid-feedback">
+                        Desired service date is required
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="serviceCost"><fmt:message key="editOrder.label.serviceCost" bundle="${rb}"/></label>
-                    <input type="text" class="form-control" id="serviceCost" name="serviceCost"
-                           value="${service.cost}" required>
+                <div class="col-md-6">
+                    <label for="serviceTimePicker">
+                        <fmt:message key="editOrder.label.desiredServiceTime" bundle="${rb}"/>
+                    </label>
+                    <input type="time" class="form-control" id="serviceTimePicker" name="serviceTimePicker" required>
+                    <div class="invalid-feedback">
+                        Desired service time is required
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <hr class="mb-4">
-
-        <div class="row">
-            <h2>
-                <fmt:message key="editOrder.label.serviceTiming" bundle="${rb}"/>
-            </h2>
-
-            <div class="col-md-6">
-                <label for="serviceDatePicker">
-                    <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>
+            <hr class="mb-4">
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="dataProcessing" required>
+                <label class="custom-control-label" for="dataProcessing">
+                    <fmt:message key="editOrder.text.consentDataProcessing" bundle="${rb}"/>
                 </label>
-                <input type="date" class="form-control" id="serviceDatePicker" name="serviceDatePicker" required>
-                <div class="invalid-feedback">
-                    Desired service date is required
-                </div>
             </div>
 
-            <div class="col-md-6">
-                <label for="serviceTimePicker">
-                    <fmt:message key="editOrder.label.desiredServiceTime" bundle="${rb}"/>
-                </label>
-                <input type="time" class="form-control" id="serviceTimePicker" name="serviceTimePicker" required>
-                <div class="invalid-feedback">
-                    Desired service time is required
-                </div>
-            </div>
-        </div>
-
-        <hr class="mb-4">
-        <div class="custom-control custom-checkbox mb-3">
-            <input type="checkbox" class="custom-control-input" id="dataProcessing" required>
-            <label class="custom-control-label" for="dataProcessing">
-                <fmt:message key="editOrder.text.consentDataProcessing" bundle="${rb}"/>
-            </label>
-        </div>
-
-        <button class="btn btn-primary btn-lg btn-block" type="submit">
-            <fmt:message key="editOrder.button.submit" bundle="${rb}"/>
-        </button>
-    </form>
-</div>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">
+                <fmt:message key="editOrder.button.submit" bundle="${rb}"/>
+            </button>
+        </form>
+    </div>
+</main>
 
 <jsp:include page="../fragments/footer.jsp"/>
 

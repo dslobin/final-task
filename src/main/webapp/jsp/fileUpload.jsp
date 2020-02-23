@@ -12,36 +12,38 @@
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
     <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
-<body>
+<body class="site">
 
 <jsp:include page="../fragments/adminHeader.jsp"/>
 
-<div class="page-wrap align-items-center">
-    <div class="col-4">
-        <form action="image-upload" enctype="multipart/form-data" method="post">
+<main class="site-content">
+    <div class="align-items-center">
+        <div class="col-4">
+            <form action="image-upload" enctype="multipart/form-data" method="post">
 
-            <c:if test="${car != null}">
-                <input type="hidden" class="form-control" name="carId" value="${car.carId}">
-            </c:if>
+                <c:if test="${car != null}">
+                    <input type="hidden" class="form-control" name="carId" value="${car.carId}">
+                </c:if>
 
-            <div class="mb-3 custom-file">
-                <label for="carImageUploader" class="custom-file-label" data-browse="Search">
-                    <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
-                </label>
-                <input type="file" id="carImageUploader" name="carImageUploader"
-                       class="custom-file-input" accept="image/*" size="50" required>
-            </div>
+                <div class="mb-3 custom-file">
+                    <label for="carImageUploader" class="custom-file-label" data-browse="Search">
+                        <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
+                    </label>
+                    <input type="file" id="carImageUploader" name="carImageUploader"
+                           class="custom-file-input" accept="image/*" size="50" required>
+                </div>
 
-            <button class="btn btn-primary btn-lg btn-block" type="submit">
-                <fmt:message key="editCar.button.submit" bundle="${rb}"/>
-            </button>
-        </form>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">
+                    <fmt:message key="editCar.button.submit" bundle="${rb}"/>
+                </button>
+            </form>
+        </div>
+
+        <div>
+            <h3 class="text-info"><c:out value="${requestScope.uploadResult}"/></h3>
+        </div>
     </div>
-
-    <div>
-        <h3 class="text-info"><c:out value="${requestScope.uploadResult}"/></h3>
-    </div>
-</div>
+</main>
 
 <jsp:include page="../fragments/footer.jsp"/>
 
