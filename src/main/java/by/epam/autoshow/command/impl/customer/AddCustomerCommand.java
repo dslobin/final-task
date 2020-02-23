@@ -27,6 +27,7 @@ public class AddCustomerCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_EMAIL = "email";
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
+    private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -38,7 +39,7 @@ public class AddCustomerCommand implements ActionCommand {
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
-        String page = null;
+        String page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
         try {
             User user = new User();
             user.setUsername(login);
@@ -48,7 +49,8 @@ public class AddCustomerCommand implements ActionCommand {
             Customer customer = new Customer(surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
             customerService.registerCustomer(user, customer);
-            page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_CUSTOMER_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.CUSTOMER_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {

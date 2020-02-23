@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 @WebFilter(filterName = "servletSecurityFilter", urlPatterns = "/*")
 public class ServletSecurityFilter implements Filter {
     private static final String REFERER = "referer";

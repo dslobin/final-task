@@ -22,7 +22,7 @@
         <c:choose>
             <c:when test="${not empty orderList}">
 
-                <div class="table-wrapper">
+                <div>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                         <tr>

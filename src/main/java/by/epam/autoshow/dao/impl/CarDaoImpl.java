@@ -44,6 +44,15 @@ public class CarDaoImpl implements CarDao {
                     " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
                     " WHERE cars.car_id = ?";
 
+    private static final String FIND_CARS_FOR_SALE =
+            "SELECT cars.car_id, cars.model, cars.mileage, cars.fuel_type, cars.body_type," +
+                    " cars.volume, cars.transmission, cars.drive_unit, cars.issue_year," +
+                    " cars.price, cars.sale_status, colors.color_id, colors.code," +
+                    " cars.description, IFNULL(image_url, DEFAULT(image_url)) AS image_url FROM cars" +
+                    " LEFT JOIN car_coloring ON cars.car_id = car_coloring.car_id" +
+                    " LEFT JOIN colors ON car_coloring.color_id = colors.color_id" +
+                    " WHERE cars.sale_status = ?";
+
     public CarDaoImpl(Connection connection) {
         this.connection = connection;
     }
@@ -74,7 +83,7 @@ public class CarDaoImpl implements CarDao {
     @Override
     public Optional<Car> findById(long id) throws DaoException {
         Car car = new Car();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -144,32 +153,50 @@ public class CarDaoImpl implements CarDao {
         List<Car> carList = new ArrayList<>();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
-            while (resultSet.next()) {
-                Color color = new Color(
-                        resultSet.getLong(SqlColumnName.COLOR_ID),
-                        resultSet.getString(SqlColumnName.CODE)
-                );
-                Car car = new Car(
-                        resultSet.getLong(SqlColumnName.CAR_ID),
-                        resultSet.getString(SqlColumnName.CAR_MODEL),
-                        resultSet.getInt(SqlColumnName.MILEAGE),
-                        FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)),
-                        BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)),
-                        resultSet.getInt(SqlColumnName.VOLUME),
-                        resultSet.getString(SqlColumnName.TRANSMISSION),
-                        resultSet.getString(SqlColumnName.DRIVE_UNIT),
-                        color,
-                        resultSet.getInt(SqlColumnName.ISSUE_YEAR),
-                        resultSet.getBigDecimal(SqlColumnName.PRICE),
-                        SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)),
-                        resultSet.getString(SqlColumnName.DESCRIPTION),
-                        resultSet.getString(SqlColumnName.IMAGE_URL)
-                );
-                carList.add(car);
+            resultSetToList(carList, resultSet);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return carList;
+    }
+
+    @Override
+    public List<Car> findCarsForSale() throws DaoException {
+        List<Car> carList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_CARS_FOR_SALE)) {
+            preparedStatement.setString(1, SaleStatus.IN_STOCK.name());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSetToList(carList, resultSet);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
         return carList;
+    }
+
+    private void resultSetToList(List<Car> carList, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            Color color = new Color(
+                    resultSet.getLong(SqlColumnName.COLOR_ID),
+                    resultSet.getString(SqlColumnName.CODE)
+            );
+            Car car = new Car(
+                    resultSet.getLong(SqlColumnName.CAR_ID),
+                    resultSet.getString(SqlColumnName.CAR_MODEL),
+                    resultSet.getInt(SqlColumnName.MILEAGE),
+                    FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)),
+                    BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)),
+                    resultSet.getInt(SqlColumnName.VOLUME),
+                    resultSet.getString(SqlColumnName.TRANSMISSION),
+                    resultSet.getString(SqlColumnName.DRIVE_UNIT),
+                    color,
+                    resultSet.getInt(SqlColumnName.ISSUE_YEAR),
+                    resultSet.getBigDecimal(SqlColumnName.PRICE),
+                    SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)),
+                    resultSet.getString(SqlColumnName.DESCRIPTION),
+                    resultSet.getString(SqlColumnName.IMAGE_URL)
+            );
+            carList.add(car);
+        }
     }
 }

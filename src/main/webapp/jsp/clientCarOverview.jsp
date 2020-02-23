@@ -50,8 +50,8 @@
                                     <p>
                                         <c:out value="${car.transmission}"/>,
                                         <c:out value="${car.mileage}"/> km,
-                                        <c:out value="${car.fuelType}"/>,
-                                        <c:out value="${car.bodyType}"/>
+                                        <c:out value="${fn:toLowerCase(car.fuelType)}"/>,
+                                        <c:out value="${fn:toLowerCase(car.bodyType)}"/>
                                     </p>
                                     <p class="text-muted"><c:out value="${car.description}"/></p>
                                 </td>

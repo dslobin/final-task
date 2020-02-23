@@ -71,6 +71,14 @@
                 </div>
             </div>
 
+            <div class="text-danger">
+                <p>${requestScope.invalidService}</p>
+            </div>
+
+            <div class="text-success">
+                <p>${requestScope.successfulServiceChange}</p>
+            </div>
+
             <button class="btn btn-primary btn-lg btn-block" type="submit">
                 <fmt:message key="editService.button.submit" bundle="${rb}"/>
             </button>

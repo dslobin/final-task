@@ -36,15 +36,14 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="language">
-                <%--<a class="dropdown-item" href="controller?command=change_locale&language=ru">Русский</a>
-                <a class="dropdown-item" href="controller?command=change_locale&language=by">Беларуская</a>
-                <a class="dropdown-item" href="controller?command=change_locale&language=en">English</a>--%>
-                    <a class="dropdown-item" href="?sessionLocale=ru">Русский</a>
-                    <a class="dropdown-item" href="?sessionLocale=by">Беларуская</a>
-                    <a class="dropdown-item" href="?sessionLocale=en">English</a>
+                <a class="dropdown-item" href="?sessionLocale=ru">Русский</a>
+                <a class="dropdown-item" href="?sessionLocale=by">Беларуская</a>
+                <a class="dropdown-item" href="?sessionLocale=en">English</a>
             </div>
 
         </nav>
-        <a class="btn btn-outline-success" href="controller?command=logout">Log Out</a>
+        <a class="btn btn-outline-success" href="controller?command=logout">
+            <fmt:message key="header.button.logOut" bundle="${rb}"/>
+        </a>
     </div>
 </nav>

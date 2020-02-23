@@ -70,6 +70,14 @@
                     </select>
                 </div>
 
+                <div class="text-danger">
+                    <p>${requestScope.invalidUser}</p>
+                </div>
+
+                <div class="text-success">
+                    <p>${requestScope.successfulUserChange}</p>
+                </div>
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">
                     <fmt:message key="editUser.button.submit" bundle="${rb}"/>
                 </button>

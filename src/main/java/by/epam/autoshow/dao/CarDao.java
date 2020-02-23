@@ -56,4 +56,6 @@ public interface CarDao {
      * @throws DaoException if a data store access error occurs
      */
     List<Car> findAll() throws DaoException;
+
+    List<Car> findCarsForSale() throws DaoException;
 }

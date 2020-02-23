@@ -90,6 +90,17 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<Car> findCarsForSale() throws ServiceException {
+        List<Car> cars = new ArrayList<>();
+        try {
+            cars = carManager.findCarsForSale();
+        } catch (ManagerException e) {
+            throw new ServiceException(e);
+        }
+        return cars;
+    }
+
+    @Override
     public List<Car> findAllCars() throws ServiceException {
         List<Car> cars = new ArrayList<>();
         try {

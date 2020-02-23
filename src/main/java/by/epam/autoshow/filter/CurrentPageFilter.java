@@ -32,10 +32,7 @@ public class CurrentPageFilter implements Filter {
         HttpSession session = request.getSession(true);
         String url = request.getHeader(REFERER);
         String path = substringPathWithRegex(url);
-        //logger.debug("url = " + url);
-        //logger.debug("path = " + path);
         session.setAttribute(CURRENT_PAGE_ATTRIBUTE, path);
-        //logger.debug("Current page filter has worked.");
         chain.doFilter(req, resp);
     }
 

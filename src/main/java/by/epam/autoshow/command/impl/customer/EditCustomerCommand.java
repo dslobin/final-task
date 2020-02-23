@@ -29,6 +29,7 @@ public class EditCustomerCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_EMAIL = "email";
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
+    private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -42,14 +43,15 @@ public class EditCustomerCommand implements ActionCommand {
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
-        String page = null;
+        String page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);;
         try {
             Long userId = Long.parseLong(id);
             User user = new User(userId, login, password, UserRole.CLIENT, UserStatus.valueOf(status));
             Customer customer = new Customer(Long.parseLong(customerId), userId, surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
             customerService.updateCustomer(user, customer);
-            page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_CUSTOMER_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.CUSTOMER_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {

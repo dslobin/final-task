@@ -35,11 +35,11 @@ public class EditCarCommand implements ActionCommand {
     private static final String PARAM_STATUS = "saleStatus";
     private static final String PARAM_DESCRIPTION = "carDescription";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
+    private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String carId = content.getRequestParameter(PARAM_CAR_ID);
         String model = content.getRequestParameter(PARAM_MODEL);
         String mileage = content.getRequestParameter(PARAM_MILEAGE);
@@ -53,6 +53,7 @@ public class EditCarCommand implements ActionCommand {
         String price = content.getRequestParameter(PARAM_PRICE);
         String status = content.getRequestParameter(PARAM_STATUS);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
+        String page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         try {
             Car car = new Car();
             car.setCarId(Long.parseLong(carId));
@@ -69,6 +70,8 @@ public class EditCarCommand implements ActionCommand {
             car.setDescription(description);
             CarService carService = CarServiceImpl.getInstance();
             carService.updateCar(car, color);
+            content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.CAR_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {
@@ -76,7 +79,6 @@ public class EditCarCommand implements ActionCommand {
                     MessageProvider.getProperty(MessageProperty.INVALID_CAR_UPDATE_PROPERTY));
             logger.error(e);
         }
-        page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         return page;
     }
 }

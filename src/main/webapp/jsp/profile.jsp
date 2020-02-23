@@ -56,7 +56,7 @@
         <c:choose>
             <c:when test="${not empty customerOrders}">
 
-                <div class="table-wrapper">
+                <div>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                         <tr>

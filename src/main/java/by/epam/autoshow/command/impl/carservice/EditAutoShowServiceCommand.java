@@ -22,27 +22,26 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_COST = "serviceCost";
     private static final String PARAM_DESCRIPTION = "serviceDescription";
     private static final String ATTRIBUTE_INVALID_SERVICE = "invalidService";
+    private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         String serviceTitle = content.getRequestParameter(PARAM_TITLE);
         String cost = content.getRequestParameter(PARAM_COST);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
+        String page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
         try {
-            AutoShowService autoShowService = new AutoShowService();
-            autoShowService.setServiceId(Long.parseLong(serviceId));
-            autoShowService.setTitle(serviceTitle);
-            autoShowService.setDescription(description);
-            autoShowService.setCost(BigDecimal.valueOf(Double.parseDouble(cost)));
+            AutoShowService autoShowService = new AutoShowService(
+                    Long.parseLong(serviceId), serviceTitle, BigDecimal.valueOf(Double.parseDouble(cost)), description);
             AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.updateService(autoShowService);
-            page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
-        }  catch (ValidatorException e) {
+        } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_SERVICE,
                     MessageProvider.getProperty(MessageProperty.INVALID_SERVICE_UPDATE_PROPERTY));
             logger.error(e);

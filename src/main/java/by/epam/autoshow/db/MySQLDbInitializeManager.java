@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Properties;
 
-public class MySQLDbInitializeManager {
+class MySQLDbInitializeManager {
     private final static String DATABASE_PROPERTIES_PATH = "config/database.properties";
     private final static String JDBC_DRIVER_PROPERTY = "jdbc.driver";
     private final static String JDBC_URL_PROPERTY = "jdbc.url";

@@ -103,6 +103,14 @@
                 </div>
             </div>
 
+            <div class="text-danger">
+                <p>${requestScope.invalidCustomer}</p>
+            </div>
+
+            <div class="text-success">
+                <p>${requestScope.successfulCustomerChange}</p>
+            </div>
+
             <button class="btn btn-lg btn-primary btn-block" type="submit">
                 <fmt:message key="editCustomer.button.submit" bundle="${rb}"/>
             </button>

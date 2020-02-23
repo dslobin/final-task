@@ -24,7 +24,7 @@
         <c:choose>
             <c:when test="${not empty userList}">
 
-                <div class="table-wrapper">
+                <div>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                         <tr>

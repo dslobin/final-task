@@ -22,25 +22,22 @@ public class EditUserCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
+    private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String userId = content.getRequestParameter(PARAM_USER_ID);
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String status = content.getRequestParameter(PARAM_USER_STATUS);
+        String page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         try {
-            User user = new User();
-            user.setUserId(Long.parseLong(userId));
-            user.setUsername(login);
-            user.setPassword(password);
-            user.setRole(UserRole.ADMIN);
-            user.setStatus(UserStatus.valueOf(status));
+            User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
             UserServiceImpl userService = UserServiceImpl.getInstance();
             userService.updateUser(user);
-            page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.USER_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {

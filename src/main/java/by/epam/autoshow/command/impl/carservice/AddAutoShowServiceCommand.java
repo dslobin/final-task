@@ -21,14 +21,15 @@ public class AddAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_COST = "serviceCost";
     private static final String PARAM_DESCRIPTION = "serviceDescription";
     private static final String ATTRIBUTE_INVALID_SERVICE = "invalidService";
+    private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String serviceTitle = content.getRequestParameter(PARAM_TITLE);
         String cost = content.getRequestParameter(PARAM_COST);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
+        String page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
         try {
             AutoShowService autoShowService = new AutoShowService();
             autoShowService.setTitle(serviceTitle);
@@ -36,7 +37,8 @@ public class AddAutoShowServiceCommand implements ActionCommand {
             autoShowService.setCost(BigDecimal.valueOf(Double.parseDouble(cost)));
             AutoShowServiceManagementImpl serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.addService(autoShowService);
-            page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.SERVICE_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {

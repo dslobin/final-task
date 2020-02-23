@@ -117,6 +117,20 @@ public class CarManager extends DaoManager {
         return carList;
     }
 
+    public List<Car> findCarsForSale() throws ManagerException {
+        Connection connection = getConnection();
+        List<Car> carList = new ArrayList<>();
+        try {
+            CarDaoImpl carDao = new CarDaoImpl(connection);
+            carList = carDao.findCarsForSale();
+        } catch (DaoException e) {
+            throw new ManagerException(e);
+        } finally {
+            close(connection);
+        }
+        return carList;
+    }
+
     public List<Color> findAllCarColors() throws ManagerException {
         Connection connection = getConnection();
         List<Color> colors = new ArrayList<>();

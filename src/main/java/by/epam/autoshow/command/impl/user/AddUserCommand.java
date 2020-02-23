@@ -21,14 +21,15 @@ public class AddUserCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
+    private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String status = content.getRequestParameter(PARAM_USER_STATUS);
+        String page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         try {
             User user = new User();
             user.setUsername(login);
@@ -37,7 +38,8 @@ public class AddUserCommand implements ActionCommand {
             user.setStatus(UserStatus.valueOf(status));
             UserServiceImpl userService = UserServiceImpl.getInstance();
             userService.registerUser(user);
-            page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
+            content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.USER_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {

@@ -29,14 +29,13 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <%--<a class="dropdown-item" href="controller?command=change_locale&language=ru">Русский</a>
-                <a class="dropdown-item" href="controller?command=change_locale&language=by">Беларуская</a>
-                <a class="dropdown-item" href="controller?command=change_locale&language=en">English</a>--%>
                 <a class="dropdown-item" href="?sessionLocale=ru">Русский</a>
                 <a class="dropdown-item" href="?sessionLocale=by">Беларуская</a>
                 <a class="dropdown-item" href="?sessionLocale=en">English</a>
             </div>
         </nav>
-        <a class="btn btn-outline-success" href="controller?command=get_login_page">Log in</a>
+        <a class="btn btn-outline-success" href="controller?command=get_login_page">
+            <fmt:message key="header.button.logIn" bundle="${rb}"/>
+        </a>
     </div>
 </nav>

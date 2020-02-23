@@ -37,6 +37,8 @@
                 <a class="dropdown-item" href="controller?command=change_locale&language=en">English</a>
             </div>
         </nav>
-        <a class="btn btn-outline-success" href="controller?command=logout">Log Out</a>
+        <a class="btn btn-outline-success" href="controller?command=logout">
+            <fmt:message key="header.button.logOut" bundle="${rb}"/>
+        </a>
     </div>
 </nav>

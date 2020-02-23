@@ -34,7 +34,7 @@
                         <thead class="thead-dark">
                         <tr>
                             <th><fmt:message key="serviceOverview.tableHeader.serviceTitle" bundle="${rb}"/></th>
-                            <th><fmt:message key="serviceOverview.tableHeader.cost" bundle="${rb}"/></th>
+                            <th><fmt:message key="serviceOverview.tableHeader.cost" bundle="${rb}"/>, $</th>
                             <th><fmt:message key="serviceOverview.tableHeader.serviceDescription" bundle="${rb}"/></th>
                             <c:if test="${sessionScope.userRole != 'GUEST'}">
                                 <th><fmt:message key="serviceOverview.tableHeader.action" bundle="${rb}"/></th>

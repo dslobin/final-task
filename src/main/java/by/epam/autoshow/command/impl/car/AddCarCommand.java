@@ -35,11 +35,11 @@ public class AddCarCommand implements ActionCommand {
     private static final String PARAM_DESCRIPTION = "description";
     private static final String PARAM_IMG_URL = "imgUrl";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
+    private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String model = content.getRequestParameter(PARAM_MODEL);
         String mileage = content.getRequestParameter(PARAM_MILEAGE);
         String fuelType = content.getRequestParameter(PARAM_FUEL_TYPE);
@@ -53,6 +53,7 @@ public class AddCarCommand implements ActionCommand {
         String status = content.getRequestParameter(PARAM_STATUS);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
         String imageUrl = content.getRequestParameter(PARAM_IMG_URL);
+        String page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         try {
             Car car = new Car();
             car.setModel(model);
@@ -69,6 +70,8 @@ public class AddCarCommand implements ActionCommand {
             car.setImageUrl(imageUrl);
             CarService carService = CarServiceImpl.getInstance();
             carService.addCar(car, color);
+            content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
+                    MessageProvider.getProperty(MessageProperty.CAR_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
         } catch (ValidatorException e) {
@@ -76,7 +79,6 @@ public class AddCarCommand implements ActionCommand {
                     MessageProvider.getProperty(MessageProperty.INVALID_CAR_ADDITION_PROPERTY));
             logger.error(e);
         }
-        page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
         return page;
     }
 }

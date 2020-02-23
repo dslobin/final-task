@@ -17,6 +17,8 @@ import java.util.Optional;
  */
 
 public interface CarService {
+    List<Car> findCarsForSale() throws ServiceException;
+
     /**
      * Finds cars
      *

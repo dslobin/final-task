@@ -12,6 +12,7 @@ import by.epam.autoshow.service.impl.CarServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllCarsCommand implements ActionCommand {
@@ -23,16 +24,17 @@ public class GetAllCarsCommand implements ActionCommand {
     public String execute(SessionRequestContent content) {
         String page = null;
         try {
-            CarServiceImpl carService = CarServiceImpl.getInstance();
-            List<Car> cars = carService.findAllCars();
-            logger.debug("CAR LIST: " + cars);
-            content.setRequestAttributes(PARAM_CAR_LIST, cars);
             UserRole userRole = (UserRole) content.getSessionAttributes(ATTRIBUTE_USER_ROLE);
+            CarServiceImpl carService = CarServiceImpl.getInstance();
+            List<Car> cars = new ArrayList<>();
             if (UserRole.ADMIN.equals(userRole)) {
+                cars = carService.findAllCars();
                 page = PagePathProvider.getProperty(PagePathProperty.ADMIN_CAR_OVERVIEW_PAGE_PROPERTY);
             } else {
+                cars = carService.findCarsForSale();
                 page = PagePathProvider.getProperty(PagePathProperty.CLIENT_CAR_OVERVIEW_PAGE_PROPERTY);
             }
+            content.setRequestAttributes(PARAM_CAR_LIST, cars);
         } catch (ServiceException e) {
             logger.error(e);
         }
