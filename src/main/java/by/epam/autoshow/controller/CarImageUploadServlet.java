@@ -16,6 +16,7 @@ import by.epam.autoshow.model.Car;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
+import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
@@ -31,8 +32,7 @@ public class CarImageUploadServlet extends HttpServlet {
     private static final String PART_PARAMETER_FILENAME = "filename";
     private static final String EMPTY_STRING = "";
     private static final String PARAM_CAR_ID = "carId";
-    private static final String FILE_UPLOAD_ERROR_RESULT = "label.errorUploadResult";
-    private static final String FILE_UPLOAD_SUCCESS_RESULT = "label.successUploadResult";
+
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -41,21 +41,21 @@ public class CarImageUploadServlet extends HttpServlet {
         String carId = request.getParameter(PARAM_CAR_ID);
         try {
             String imageFileName = uploadFile(request);
-            logger.debug("FILE NAME = " + imageFileName);
             Car car = new Car();
             car.setCarId(Long.parseLong(carId));
             car.setImageUrl(imageFileName);
             CarService carService = CarServiceImpl.getInstance();
             carService.updateCarImage(car);
-            logger.debug("UPDATED CAR: " + car);
             logger.debug(imageFileName);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider.getProperty(FILE_UPLOAD_SUCCESS_RESULT));
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider
+                    .getProperty(MessageProperty.FILE_UPLOAD_SUCCESS_RESULT));
             request.getRequestDispatcher(PagePathProvider
                     .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);
         } catch (FileNotFoundException | ServiceException e) {
             logger.error(e);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider.getProperty(FILE_UPLOAD_ERROR_RESULT));
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider
+                    .getProperty(MessageProperty.FILE_UPLOAD_ERROR_RESULT));
             request.getRequestDispatcher(PagePathProvider
                     .getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);

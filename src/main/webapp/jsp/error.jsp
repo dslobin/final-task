@@ -12,24 +12,22 @@
     <link href="<c:url value="/static/css/style.css" />" rel="stylesheet"/>
 </head>
 <body>
-<div class="page-wrap d-flex flex-row align-items-center error-content-wrapper">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center">
-                <span class="display-1 d-block">
-                    <fmt:message key="errorPage.label.main" bundle="${rb}"/>
-                </span>
-                <div class="mb-4 lead">
-                    <fmt:message key="errorPage.label.header" bundle="${rb}"/>!
-                </div>
-                <div class="mb-4">${wrongAction}</div>
-                <a href="controller?command=get_home_page" class="btn btn-link">
-                    <fmt:message key="errorPage.link.home" bundle="${rb}"/>
-                </a>
+
+<section class="bg-image fullscreen">
+    <div class="overlay"></div>
+
+    <div class="container align-left text-white">
+        <h2 class="py-3 display-1 title"><fmt:message key="errorPage.label.header" bundle="${rb}"/></h2>
+        <h2 class="py-3 display-4"><fmt:message key="errorPage.label.main" bundle="${rb}"/></h2>
+        <h4 class="py-3 display-5"><c:out value="${requestScope.wrongAction}"/></h4>
+        <h4 class="py-3 display-5"><c:out value="${requestScope.forbidden}"/></h4>
+            <div class="py-4 center-align">
+                <a class="btn btn-lg back-button" href="controller?command=get_home_page">
+                    <fmt:message key="errorPage.link.home" bundle="${rb}"/></a>
             </div>
-        </div>
+        </h2>
     </div>
-</div>
+</section>
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>

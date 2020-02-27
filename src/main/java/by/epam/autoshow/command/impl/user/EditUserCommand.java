@@ -11,6 +11,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ public class EditUserCommand implements ActionCommand {
         String status = content.getRequestParameter(PARAM_USER_STATUS);
         String page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         try {
+            password = Sha256PasswordEncoder.encode(password);
             User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
             UserServiceImpl userService = UserServiceImpl.getInstance();
             userService.updateUser(user);

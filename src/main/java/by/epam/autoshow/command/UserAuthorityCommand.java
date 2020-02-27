@@ -4,36 +4,54 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum UserAuthorityCommand {
-    ADD_USER("admin"),
+    LOGIN("guest"),
+    LOGOUT("admin", "client"),
+    REGISTRATION("admin", "client", "guest"),
+    REGAIN_PASSWORD("admin", "client"),
+    CHANGE_LOCALE("admin", "client", "guest"),
+
     GET_ALL_USERS("admin"),
-    BLOCK_USER("admin"),
+    GET_ALL_CARS("admin", "client", "guest"),
+    GET_ALL_SERVICES("admin", "client", "guest"),
+    GET_ALL_ORDERS("admin"),
+    GET_ALL_CUSTOMERS("admin"),
+
+    GET_HOME_PAGE("admin", "client", "guest"),
+    GET_PROFILE_PAGE("client"),
+    GET_LOGIN_PAGE("admin", "client", "guest"),
+    GET_REGISTRATION_PAGE("admin", "client", "guest"),
+    GET_ABOUT_COMPANY_PAGE("admin", "client", "guest"),
+
+    GET_USER_ADD_PAGE("admin"),
+    GET_USER_EDIT_PAGE("admin"),
+
+    GET_SERVICE_ADD_PAGE("admin"),
+    GET_SERVICE_EDIT_PAGE("admin"),
+
+    GET_CUSTOMER_ADD_PAGE("admin"),
+    GET_CUSTOMER_EDIT_PAGE("admin"),
+
+    GET_CAR_ADD_PAGE("admin"),
+    GET_CAR_EDIT_PAGE("admin"),
+    GET_CAR_IMAGE_UPLOAD_PAGE("admin"),
+
+    GET_ORDER_ADD_PAGE("admin", "client"),
+
+    ADD_USER("admin"),
+    EDIT_USER("admin"),
 
     ADD_SERVICE("admin"),
-    GET_ALL_SERVICES("admin", "user"),
-    DELETE_SERVICE("admin"),
-
-    ADD_CAR("admin"),
-    GET_ALL_CARS("admin", "user"),
-    EDIT_CAR("admin"),
+    EDIT_SERVICE("admin"),
 
     ADD_CUSTOMER("admin"),
-    GET_ALL_CUSTOMERS("admin"),
     EDIT_CUSTOMER("admin"),
 
-    CREATE_ORDER("admin", "user"),
-    ACCEPT_ORDER("admin"),
-    REJECT_ORDER("admin"),
+    ADD_CAR("admin"),
+    EDIT_CAR("admin"),
 
-    LOG_IN("default"),
-    GET_LOGIN_PAGE("default"),
-    GET_REGISTRATION_PAGE("default"),
-    GET_ABOUT_COMPANY_PAGE("default"),
-    GET_HOME_PAGE("default"),
-    GET_PROFILE_PAGE("default"),
-    LOG_OUT("admin", "user"),
-    SIGN_UP("default"),
-    REGAIN_PASS("default"),
-    NEW_PASS("default"),
+    ACCEPT_ORDER("admin"),
+    CREATE_ORDER("admin", "client"),
+    REJECT_ORDER("admin"),
 
     DEFAULT_VALUE("");
 

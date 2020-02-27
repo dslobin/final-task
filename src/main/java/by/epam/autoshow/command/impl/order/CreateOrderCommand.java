@@ -5,6 +5,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.Order;
+import by.epam.autoshow.model.OrderStatus;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.OrderService;
@@ -24,7 +25,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 public class CreateOrderCommand implements ActionCommand {
-    private static final String ATTRIBUTE_USER_NAME = "username";
+    private static final String ATTRIBUTE_USER_LOGIN = "userLogin";
     private static final String PARAM_SERVICE_ID = "serviceId";
     private static final String PARAM_SERVICE_DATE = "serviceDate";
     private static final String PARAM_SERVICE_TIME = "serviceTime";
@@ -32,7 +33,7 @@ public class CreateOrderCommand implements ActionCommand {
 
     @Override
     public String execute(SessionRequestContent content) {
-        String username = (String) content.getSessionAttributes(ATTRIBUTE_USER_NAME);
+        String username = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         String serviceDate = content.getRequestParameter(PARAM_SERVICE_DATE);
         String serviceTime = content.getRequestParameter(PARAM_SERVICE_TIME);
@@ -43,14 +44,15 @@ public class CreateOrderCommand implements ActionCommand {
             Optional<AutoShowService> service = serviceManagement.findServiceById(Long.parseLong(serviceId));
             Optional<Customer> customer = customerService.findCustomerByLogin(username);
             Order order = new Order();
-            order.setServiceId(service.get().getServiceId());
+            order.setService(service.get());
             order.setPrice(service.get().getCost());
-            order.setCustomerId(customer.get().getCustomerId());
+            order.setCustomer(customer.get());
             LocalDate localDate = LocalDate.parse(serviceDate);
             LocalTime localTime = LocalTime.parse(serviceTime);
             LocalDateTime orderDate = LocalDateTime.of(localDate.getYear(), localDate.getMonth(),
                     localDate.getDayOfMonth(), localTime.getHour(), localTime.getMinute());
             order.setServiceTime(orderDate);
+            order.setStatus(OrderStatus.NEW);
             orderService.addOrder(order);
         } catch (ServiceException e) {
             logger.error(e);

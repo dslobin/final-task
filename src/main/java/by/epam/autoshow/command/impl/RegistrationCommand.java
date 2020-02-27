@@ -2,6 +2,16 @@ package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
+import by.epam.autoshow.model.Customer;
+import by.epam.autoshow.model.User;
+import by.epam.autoshow.service.CustomerService;
+import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.service.impl.CustomerServiceImpl;
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
+import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.PagePathProvider;
+import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,38 +23,42 @@ public class RegistrationCommand implements ActionCommand {
     private static final String PARAM_NAME = "name";
     private static final String PARAM_EMAIL = "email";
     private static final String PARAM_PHONE_NUMBER = "phoneNumber";
+    private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
-    private static final String INVALID_USERNAME_PROPERTY = "label.invalidUsername";
     private static final String ATTRIBUTE_COMPLETED_REGISTRATION = "completedRegistration";
-    private static final String SUCCESSFUL_REGISTRATION_PROPERTY = "label.successfulRegistration";
+
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
         String page = null;
-        /*String login = sessionRequestContent.getRequestParameter(PARAM_USERNAME);
-        String password = sessionRequestContent.getRequestParameter(PARAM_PASSWORD);
-        String surname = sessionRequestContent.getRequestParameter(PARAM_SURNAME);
-        String name = sessionRequestContent.getRequestParameter(PARAM_NAME);
-        String email = sessionRequestContent.getRequestParameter(PARAM_EMAIL);
-        String phoneNumber = sessionRequestContent.getRequestParameter(PARAM_PHONE_NUMBER);
-        User user = new User(login, password);
-        Customer customer = new Customer(surname, name, email, phoneNumber);
-        UserServiceImpl registrationService = new UserServiceImpl();
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
+        String surname = content.getRequestParameter(PARAM_SURNAME);
+        String name = content.getRequestParameter(PARAM_NAME);
+        String email = content.getRequestParameter(PARAM_EMAIL);
+        String phoneNumber = content.getRequestParameter(PARAM_PHONE_NUMBER);
         try {
-            boolean isCustomerRegistered = registrationService.registerCustomer(user, customer);
+            User user = new User(login, password);
+            Customer customer = new Customer(surname, name, email, phoneNumber);
+            CustomerService customerService = CustomerServiceImpl.getInstance();
+            boolean isCustomerRegistered = customerService.registerCustomer(user, customer);
             if (isCustomerRegistered) {
-                page = PagePathManager.getProperty(PagePathPropertyProvider.LOGIN_PAGE_PROPERTY);
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
-                        MessageManager.getProperty(SUCCESSFUL_REGISTRATION_PROPERTY));
+                page = PagePathProvider.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
+                content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
+                        PagePathProvider.getProperty(MessageProperty.SUCCESSFUL_REGISTRATION_PROPERTY));
             } else {
-                sessionRequestContent.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                        MessageManager.getProperty(INVALID_USERNAME_PROPERTY));
-                page = PagePathManager.getProperty(PagePathPropertyProvider.REGISTRATION_PAGE_PROPERTY);
+                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                        MessageProvider.getProperty(MessageProperty.INVALID_USERNAME_PROPERTY));
+                page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
             }
         } catch (ServiceException e) {
             logger.error(e);
-        }*/
+        } catch (ValidatorException e) {
+            content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
+                    MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_ADDITION_PROPERTY));
+            logger.error(e);
+        }
         return page;
     }
 }

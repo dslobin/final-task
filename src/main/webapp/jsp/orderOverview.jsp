@@ -26,8 +26,8 @@
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th><fmt:message key="orderOverview.tableHeader.customerId" bundle="${rb}"/></th>
-                            <th><fmt:message key="orderOverview.tableHeader.serviceId" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.customer" bundle="${rb}"/></th>
+                            <th><fmt:message key="orderOverview.tableHeader.serviceTitle" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.date" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.overallPrice" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
@@ -37,8 +37,8 @@
                         <tbody id="page">
                         <c:forEach var="order" items="${orderList}">
                             <tr class="table-row">
-                                <td><c:out value="${order.customerId}"/></td>
-                                <td><c:out value="${order.serviceId}"/></td>
+                                <td><c:out value="${order.customer.surname} ${order.customer.name}"/></td>
+                                <td><c:out value="${order.service.title}"/></td>
                                 <td><c:out value="${order.serviceTime}"/></td>
                                 <td><c:out value="${order.price}"/></td>
                                 <td><c:out value="${order.status}"/></td>

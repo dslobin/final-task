@@ -9,6 +9,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

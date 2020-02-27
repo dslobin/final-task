@@ -25,4 +25,13 @@ public final class MessageProperty {
     public static final String STATUS_ERROR_MESSAGE_PROPERTY = "label.userStatusError";
 
     public static final String WRONG_ACTION_PROPERTY = "label.wrongAction";
+    public static final String PROFILE_ERROR_PROPERTY = "messages.label.profileError";
+
+    public static final String FILE_UPLOAD_ERROR_RESULT = "label.errorUploadResult";
+    public static final String FILE_UPLOAD_SUCCESS_RESULT = "label.successUploadResult";
+
+    public static final String INVALID_USERNAME_PROPERTY = "label.invalidUsername";
+    public static final String SUCCESSFUL_REGISTRATION_PROPERTY = "label.successfulRegistration";
+
+    public static final String INVALID_USER_ROLE_PROPERTY = "label.invalidRole";
 }

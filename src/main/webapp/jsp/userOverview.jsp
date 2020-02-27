@@ -29,7 +29,6 @@
                         <thead class="thead-dark">
                         <tr>
                             <th><fmt:message key="userOverview.tableHeader.username" bundle="${rb}"/></th>
-                            <th><fmt:message key="userOverview.tableHeader.password" bundle="${rb}"/></th>
                             <th><fmt:message key="userOverview.tableHeader.role" bundle="${rb}"/></th>
                             <th><fmt:message key="orderOverview.tableHeader.status" bundle="${rb}"/></th>
                             <th><fmt:message key="userOverview.tableHeader.userAction" bundle="${rb}"/></th>
@@ -39,7 +38,6 @@
                         <c:forEach var="user" items="${userList}">
                             <tr class="table-row">
                                 <td><c:out value="${user.username}"/></td>
-                                <td><c:out value="${user.password}"/></td>
                                 <td><c:out value="${user.role}"/></td>
                                 <td><c:out value="${user.status}"/></td>
                                 <td>

@@ -17,7 +17,7 @@
 <jsp:include page="../fragments/guestHeader.jsp"/>
 
 <main class="site-content">
-    <div>
+    <div class="mb-3">
         <div class="registration-form">
             <h1 class="h3 mb-3 font-weight-normal text-center">Favorite-Motors</h1>
 

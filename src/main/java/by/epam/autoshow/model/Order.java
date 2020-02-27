@@ -6,23 +6,25 @@ import java.util.Objects;
 
 public class Order {
     private Long orderId;
-    private Long serviceId;
-    private Long customerId;
+    private AutoShowService service;
+    private Customer customer;
     private LocalDateTime serviceTime;
     private BigDecimal price;
     private OrderStatus status;
 
-    public Order(Long id, Long serviceId, Long customerId, LocalDateTime serviceTime,
-                 BigDecimal price, OrderStatus status) {
-        this.orderId = id;
-        this.serviceId = serviceId;
-        this.customerId = customerId;
+    public Order(Long orderId, AutoShowService service, Customer customer,
+                 LocalDateTime serviceTime, BigDecimal price, OrderStatus status) {
+        this.orderId = orderId;
+        this.service = service;
+        this.customer = customer;
         this.serviceTime = serviceTime;
         this.price = price;
         this.status = status;
     }
 
     public Order() {
+        service = new AutoShowService();
+        customer = new Customer();
     }
 
     public Long getOrderId() {
@@ -33,28 +35,28 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Long getServiceId() {
-        return serviceId;
+    public AutoShowService getService() {
+        return service;
     }
 
-    public void setServiceId(Long serviceId) {
-        this.serviceId = serviceId;
+    public void setService(AutoShowService service) {
+        this.service = service;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public LocalDateTime getServiceTime() {
         return serviceTime;
     }
 
-    public void setServiceTime(LocalDateTime orderDate) {
-        this.serviceTime = orderDate;
+    public void setServiceTime(LocalDateTime serviceTime) {
+        this.serviceTime = serviceTime;
     }
 
     public BigDecimal getPrice() {
@@ -82,8 +84,9 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return Objects.equals(serviceId, order.serviceId) &&
-                Objects.equals(customerId, order.customerId) &&
+        return Objects.equals(orderId, order.orderId) &&
+                Objects.equals(service, order.service) &&
+                Objects.equals(customer, order.customer) &&
                 Objects.equals(serviceTime, order.serviceTime) &&
                 Objects.equals(price, order.price) &&
                 status == order.status;
@@ -91,15 +94,15 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(serviceId, customerId, serviceTime, price, status);
+        return Objects.hash(orderId, service, customer, serviceTime, price, status);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
         sb.append("orderId=").append(orderId);
-        sb.append(", serviceId=").append(serviceId);
-        sb.append(", customerId=").append(customerId);
+        sb.append(", service=").append(service);
+        sb.append(", customer=").append(customer);
         sb.append(", serviceTime=").append(serviceTime);
         sb.append(", price=").append(price);
         sb.append(", status=").append(status);

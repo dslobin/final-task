@@ -1,5 +1,5 @@
 // set date picker restrictions
-$('body').on('focus', ".serviceDatePicker", function () {
+$('body').on('focus', ".serviceDate", function () {
     let currentDay = getDate();
     let currentMonth = getMonth();
     let currentYear = getFullYear();
@@ -12,7 +12,7 @@ $('body').on('focus', ".serviceDatePicker", function () {
 });
 
 // set time picker restrictions
-$('body').on('focus', ".serviceTimePicker", function () {
+$('body').on('focus', ".serviceTime", function () {
     $(this).timepicker({
         timeFormat: 'HH:mm:ss', // 24 hour with leading 0, minutes and seconds with leading 0
         minHour: 9,

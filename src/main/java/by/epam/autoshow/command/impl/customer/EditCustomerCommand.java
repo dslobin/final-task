@@ -13,6 +13,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +47,7 @@ public class EditCustomerCommand implements ActionCommand {
         String page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);;
         try {
             Long userId = Long.parseLong(id);
+            password = Sha256PasswordEncoder.encode(password);
             User user = new User(userId, login, password, UserRole.CLIENT, UserStatus.valueOf(status));
             Customer customer = new Customer(Long.parseLong(customerId), userId, surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();

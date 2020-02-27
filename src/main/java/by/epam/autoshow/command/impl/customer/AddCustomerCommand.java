@@ -13,6 +13,7 @@ import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -43,6 +44,7 @@ public class AddCustomerCommand implements ActionCommand {
         try {
             User user = new User();
             user.setUsername(login);
+            password = Sha256PasswordEncoder.encode(password);
             user.setPassword(password);
             user.setRole(UserRole.CLIENT);
             user.setStatus(UserStatus.valueOf(status));

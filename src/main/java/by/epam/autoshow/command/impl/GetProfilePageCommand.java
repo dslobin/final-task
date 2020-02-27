@@ -9,6 +9,7 @@ import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
+import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
@@ -24,13 +25,12 @@ public class GetProfilePageCommand implements ActionCommand {
     private static final String ATTRIBUTE_CUSTOMER = "customer";
     private static final String ATTRIBUTE_ORDERS = "customerOrders";
     private static final String ATTRIBUTE_ERROR = "error";
-    private static final String ERROR_PROPERTY = "messages.label.profileError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String login = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
+        String page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             OrderService orderService = OrderServiceImpl.getInstance();
@@ -42,12 +42,12 @@ public class GetProfilePageCommand implements ActionCommand {
                 content.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
                 content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {
-                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageProvider.getProperty(ERROR_PROPERTY));
+                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageProvider
+                        .getProperty(MessageProperty.PROFILE_ERROR_PROPERTY));
             }
         } catch (ServiceException e) {
             logger.error(e);
         }
-        page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         return page;
     }
 }

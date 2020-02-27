@@ -3,6 +3,8 @@ package by.epam.autoshow.dao.impl;
 import by.epam.autoshow.dao.DaoException;
 import by.epam.autoshow.dao.OrderDao;
 import by.epam.autoshow.dao.SqlColumnName;
+import by.epam.autoshow.model.AutoShowService;
+import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.Order;
 import by.epam.autoshow.model.OrderStatus;
 
@@ -26,13 +28,27 @@ public class OrderDaoImpl implements OrderDao {
             "UPDATE orders SET status = ? WHERE order_id = ?";
 
     private static final String FIND_ALL =
-            "SELECT order_id, service_id, customer_id, date, time, price, status FROM orders";
+            "SELECT orders.order_id, orders.date, orders.time, orders.price, orders.status," +
+                    " customers.customer_id, customers.user_id, customers.surname, customers.name, customers.email, customers.phone_number," +
+                    " services.service_id, services.title, services.cost, services.description FROM orders" +
+                    " JOIN customers ON orders.customer_id = customers.customer_id" +
+                    " JOIN services ON orders.service_id = services.service_id";
 
     private static final String FIND_BY_ID =
-            "SELECT order_id, service_id, customer_id, date, time, price, status FROM orders WHERE order_id = ?";
+            "SELECT orders.order_id, orders.date, orders.time, orders.price, orders.status," +
+                    " customers.customer_id, customers.user_id, customers.surname, customers.name, customers.email, customers.phone_number," +
+                    " services.service_id, services.title, services.cost, services.description FROM orders" +
+                    " JOIN customers ON orders.customer_id = customers.customer_id" +
+                    " JOIN services ON orders.service_id = services.service_id" +
+                    " WHERE order_id = ?";
 
     private static final String FIND_CUSTOMER_ORDERS =
-            "SELECT order_id, service_id, date, time, price, status FROM orders WHERE customer_id = ?";
+            "SELECT orders.order_id, orders.date, orders.time, orders.price, orders.status," +
+                    " customers.customer_id, customers.user_id, customers.surname, customers.name, customers.email, customers.phone_number," +
+                    " services.service_id, services.title, services.cost, services.description FROM orders" +
+                    " JOIN customers ON orders.customer_id = customers.customer_id" +
+                    " JOIN services ON orders.service_id = services.service_id" +
+                    " WHERE orders.customer_id = ?";
 
     public OrderDaoImpl(Connection connection) {
         this.connection = connection;
@@ -49,15 +65,6 @@ public class OrderDaoImpl implements OrderDao {
         return true;
     }
 
-    private void editOrderTableRow(Order order, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setLong(1, order.getCustomerId());
-        preparedStatement.setLong(2, order.getServiceId());
-        preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
-        preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
-        preparedStatement.setBigDecimal(5, order.getPrice());
-        preparedStatement.setString(6, order.getStatus().name());
-    }
-
     @Override
     public Optional<Order> findById(long id) throws DaoException {
         Order order = new Order();
@@ -65,13 +72,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
-                    order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
-                    order.setServiceId(resultSet.getLong(SqlColumnName.SERVICE_ID));
-                    order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
-                            .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
-                    order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
-                    order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
+                    createOrderFromResultSet(order, resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -87,15 +88,8 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(1, customerId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    Order order = new Order(
-                            resultSet.getLong(SqlColumnName.ORDER_ID),
-                            resultSet.getLong(SqlColumnName.CUSTOMER_ID),
-                            resultSet.getLong(SqlColumnName.SERVICE_ID),
-                            resultSet.getDate(SqlColumnName.DATE).toLocalDate()
-                                    .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()),
-                            resultSet.getBigDecimal(SqlColumnName.PRICE),
-                            OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS))
-                    );
+                    Order order = new Order();
+                    createOrderFromResultSet(order, resultSet);
                     orders.add(order);
                 }
             }
@@ -135,20 +129,46 @@ public class OrderDaoImpl implements OrderDao {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
             while (resultSet.next()) {
-                Order order = new Order(
-                        resultSet.getLong(SqlColumnName.ORDER_ID),
-                        resultSet.getLong(SqlColumnName.CUSTOMER_ID),
-                        resultSet.getLong(SqlColumnName.SERVICE_ID),
-                        resultSet.getDate(SqlColumnName.DATE).toLocalDate()
-                                .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()),
-                        resultSet.getBigDecimal(SqlColumnName.PRICE),
-                        OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS))
-                );
+                Order order = new Order();
+                createOrderFromResultSet(order, resultSet);
                 orderList.add(order);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
         return orderList;
+    }
+
+    private void createOrderFromResultSet(Order order, ResultSet resultSet) throws SQLException {
+        order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
+        order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
+                .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
+        order.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
+        order.setStatus(OrderStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
+        Customer customer = new Customer(
+                resultSet.getLong(SqlColumnName.CUSTOMER_ID),
+                resultSet.getLong(SqlColumnName.USER_ID),
+                resultSet.getString(SqlColumnName.SURNAME),
+                resultSet.getString(SqlColumnName.NAME),
+                resultSet.getString(SqlColumnName.EMAIL),
+                resultSet.getString(SqlColumnName.PHONE_NUMBER)
+        );
+        order.setCustomer(customer);
+        AutoShowService autoShowService = new AutoShowService(
+                resultSet.getLong(SqlColumnName.SERVICE_ID),
+                resultSet.getString(SqlColumnName.TITLE),
+                resultSet.getBigDecimal(SqlColumnName.COST),
+                resultSet.getString(SqlColumnName.DESCRIPTION)
+        );
+        order.setService(autoShowService);
+    }
+
+    private void editOrderTableRow(Order order, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setLong(1, order.getCustomer().getCustomerId());
+        preparedStatement.setLong(2, order.getService().getServiceId());
+        preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
+        preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
+        preparedStatement.setBigDecimal(5, order.getPrice());
+        preparedStatement.setString(6, order.getStatus().name());
     }
 }

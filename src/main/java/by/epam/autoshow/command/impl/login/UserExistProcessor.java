@@ -6,6 +6,7 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
 import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 
 import java.util.Optional;
 
@@ -22,7 +23,8 @@ public class UserExistProcessor extends AuthenticationProcessor {
 
     @Override
     public boolean check(User user) throws ServiceException {
-        Optional<User> authorizeUser = userService.authorizeUser(user.getUsername(), user.getPassword());
+        String password = Sha256PasswordEncoder.encode(user.getPassword());
+        Optional<User> authorizeUser = userService.authorizeUser(user.getUsername(), password);
         if (authorizeUser.isEmpty()) {
             content.setRequestAttributes(ATTRIBUTE_INCORRECT_LOGIN_PASSWORD,
                     MessageProvider.getProperty(MessageProperty.LOGIN_ERROR_MESSAGE_PROPERTY));

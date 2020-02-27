@@ -9,7 +9,8 @@
 <head>
     <title>Favorite Motors</title>
     <link href="<c:url value="/static/css/bootstrap.min.css" />" rel="stylesheet"/>
-    <link href="<c:url value="/static/css/style.css" />" rel="stylesheet"/>
+    <link href="<c:url value='/static/fontawesome-free/css/all.min.css' />" rel="stylesheet" type="text/css"/>
+    <link href="<c:url value="/static/css/home-page.css" />" rel="stylesheet"/>
 </head>
 <body>
 
@@ -27,69 +28,89 @@
     </c:otherwise>
 </c:choose>
 
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light header">
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <h1 class="display-4 font-weight-normal">Favorite Motors</h1>
-        <p class="lead font-weight-normal"><fmt:message key="home.text.autoShowInfo" bundle="${rb}"/></p>
-    </div>
-</div>
-
-<!-- START THE FEATURE -->
-
-<div class="p-3">
-    <hr class="feature-divider">
-
-    <div class="row feature">
-        <div class="col-md-7">
-            <h2 class="feature-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span>
-            </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-                semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-                commodo.</p>
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1>Favourite Motors</h1>
+            </div>
         </div>
-        <div class="col-md-5">
-            <img class="feature-image img-fluid mx-auto"
-                 src="${pageContext.request.contextPath}/static/img/news.jpg"
-                 alt="Generic placeholder image">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h3 class="mb-5"><fmt:message key="home.text.autoShowInfo" bundle="${rb}"/></h3>
+            </div>
         </div>
     </div>
+</header>
 
-    <hr class="feature-divider">
-
-    <div class="row feature">
-        <div class="col-md-7 order-md-2">
-            <h2 class="feature-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-                semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-                commodo.</p>
-        </div>
-        <div class="col-md-5 order-md-1">
-            <img class="feature-image img-fluid mx-auto"
-                 src="${pageContext.request.contextPath}/static/img/news.jpg"
-                 alt="Generic placeholder image">
+<section class="features-icons bg-light text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="fas fa-car m-auto text-primary"></i>
+                    </div>
+                    <h3>Автомобили</h3>
+                    <p class="lead mb-0">Нам нечего скрывать. Только проверенные автомобили с диагностической картой и
+                        юридической гарантией.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="fas fa-wrench m-auto text-primary"></i>
+                    </div>
+                    <h3>Сервис</h3>
+                    <p class="lead mb-0">В автосалоне Favorite Motors все работы выполняются квалифицированными
+                        мастерами с использованием современного оборудования.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="fas fa-credit-card m-auto text-primary"></i>
+                    </div>
+                    <h3>Кредит</h3>
+                    <p class="lead mb-0">Любой из наших автомобилей Вы можете купить в кредит, оформляем кредиты 7 дней
+                        в неделю от 14.5 % годовых.</p>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <hr class="feature-divider">
-
-    <div class="row feature">
-        <div class="col-md-7">
-            <h2 class="feature-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-                semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-                commodo.</p>
-        </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-fluid mx-auto"
-                 src="${pageContext.request.contextPath}/static/img/news.jpg"
-                 alt="Generic placeholder image">
+<section class="testimonials text-center bg-light">
+    <div class="container">
+        <h2 class="mb-5">What people are saying...</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
+                    <h5>Margaret E.</h5>
+                    <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
+                    <h5>Fred S.</h5>
+                    <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super
+                        nice landing pages."</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
+                    <h5>Sarah W.</h5>
+                    <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to
+                        us!"</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <hr class="feature-divider">
-</div>
-
-<!-- /END THE FEATURE -->
+</section>
 
 <jsp:include page="../fragments/footer.jsp"/>
 
