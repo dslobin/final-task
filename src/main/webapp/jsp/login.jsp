@@ -3,11 +3,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <fmt:setLocale value="${sessionScope.language}"/>
-<fmt:setBundle basename="properties.pageContent"/>
+<fmt:setBundle basename="properties.pageContent" var="rb"/>
 
 <html lang="${sessionScope.language}">
 <head>
-    <title><fmt:message key="login.head.title"/></title>
+    <title><fmt:message key="login.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
     <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
@@ -29,7 +29,7 @@
 </c:choose>
 
 <main class="site-content">
-    <div class="success-content-wrapper align-items-center">
+    <div class="success-content-wrapper justify-content-center">
         <p class="text-success">${requestScope.completedRegistration}</p>
     </div>
 
@@ -40,25 +40,25 @@
             <input type="hidden" name="command" value="login"/>
             <!-- /hidden input -->
 
-            <h1 class="h3 mb-3 font-weight-normal text-center"><fmt:message key="login.text.header"/></h1>
+            <h1 class="h3 mb-3 font-weight-normal text-center"><fmt:message key="login.text.header" bundle="${rb}"/></h1>
 
             <div class="form-group">
-                <label for="username"><fmt:message key="login.label.username"/>: </label>
+                <label for="username"><fmt:message key="login.label.username" bundle="${rb}"/>: </label>
                 <input type="text" id="username" name="username" maxlength="30"
                        class="form-control" required autofocus>
             </div>
 
             <div class="form-group">
-                <label for="password"><fmt:message key="login.label.password"/>: </label>
+                <label for="password"><fmt:message key="login.label.password" bundle="${rb}"/>: </label>
                 <input type="password" id="password" name="password"
                        minlength="6" maxlength="30" class="form-control" required>
             </div>
 
             <div>
                 <p class="text-center text-muted small">
-                    <fmt:message key="login.text.accountAvailability"/>
+                    <fmt:message key="login.text.accountAvailability" bundle="${rb}"/>
                     <a href="controller?command=get_registration_page">
-                        <fmt:message key="login.link.registration"/>
+                        <fmt:message key="login.link.registration" bundle="${rb}"/>
                     </a>
                 </p>
             </div>
@@ -80,7 +80,7 @@
             </div>
 
             <button class="btn btn-lg btn-success btn-block" type="submit">
-                <fmt:message key="login.button.submit"/>
+                <fmt:message key="login.button.submit" bundle="${rb}"/>
             </button>
         </form>
     </div>

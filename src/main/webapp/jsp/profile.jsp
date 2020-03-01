@@ -103,7 +103,7 @@
                             </c:when>
 
                             <c:otherwise>
-                                <h2><fmt:message key="profile.label.emptyHistory" bundle="${rb}"/></h2>
+                                <h2><fmt:message key="profile.label.emptyHistory" bundle="${rb}"/>.</h2>
                             </c:otherwise>
                         </c:choose>
                     </div>

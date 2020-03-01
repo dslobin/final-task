@@ -57,5 +57,11 @@ public interface CarDao {
      */
     List<Car> findAll() throws DaoException;
 
+    /**
+     * Find car objects with {@code SaleStatus.IN_STOCK} in data storage.
+     *
+     * @return list of objects
+     * @throws DaoException if a data store access error occurs
+     */
     List<Car> findCarsForSale() throws DaoException;
 }

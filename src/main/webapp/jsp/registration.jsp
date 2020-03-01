@@ -68,7 +68,8 @@
                 </div>
 
                 <div class="text-danger">
-                    <p>${existingLogin}</p>
+                    <p>${requestScope.existingLogin}</p>
+                    <p>${requestScope.invalidCustomer}</p>
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">

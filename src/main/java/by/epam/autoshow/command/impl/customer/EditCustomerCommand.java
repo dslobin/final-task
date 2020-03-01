@@ -13,7 +13,6 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
-import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +30,7 @@ public class EditCustomerCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -47,7 +47,6 @@ public class EditCustomerCommand implements ActionCommand {
         String page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);;
         try {
             Long userId = Long.parseLong(id);
-            password = Sha256PasswordEncoder.encode(password);
             User user = new User(userId, login, password, UserRole.CLIENT, UserStatus.valueOf(status));
             Customer customer = new Customer(Long.parseLong(customerId), userId, surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
@@ -56,6 +55,9 @@ public class EditCustomerCommand implements ActionCommand {
                     MessageProvider.getProperty(MessageProperty.CUSTOMER_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_UPDATE_PROPERTY));

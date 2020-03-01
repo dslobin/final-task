@@ -41,15 +41,6 @@ public interface AutoShowServiceDao {
     AutoShowService update(AutoShowService autoShowService) throws DaoException;
 
     /**
-     * Delete the object from data storage.
-     *
-     * @param autoShowService object to delete
-     * @return {@code true} if object has been deleted from the data storage
-     * @throws DaoException if a data store access error occurs
-     */
-    boolean delete(AutoShowService autoShowService) throws DaoException;
-
-    /**
      * Find entity objects in data storage.
      *
      * @return list of objects

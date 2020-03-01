@@ -10,7 +10,7 @@ public class CustomerDataValidator implements AbstractValidator<Customer> {
     private static final int MIN_NAME_LENGTH = 2;
     private static final int MAX_NAME_LENGTH = 30;
     private static final Pattern EMAIL_PATTERN = Pattern
-            .compile("^([\\p{L}-\\.]+){1,64}@([\\p{L}&&[^_]]+){2,255}.[a-z]{2,}$");
+            .compile("^([\\p{L}\\w-\\.]+){1,64}@([\\p{L}&&[^_]]+){2,255}.[a-z]{2,}$");
     private static final int MAX_EMAIL_LENGTH = 120;
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern
             .compile("^(((8[\\- ]?)(\\(?\\d{3}\\)?[\\- ]?))|(\\+375[\\-]?)(\\(?\\d{2}\\)?[\\- ]?))?" +

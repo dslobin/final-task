@@ -6,6 +6,8 @@ import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 
 public class GetAllCustomersCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_MAP = "customerMap";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -24,11 +27,13 @@ public class GetAllCustomersCommand implements ActionCommand {
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             Map<String, Customer> customers = customerService.findCustomerUserNames();
-            logger.debug("CUSTOMER MAP: " + customers);
             content.setRequestAttributes(PARAM_CUSTOMER_MAP, customers);
             page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         }
         return page;
     }

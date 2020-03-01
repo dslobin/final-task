@@ -5,6 +5,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserStatus;
 import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.service.UserService;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
@@ -25,9 +26,8 @@ public class GetUserEditPageCommand implements ActionCommand {
         String page = null;
         String userId = content.getRequestParameter(PARAM_USER_ID);
         try {
-            UserServiceImpl userService = UserServiceImpl.getInstance();
+            UserService userService = UserServiceImpl.getInstance();
             Optional<User> user = userService.findUserById(Long.parseLong(userId));
-            logger.debug("User: " + user);
             content.setRequestAttributes(PARAM_USER, user.get());
             content.setRequestAttributes(ATTRIBUTE_USER_STATUS_VALUES, UserStatus.values());
         } catch (ServiceException e) {

@@ -24,6 +24,9 @@ public class OrderDaoImpl implements OrderDao {
             "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, time = ?, price = ?, status = ?" +
                     " WHERE order_id = ?";
 
+    private static final String DELETE =
+            "DELETE FROM orders WHERE order_id = ?";
+
     private static final String UPDATE_ORDER_STATUS =
             "UPDATE orders SET status = ? WHERE order_id = ?";
 
@@ -60,7 +63,18 @@ public class OrderDaoImpl implements OrderDao {
             editOrderTableRow(order, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding order", e);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean delete(Order order) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
+            preparedStatement.setLong(1, order.getOrderId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Error deleting order", e);
         }
         return true;
     }
@@ -76,7 +90,7 @@ public class OrderDaoImpl implements OrderDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding order by id", e);
         }
         return Optional.of(order);
     }
@@ -94,7 +108,7 @@ public class OrderDaoImpl implements OrderDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding order by customer id", e);
         }
         return orders;
     }
@@ -106,7 +120,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(7, order.getOrderId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating order", e);
         }
         return order;
     }
@@ -118,7 +132,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(2, order.getOrderId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating order status", e);
         }
         return true;
     }
@@ -134,7 +148,7 @@ public class OrderDaoImpl implements OrderDao {
                 orderList.add(order);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding orders", e);
         }
         return orderList;
     }

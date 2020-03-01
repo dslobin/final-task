@@ -33,16 +33,18 @@ public class ColorDaoImpl implements ColorDao {
         this.connection = connection;
     }
 
+    @Override
     public void updateCarColor(long carId, long colorId) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CAR_COLOR)) {
             preparedStatement.setLong(1, colorId);
             preparedStatement.setLong(2, carId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating car color", e);
         }
     }
 
+    @Override
     public void insertCarColor(long carId, long colorId) throws DaoException {
         PreparedStatement preparedStatement = null;
         try {
@@ -51,7 +53,7 @@ public class ColorDaoImpl implements ColorDao {
             preparedStatement.setLong(2, carId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding car color", e);
         }
     }
 
@@ -67,11 +69,12 @@ public class ColorDaoImpl implements ColorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding car color by id", e);
         }
         return Optional.of(color);
     }
 
+    @Override
     public Optional<Color> findByCode(String code) throws DaoException {
         Color color = new Color();
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_COLOR_BY_CODE)) {
@@ -83,7 +86,7 @@ public class ColorDaoImpl implements ColorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding car color by code", e);
         }
         return Optional.of(color);
     }
@@ -100,7 +103,7 @@ public class ColorDaoImpl implements ColorDao {
                 colorList.add(color);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding car colors", e);
         }
         return colorList;
     }

@@ -183,7 +183,7 @@
                 <label for="carDescription"><fmt:message key="editCar.label.additionalInformation"
                                                          bundle="${rb}"/>:</label>
                 <textarea class="form-control" id="carDescription" name="carDescription" cols="40" rows="3"
-                          minlength="0" maxlength="4096" required><c:out value="${car.description}"/></textarea>
+                          minlength="0" maxlength="4096"><c:out value="${car.description}"/></textarea>
             </div>
 
             <div class="text-danger">

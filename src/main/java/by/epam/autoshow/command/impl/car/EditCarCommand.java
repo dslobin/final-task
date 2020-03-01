@@ -36,6 +36,7 @@ public class EditCarCommand implements ActionCommand {
     private static final String PARAM_DESCRIPTION = "carDescription";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
     private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -73,6 +74,9 @@ public class EditCarCommand implements ActionCommand {
             content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
                     MessageProvider.getProperty(MessageProperty.CAR_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
             logger.error(e);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,

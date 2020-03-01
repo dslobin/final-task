@@ -21,6 +21,7 @@
         <h2 class="py-3 display-4"><fmt:message key="errorPage.label.main" bundle="${rb}"/></h2>
         <h4 class="py-3 display-5"><c:out value="${requestScope.wrongAction}"/></h4>
         <h4 class="py-3 display-5"><c:out value="${requestScope.forbidden}"/></h4>
+        <h4 class="py-3 display-5"><c:out value="${requestScope.serverError}"/></h4>
             <div class="py-4 center-align">
                 <a class="btn btn-lg back-button" href="controller?command=get_home_page">
                     <fmt:message key="errorPage.link.home" bundle="${rb}"/></a>

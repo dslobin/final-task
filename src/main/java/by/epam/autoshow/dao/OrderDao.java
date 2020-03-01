@@ -15,13 +15,23 @@ import java.util.Optional;
 
 public interface OrderDao {
     /**
-     * Save the entity object.
+     * Save the order object.
      *
      * @param order object to save
      * @return {@code true} if object has been added to the data storage
      * @throws DaoException if a data store access error occurs
      */
     boolean insert(Order order) throws DaoException;
+
+
+    /**
+     * Delete the order object.
+     *
+     * @param order object to delete
+     * @return {@code true} if object has been deleted from the data storage
+     * @throws DaoException if a data store access error occurs
+     */
+    boolean delete(Order order) throws DaoException;
 
     /**
      * Find the object by id.

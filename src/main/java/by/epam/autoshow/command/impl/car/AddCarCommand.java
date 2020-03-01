@@ -32,10 +32,11 @@ public class AddCarCommand implements ActionCommand {
     private static final String PARAM_ISSUE_YEAR = "issueYear";
     private static final String PARAM_PRICE = "price";
     private static final String PARAM_STATUS = "saleStatus";
-    private static final String PARAM_DESCRIPTION = "description";
+    private static final String PARAM_DESCRIPTION = "carDescription";
     private static final String PARAM_IMG_URL = "imgUrl";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
     private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -74,6 +75,9 @@ public class AddCarCommand implements ActionCommand {
                     MessageProvider.getProperty(MessageProperty.CAR_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
                     MessageProvider.getProperty(MessageProperty.INVALID_CAR_ADDITION_PROPERTY));

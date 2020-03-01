@@ -2,7 +2,7 @@
 <nav aria-label=...>
     <ul class=pagination>
         <li class="page-item" id="previous-page">
-            <a class="page-link" href="javascript:void(0)" aria-label=Previous>
+            <a class="page-link" href="" aria-label=Previous>
                 <span aria-hidden=true>&laquo;</span>
             </a>
         </li>

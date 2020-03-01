@@ -23,7 +23,7 @@ class MySQLDbInitializeManager {
     private MySQLDbInitializeManager() {
     }
 
-    public static MysqlDataSource createMySQLDataSourceFactory() throws IllegalStateException {
+    static MysqlDataSource createMySQLDataSourceFactory() throws IllegalStateException {
         Properties properties = new Properties();
         MysqlDataSource dataSource = null;
         try {

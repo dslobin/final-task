@@ -17,6 +17,12 @@ import java.util.Optional;
  */
 
 public interface CarService {
+    /**
+     * Finds cars with {@code SaleStatus.IN_STOCK}
+     *
+     * @return car list
+     * @throws ServiceException if dao manager errors occurs
+     */
     List<Car> findCarsForSale() throws ServiceException;
 
     /**
@@ -39,8 +45,7 @@ public interface CarService {
     boolean updateCarImage(Car car) throws ServiceException;
 
     /**
-     *
-     * @param car data
+     * @param car       data
      * @param colorCode car color
      * @return {@code true} if car was added successfully
      * @throws ServiceException if dao manager errors occurs
@@ -48,8 +53,7 @@ public interface CarService {
     boolean addCar(Car car, String colorCode) throws ServiceException, ValidatorException;
 
     /**
-     *
-     * @param car data
+     * @param car   data
      * @param color car color
      * @return {@code true} if car was updated successfully
      * @throws ServiceException if dao manager errors occurs

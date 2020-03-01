@@ -15,6 +15,26 @@ import java.util.Optional;
 public interface ColorDao {
 
     /**
+     * Update the car color.
+     *
+     * @param carId   car unique identifier
+     * @param colorId color unique identifier
+     * @return inserted row id
+     * @throws DaoException if a data store access error occurs
+     */
+    void updateCarColor(long carId, long colorId) throws DaoException;
+
+    /**
+     * Save the car color.
+     *
+     * @param carId   car unique identifier
+     * @param colorId color unique identifier
+     * @return inserted row id
+     * @throws DaoException if a data store access error occurs
+     */
+    void insertCarColor(long carId, long colorId) throws DaoException;
+
+    /**
      * Find the object by id.
      *
      * @param id entity unique identifier

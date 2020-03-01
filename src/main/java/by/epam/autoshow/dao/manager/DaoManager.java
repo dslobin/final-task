@@ -28,13 +28,16 @@ abstract class DaoManager {
      * Gets a connection from connection pool
      *
      * @return connection
-     * @throws ManagerException if data storage access errors occurs
+     * @throws ManagerException if database access errors occurs
      */
     public Connection getConnection() throws ManagerException {
         return connectionPool.getConnection();
     }
 
     /**
+     * Gets a connection from connection pool, turns off auto commit mode {@code setAutoCommit(false)}
+     * for transaction processing
+     *
      * @return connection with disabled auto commit mode
      * @throws SQLException if database access errors occurs
      */
@@ -45,10 +48,10 @@ abstract class DaoManager {
     }
 
     /**
-     * Close the connection, if autocommit mode disabled, set autoСommit(true)
+     * Close the connection, if autocommit mode disabled, turns it on {@code setAutoCommit(true)}
      *
      * @param connection to be closed
-     * @throws ManagerException id data base errors occurs
+     * @throws ManagerException id database errors occurs
      */
     public void close(Connection connection) throws ManagerException {
         try {

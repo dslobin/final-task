@@ -34,4 +34,6 @@ public final class MessageProperty {
     public static final String SUCCESSFUL_REGISTRATION_PROPERTY = "label.successfulRegistration";
 
     public static final String INVALID_USER_ROLE_PROPERTY = "label.invalidRole";
+
+    public static final String SERVER_ERROR_PROPERTY = "label.serverError";
 }

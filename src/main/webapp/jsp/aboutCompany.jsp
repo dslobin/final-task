@@ -36,11 +36,10 @@
         </div>
     </div>
 
-    <div class="container mt-5">
-        <h4><fmt:message key="aboutCompany.text.phoneNumber" bundle="${rb}"/></h4>
+    <div class="container mt-3">
         <div class="row">
             <div class="col-4">
-                <strong><fmt:message key="aboutCompany.text.salesDepartment" bundle="${rb}"/>:</strong>
+                <h4><fmt:message key="aboutCompany.text.salesDepartment" bundle="${rb}"/>:</h4>
                 <p><a href="#">+375 29 <strong>111-11-11</strong></a> Velcom</p>
                 <p><a href="#">+375 33 <strong>222-22-22</strong></a> MTC</p>
                 <p><a href="#">+375 17 <strong>333-33-33</strong></a>
@@ -49,17 +48,21 @@
             </div>
 
             <div class="col-4">
-                <strong><fmt:message key="aboutCompany.text.commission" bundle="${rb}"/>:</strong>
+                <h4><fmt:message key="aboutCompany.text.commission" bundle="${rb}"/>:</h4>
                 <p><a href="#">+375 29 <strong>1234-567</strong></a> Velcom</p>
                 <p><a href="#">+375 33 <strong>7654-321</strong></a> MTC</p>
+                <p><a href="#">+375 17 <strong>123-33-44</strong></a>
             </div>
 
             <div class="col-4">
-                <strong><fmt:message key="aboutCompany.text.exchange" bundle="${rb}"/>:</strong>
+                <h4><fmt:message key="aboutCompany.text.exchange" bundle="${rb}"/>:</h4>
                 <p><a href="#">+375 29 <strong>456-78-90</strong></a> Velcom</p>
                 <p><a href="#">+375 33 <strong>111-22-33</strong></a> MTC</p>
+                <p><a href="#">+375 17 <strong>678-33-99</strong></a>
             </div>
         </div>
+
+        <hr class="mb-4">
 
         <div class="row">
             <div class="col-4">
@@ -67,6 +70,8 @@
                 <p>info@favourite-motors.by</p>
             </div>
         </div>
+
+        <hr class="mb-4">
 
         <div class="row">
             <div class="col-4">
@@ -88,6 +93,7 @@
 <jsp:include page="../fragments/footer.jsp"/>
 
 <%-- scripts --%>
+<script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
 <%-- /scripts --%>
 </body>

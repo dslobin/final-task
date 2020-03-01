@@ -46,6 +46,19 @@ public class OrderManager extends DaoManager {
         return true;
     }
 
+    public boolean deleteOrder(Order order) throws ManagerException {
+        Connection connection = getConnection();
+        try {
+            OrderDaoImpl orderDao = new OrderDaoImpl(connection);
+            orderDao.delete(order);
+        } catch (DaoException e) {
+            throw new ManagerException(e);
+        } finally {
+            close(connection);
+        }
+        return true;
+    }
+
     public List<Order> findOrderList() throws ManagerException {
         Connection connection = getConnection();
         List<Order> orderList = new ArrayList<>();

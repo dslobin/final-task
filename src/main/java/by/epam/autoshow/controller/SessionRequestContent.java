@@ -57,7 +57,7 @@ public class SessionRequestContent {
         if (parameters == null) {
             return null;
         }
-        logger.debug("GET REQUEST PARAMETER: " + Arrays.toString(parameters));
+        //logger.debug("GET REQUEST PARAMETER: " + Arrays.toString(parameters));
         return parameters[FIRST_ARRAY_ELEMENT_INDEX];
     }
 

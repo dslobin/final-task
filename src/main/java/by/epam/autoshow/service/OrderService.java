@@ -23,6 +23,8 @@ public interface OrderService {
      */
     boolean addOrder(Order order) throws ServiceException;
 
+    boolean deleteOrder(Order order) throws ServiceException;
+
     /**
      * Finds orders
      *

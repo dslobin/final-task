@@ -45,6 +45,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public boolean deleteOrder(Order order) throws ServiceException {
+        try {
+            orderManager.deleteOrder(order);
+        } catch (ManagerException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    @Override
     public List<Order> findAllOrders() throws ServiceException {
         List<Order> orders = new ArrayList<>();
         try {

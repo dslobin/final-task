@@ -23,9 +23,11 @@ public class CurrentPageFilter implements Filter {
     private static final String CURRENT_PAGE_ATTRIBUTE = "currentPage";
     private static final Logger logger = LogManager.getLogger();
 
-    public void destroy() {
+    @Override
+    public void init(FilterConfig config) throws ServletException {
     }
 
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
@@ -36,6 +38,10 @@ public class CurrentPageFilter implements Filter {
         chain.doFilter(req, resp);
     }
 
+    @Override
+    public void destroy() {
+    }
+
     private String substringPathWithRegex(String url) {
         Pattern pattern = Pattern.compile(PATH_REGEX);
         String path = null;
@@ -44,13 +50,9 @@ public class CurrentPageFilter implements Filter {
             if (matcher.find()) {
                 path = matcher.group(0);
             } else {
-                path = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                path = PagePathProvider.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
             }
         }
         return path;
-    }
-
-    public void init(FilterConfig config) throws ServletException {
-
     }
 }

@@ -9,29 +9,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Locale;
 
 @WebFilter(filterName = "SessionLocaleFilter", urlPatterns = {"/*"})
 public class SessionLocaleFilter implements Filter {
     private static final String PARAM_SESSION_LOCALE = "sessionLocale";
     private static final String ATTRIBUTE_LANGUAGE = "language";
+    private static final String LOCALE_REGEX = "_";
     private static final Logger logger = LogManager.getLogger();
 
+    @Override
     public void init(FilterConfig arg) throws ServletException {
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        if (httpServletRequest.getParameter(PARAM_SESSION_LOCALE) != null) {
-            HttpSession httpSession = httpServletRequest.getSession();
-            String language = httpServletRequest.getParameter(PARAM_SESSION_LOCALE);
-            httpSession.setAttribute(ATTRIBUTE_LANGUAGE, language);
+        HttpServletRequest request = (HttpServletRequest) req;
+        if (request.getParameter(PARAM_SESSION_LOCALE) != null) {
+            HttpSession session = request.getSession();
+            String language = request.getParameter(PARAM_SESSION_LOCALE);
+            session.setAttribute(ATTRIBUTE_LANGUAGE, language);
+            changeLocale(language);
         }
-        String lang = (String) httpServletRequest.getSession().getAttribute(ATTRIBUTE_LANGUAGE);
-        logger.debug("Language: " + lang);
-        chain.doFilter(request, response);
+        chain.doFilter(req, resp);
     }
 
+    private void changeLocale(String locale) {
+        String[] localeData = locale.split(LOCALE_REGEX);
+        Locale.setDefault(new Locale(localeData[0], localeData[1]));
+    }
+
+    @Override
     public void destroy() {
     }
 }

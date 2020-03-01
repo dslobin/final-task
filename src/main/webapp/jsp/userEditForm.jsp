@@ -52,7 +52,7 @@
                     <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
                     <select id="userStatus" name="userStatus" class="form-control">
                         <c:if test="${user == null}">
-                            <c:forEach items="${userStatusArray}" var="status">
+                            <c:forEach items="${pageScope.userStatusArray}" var="status">
                                 <option>${status}</option>
                             </c:forEach>
                         </c:if>

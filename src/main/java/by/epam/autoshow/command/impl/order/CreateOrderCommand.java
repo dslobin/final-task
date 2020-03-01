@@ -13,6 +13,8 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 
@@ -29,6 +31,7 @@ public class CreateOrderCommand implements ActionCommand {
     private static final String PARAM_SERVICE_ID = "serviceId";
     private static final String PARAM_SERVICE_DATE = "serviceDate";
     private static final String PARAM_SERVICE_TIME = "serviceTime";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -37,6 +40,7 @@ public class CreateOrderCommand implements ActionCommand {
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         String serviceDate = content.getRequestParameter(PARAM_SERVICE_DATE);
         String serviceTime = content.getRequestParameter(PARAM_SERVICE_TIME);
+        String page = null;
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
@@ -54,10 +58,13 @@ public class CreateOrderCommand implements ActionCommand {
             order.setServiceTime(orderDate);
             order.setStatus(OrderStatus.NEW);
             orderService.addOrder(order);
+            page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         }
-        String page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
         return page;
     }
 }

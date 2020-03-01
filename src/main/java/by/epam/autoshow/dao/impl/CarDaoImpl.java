@@ -60,24 +60,20 @@ public class CarDaoImpl implements CarDao {
     @Override
     public long insert(Car car) throws DaoException {
         long carId = -1;
-        try (PreparedStatement preparedStatement = connection
-                .prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             editCarTableRow(car, preparedStatement);
             preparedStatement.executeUpdate();
-            carId = getInsertedRecordId(preparedStatement);
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    carId = resultSet.getLong(1);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Creating car failed, no Id obtained");
+            }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding car", e);
         }
         return carId;
-    }
-
-    private long getInsertedRecordId(Statement statement) throws SQLException {
-        ResultSet resultSet = statement.getGeneratedKeys();
-        long id = -1;
-        if (resultSet.next()) {
-            id = resultSet.getLong(SqlColumnName.CAR_ID);
-        }
-        return id;
     }
 
     @Override
@@ -105,7 +101,7 @@ public class CarDaoImpl implements CarDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding car by id", e);
         }
         return Optional.of(car);
     }
@@ -117,7 +113,7 @@ public class CarDaoImpl implements CarDao {
             preparedStatement.setLong(12, car.getCarId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating car", e);
         }
         return car;
     }
@@ -143,7 +139,7 @@ public class CarDaoImpl implements CarDao {
             preparedStatement.setLong(2, car.getCarId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating car image", e);
         }
         return car;
     }
@@ -155,7 +151,7 @@ public class CarDaoImpl implements CarDao {
              ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
             resultSetToList(carList, resultSet);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding cars", e);
         }
         return carList;
     }
@@ -169,7 +165,7 @@ public class CarDaoImpl implements CarDao {
                 resultSetToList(carList, resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding cars for sale", e);
         }
         return carList;
     }

@@ -60,6 +60,12 @@
                     </table>
                 </div>
 
+                <c:if test="${sessionScope.userRole == 'GUEST'}">
+                    <div class="ml-2 text-info col-4">
+                        <p><fmt:message key="serviceOverview.text.orderInfo" bundle="${rb}"/></p>
+                    </div>
+                </c:if>
+
                 <div class="ml-3">
                     <jsp:include page="../fragments/pagination.jsp"/>
                 </div>
@@ -69,7 +75,6 @@
                 <h2><fmt:message key="serviceOverview.text.emptyList" bundle="${rb}"/></h2>
             </c:otherwise>
         </c:choose>
-
     </div>
 </main>
 
@@ -77,6 +82,7 @@
 
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/pagination.js"/>"></script>
 <!-- /scripts -->
 </body>

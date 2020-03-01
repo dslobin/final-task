@@ -16,7 +16,7 @@
 <body class="site">
 
 <c:choose>
-    <c:when test="${userRole == 'CLIENT'}">
+    <c:when test="${sessionScope.userRole == 'CLIENT'}">
         <jsp:include page="../fragments/clientHeader.jsp"/>
     </c:when>
 
@@ -51,7 +51,7 @@
                                         <c:out value="${car.transmission}"/>,
                                         <c:out value="${car.mileage}"/> km,
                                         <c:out value="${fn:toLowerCase(car.fuelType)}"/>,
-                                        <c:out value="${fn:toLowerCase(car.bodyType)}"/>
+                                        <c:out value="${car.bodyType}"/>
                                     </p>
                                     <p class="text-muted"><c:out value="${car.description}"/></p>
                                 </td>

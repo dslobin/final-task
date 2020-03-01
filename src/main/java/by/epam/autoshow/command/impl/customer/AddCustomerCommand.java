@@ -13,7 +13,6 @@ import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
-import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +28,7 @@ public class AddCustomerCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -44,7 +44,6 @@ public class AddCustomerCommand implements ActionCommand {
         try {
             User user = new User();
             user.setUsername(login);
-            password = Sha256PasswordEncoder.encode(password);
             user.setPassword(password);
             user.setRole(UserRole.CLIENT);
             user.setStatus(UserStatus.valueOf(status));
@@ -55,6 +54,9 @@ public class AddCustomerCommand implements ActionCommand {
                     MessageProvider.getProperty(MessageProperty.CUSTOMER_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_ADDITION_PROPERTY));

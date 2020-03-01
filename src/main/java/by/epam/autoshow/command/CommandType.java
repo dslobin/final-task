@@ -14,7 +14,6 @@ public enum CommandType {
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationCommand()),
     REGAIN_PASSWORD(new RegistrationCommand()),
-    CHANGE_LOCALE(new ChangeLocaleCommand()),
 
     GET_ALL_USERS(new GetAllUsersCommand()),
     GET_ALL_CARS(new GetAllCarsCommand()),
@@ -57,6 +56,7 @@ public enum CommandType {
 
     ACCEPT_ORDER(new AcceptOrderCommand()),
     CREATE_ORDER(new CreateOrderCommand()),
+    CANCEL_ORDER(new CancelOrderCommand()),
     REJECT_ORDER(new RejectOrderCommand());
 
     ActionCommand command;

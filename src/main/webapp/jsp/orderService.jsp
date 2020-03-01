@@ -80,15 +80,16 @@
                 <label for="serviceDate">
                     <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>:
                 </label>
-                <input type="date" class="form-control" id="serviceDate" name="serviceDate" required>
+                <input type="date" class="form-control" id="serviceDate" name="serviceDate"
+                       required>
             </div>
 
             <hr class="mb-4">
             <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="dataProcessing" required>
                 <label class="custom-control-label" for="dataProcessing">
                     <fmt:message key="editOrder.text.consentDataProcessing" bundle="${rb}"/>
                 </label>
-                <input type="checkbox" class="custom-control-input" id="dataProcessing" required>
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">

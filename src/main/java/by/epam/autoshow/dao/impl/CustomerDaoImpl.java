@@ -46,7 +46,7 @@ public class CustomerDaoImpl implements CustomerDao {
             preparedStatement.setString(5, customer.getPhoneNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding customer", e);
         }
         return true;
     }
@@ -67,16 +67,17 @@ public class CustomerDaoImpl implements CustomerDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding customer by id", e);
         }
         return Optional.of(customer);
     }
 
+    @Override
     public Optional<Customer> findByUserId(long userId) throws DaoException {
         Customer customer = new Customer();
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID)) {
             preparedStatement.setLong(1, userId);
-            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     customer.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
                     customer.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
@@ -88,7 +89,7 @@ public class CustomerDaoImpl implements CustomerDao {
             }
 
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding customer by user id", e);
         }
         return Optional.of(customer);
     }
@@ -128,7 +129,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 customers.put(username, customer);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding customer user names", e);
         }
         return customers;
     }
@@ -150,7 +151,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 customerList.add(customer);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding customers", e);
         }
         return customerList;
     }

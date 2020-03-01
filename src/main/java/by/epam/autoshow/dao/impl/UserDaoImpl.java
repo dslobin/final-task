@@ -22,9 +22,6 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE =
             "UPDATE users SET username = ?, password = ?, role = ?, status = ? WHERE user_id = ?";
 
-    private static final String DELETE =
-            "DELETE FROM users WHERE user_id = ?";
-
     private static final String FIND_ALL =
             "SELECT user_id, username, password, role, status FROM users";
 
@@ -50,7 +47,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(4, user.getStatus().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding user", e);
         }
         return true;
     }
@@ -62,7 +59,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setLong(1, id);
             fillInUserData(user, preparedStatement);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding user by id", e);
         }
         return Optional.of(user);
     }
@@ -85,7 +82,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1, username);
             fillInUserData(user, preparedStatement);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding user by username", e);
         }
         return Optional.of(user);
     }
@@ -107,7 +104,7 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("User authorization error", e);
         }
         return Optional.ofNullable(authorizeUser);
     }
@@ -122,20 +119,9 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setLong(5, user.getUserId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating user", e);
         }
         return user;
-    }
-
-    @Override
-    public boolean delete(User user) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, user.getUserId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return true;
     }
 
     @Override
@@ -154,7 +140,7 @@ public class UserDaoImpl implements UserDao {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding users", e);
         }
         return userList;
     }

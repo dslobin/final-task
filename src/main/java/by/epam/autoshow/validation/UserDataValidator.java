@@ -4,7 +4,7 @@ import by.epam.autoshow.model.User;
 
 public class UserDataValidator implements AbstractValidator<User> {
     private static final int MAX_USERNAME_LENGTH = 30;
-    private static final int MAX_PASSWORD_LENGTH = 30;
+    private static final int MAX_PASSWORD_LENGTH = 64;
     private static final int MIN_PASSWORD_LENGTH = 6;
 
     private boolean isUsernameValid(String username) {

@@ -4,6 +4,8 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.UserRole;
+import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
@@ -18,6 +20,7 @@ import java.util.List;
 public class GetAllCarsCommand implements ActionCommand {
     private static final String PARAM_CAR_LIST = "carList";
     private static final String ATTRIBUTE_USER_ROLE = "userRole";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -36,6 +39,9 @@ public class GetAllCarsCommand implements ActionCommand {
             }
             content.setRequestAttributes(PARAM_CAR_LIST, cars);
         } catch (ServiceException e) {
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
             logger.error(e);
         }
         return page;

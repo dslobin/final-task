@@ -5,13 +5,13 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.model.UserStatus;
+import by.epam.autoshow.service.UserService;
 import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.PagePathProperty;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
-import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +24,7 @@ public class EditUserCommand implements ActionCommand {
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
     private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -34,14 +35,16 @@ public class EditUserCommand implements ActionCommand {
         String status = content.getRequestParameter(PARAM_USER_STATUS);
         String page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
         try {
-            password = Sha256PasswordEncoder.encode(password);
             User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
-            UserServiceImpl userService = UserServiceImpl.getInstance();
+            UserService userService = UserServiceImpl.getInstance();
             userService.updateUser(user);
             content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
                     MessageProvider.getProperty(MessageProperty.USER_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_USER,
                     MessageProvider.getProperty(MessageProperty.INVALID_USER_UPDATE_PROPERTY));

@@ -8,7 +8,6 @@ public enum UserAuthorityCommand {
     LOGOUT("admin", "client"),
     REGISTRATION("admin", "client", "guest"),
     REGAIN_PASSWORD("admin", "client"),
-    CHANGE_LOCALE("admin", "client", "guest"),
 
     GET_ALL_USERS("admin"),
     GET_ALL_CARS("admin", "client", "guest"),
@@ -51,6 +50,7 @@ public enum UserAuthorityCommand {
 
     ACCEPT_ORDER("admin"),
     CREATE_ORDER("admin", "client"),
+    CANCEL_ORDER("client"),
     REJECT_ORDER("admin"),
 
     DEFAULT_VALUE("");

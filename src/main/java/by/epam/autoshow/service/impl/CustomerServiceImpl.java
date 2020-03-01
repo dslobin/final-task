@@ -2,10 +2,12 @@ package by.epam.autoshow.service.impl;
 
 import by.epam.autoshow.dao.manager.CustomerManger;
 import by.epam.autoshow.dao.manager.ManagerException;
+import by.epam.autoshow.dao.manager.UserManager;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.CustomerDataValidator;
 import by.epam.autoshow.validation.ValidatorException;
 
@@ -46,11 +48,25 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ValidatorException("Failed to update row, customer data not valid");
         }
         try {
+            boolean isPasswordChanged = checkIfUserChangedPassword(user);
+            if (isPasswordChanged) {
+                logger.debug("PASSWORD WAS CHANGED!");
+                String password = user.getPassword();
+                password = Sha256PasswordEncoder.encode(password);
+                user.setPassword(password);
+            }
+            logger.debug("USER DIDN'T CHANGED PASSWORD!");
             customerManger.updateCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
+    }
+
+    private boolean checkIfUserChangedPassword(User user) throws ManagerException {
+        UserManager userManager = UserManager.getInstance();
+        Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
+        return authorizedUser.isPresent();
     }
 
     @Override
@@ -92,6 +108,8 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ValidatorException("Failed to insert row, customer data not valid");
         }
         try {
+            String password = Sha256PasswordEncoder.encode(user.getPassword());
+            user.setPassword(password);
             customerManger.insertCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);

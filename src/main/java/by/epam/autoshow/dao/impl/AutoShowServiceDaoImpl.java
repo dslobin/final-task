@@ -20,9 +20,6 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
     private static final String UPDATE =
             "UPDATE services SET title = ?, cost = ?, description = ? WHERE service_id = ?";
 
-    private static final String DELETE =
-            "DELETE FROM services WHERE service_id = ?";
-
     private static final String FIND_ALL =
             "SELECT service_id, title, cost, description FROM services";
 
@@ -41,7 +38,7 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
             preparedStatement.setString(3, autoShowService.getDescription());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error adding auto show service", e);
         }
         return true;
     }
@@ -60,7 +57,7 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding auto show service by id", e);
         }
         return Optional.of(autoShowService);
     }
@@ -74,20 +71,9 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
             preparedStatement.setLong(4, autoShowService.getServiceId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error updating auto show service", e);
         }
         return autoShowService;
-    }
-
-    @Override
-    public boolean delete(AutoShowService autoShowService) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, autoShowService.getServiceId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return true;
     }
 
     @Override
@@ -104,7 +90,7 @@ public class AutoShowServiceDaoImpl implements AutoShowServiceDao {
                 autoShowServiceList.add(autoShowService);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Error finding auto show services", e);
         }
         return autoShowServiceList;
     }

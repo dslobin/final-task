@@ -38,21 +38,16 @@
                     </c:if>
 
                     <div class="mb-3">
-                        <label for="serviceTitle"><fmt:message key="editService.label.serviceTitle" bundle="${rb}"/>:</label>
+                        <label for="serviceTitle"><fmt:message key="editService.label.serviceTitle"
+                                                               bundle="${rb}"/>:</label>
                         <input type="text" class="form-control" id="serviceTitle" name="serviceTitle"
                                value="${autoShowService.title}" minlength="1" maxlength="512" required>
-                        <div class="invalid-feedback">
-                            Valid service title is required.
-                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="serviceCost"><fmt:message key="editService.label.cost" bundle="${rb}"/>:</label>
                         <input type="text" class="form-control" id="serviceCost" name="serviceCost"
                                pattern="(\d+\.\d+)|(\d+)" value="${autoShowService.cost}" required>
-                        <div class="invalid-feedback">
-                            Valid service cost is required.
-                        </div>
                     </div>
 
                 </div>
@@ -63,12 +58,7 @@
                     <fmt:message key="editService.label.serviceDescription" bundle="${rb}"/>:
                 </label>
                 <textarea class="form-control" id="serviceDescription" cols="40" rows="3" name="serviceDescription"
-                          minlength="1" maxlength="2048" required>
-                    ${autoShowService.description}
-                </textarea>
-                <div class="invalid-feedback">
-                    Service description is required
-                </div>
+                          minlength="1" maxlength="2048" required>${autoShowService.description}</textarea>
             </div>
 
             <div class="text-danger">

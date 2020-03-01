@@ -31,33 +31,30 @@ public class RegistrationCommand implements ActionCommand {
 
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String surname = content.getRequestParameter(PARAM_SURNAME);
         String name = content.getRequestParameter(PARAM_NAME);
         String email = content.getRequestParameter(PARAM_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_PHONE_NUMBER);
+        String page = PagePathProvider.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
         try {
             User user = new User(login, password);
             Customer customer = new Customer(surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
-            boolean isCustomerRegistered = customerService.registerCustomer(user, customer);
-            if (isCustomerRegistered) {
-                page = PagePathProvider.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
-                content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
-                        PagePathProvider.getProperty(MessageProperty.SUCCESSFUL_REGISTRATION_PROPERTY));
-            } else {
-                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                        MessageProvider.getProperty(MessageProperty.INVALID_USERNAME_PROPERTY));
-                page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
-            }
+            customerService.registerCustomer(user, customer);
+            content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
+                    MessageProvider.getProperty(MessageProperty.SUCCESSFUL_REGISTRATION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                    MessageProvider.getProperty(MessageProperty.INVALID_USERNAME_PROPERTY));
+            page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
         } catch (ValidatorException e) {
+            logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_ADDITION_PROPERTY));
-            logger.error(e);
+            page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
         }
         return page;
     }

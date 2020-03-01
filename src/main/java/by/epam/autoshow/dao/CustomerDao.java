@@ -32,6 +32,8 @@ public interface CustomerDao {
      */
     Optional<Customer> findById(long id) throws DaoException;
 
+    Optional<Customer> findByUserId(long userId) throws DaoException;
+
     /**
      * Update the entity object.
      *

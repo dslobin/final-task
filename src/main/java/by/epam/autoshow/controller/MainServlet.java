@@ -37,7 +37,7 @@ public class MainServlet extends HttpServlet {
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(content);
         String page = command.execute(content);
-        logger.debug("Loaded page: " + page);
+        //logger.debug("Loaded page: " + page);
         content.insert(request);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);

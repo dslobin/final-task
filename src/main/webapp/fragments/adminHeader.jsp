@@ -36,9 +36,9 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="language">
-                <a class="dropdown-item" href="?sessionLocale=ru">Русский</a>
-                <a class="dropdown-item" href="?sessionLocale=by">Беларуская</a>
-                <a class="dropdown-item" href="?sessionLocale=en">English</a>
+                <a class="dropdown-item" href="?sessionLocale=ru_RU">Русский</a>
+                <a class="dropdown-item" href="?sessionLocale=be_BY">Беларуская</a>
+                <a class="dropdown-item" href="?sessionLocale=en_US">English</a>
             </div>
 
         </nav>
