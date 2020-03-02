@@ -91,7 +91,7 @@
                 <div class="form-group">
                     <label for="email"><fmt:message key="editCustomer.label.email" bundle="${rb}"/>: </label>
                     <input type="email" id="email" name="email" class="form-control"
-                           pattern="^([\p{L}-\.]+){1,64}@([\p{L}&&[^_]]+){2,255}.[a-z]{2,}$" maxlength="120"
+                           pattern="^([\p{L}\d-\.]+){1,64}@([\p{L}&&[^_]]+){2,255}.[a-z]{2,}$" maxlength="120"
                            value="${customer.email}" required>
                 </div>
 

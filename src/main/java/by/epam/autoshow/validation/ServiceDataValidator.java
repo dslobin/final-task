@@ -34,6 +34,9 @@ public class ServiceDataValidator implements AbstractValidator<AutoShowService> 
 
     @Override
     public boolean validate(AutoShowService autoShowService) {
+        if (autoShowService == null) {
+            return false;
+        }
         return isTitleValid(autoShowService.getTitle()) && isCostValid(autoShowService.getCost().toString()) &&
                 isDescriptionValid(autoShowService.getDescription());
     }

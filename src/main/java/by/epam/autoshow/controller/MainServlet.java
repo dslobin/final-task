@@ -31,22 +31,21 @@ public class MainServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         SessionRequestContent content = new SessionRequestContent(request);
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(content);
         String page = command.execute(content);
-        //logger.debug("Loaded page: " + page);
         content.insert(request);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override

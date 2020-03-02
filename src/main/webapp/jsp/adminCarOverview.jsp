@@ -39,12 +39,14 @@
                                 <td>
                                     <p><c:out value="${car.issueYear}"/></p>
                                     <p><strong><c:out value="${car.price}"/></strong>, $</p>
+                                    <p class="text-muted"><c:out value="${car.color.code}"/></p>
                                 </td>
 
                                 <td class="listing-item-main">
                                     <p class="text-info"><strong><c:out value="${car.model}"/></strong></p>
                                     <p>
                                         <c:out value="${car.transmission}"/>,
+                                        <c:out value="${car.volume}"/> cubic cm,
                                         <c:out value="${car.mileage}"/> km,
                                         <c:out value="${fn:toLowerCase(car.fuelType)}"/>,
                                         <c:out value="${car.bodyType}"/>

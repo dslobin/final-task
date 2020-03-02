@@ -7,7 +7,7 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.util.provider.MessageProperty;
 import by.epam.autoshow.util.provider.MessageProvider;
 
-public class UserStatusProcessor extends AuthenticationProcessor {
+class UserStatusProcessor extends AuthenticationProcessor {
     private SessionRequestContent content;
     private static final String ATTRIBUTE_BLOCKED_USER = "errorBlockedUser";
 

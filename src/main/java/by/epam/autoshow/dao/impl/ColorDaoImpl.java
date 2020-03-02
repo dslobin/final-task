@@ -46,11 +46,9 @@ public class ColorDaoImpl implements ColorDao {
 
     @Override
     public void insertCarColor(long carId, long colorId) throws DaoException {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(INSERT_CAR_COLOR);
-            preparedStatement.setLong(1, colorId);
-            preparedStatement.setLong(2, carId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CAR_COLOR)) {
+            preparedStatement.setLong(1, carId);
+            preparedStatement.setLong(2, colorId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error adding car color", e);

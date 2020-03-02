@@ -5,7 +5,7 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.service.ServiceException;
 
-public class UserRoleProcessor extends AuthenticationProcessor {
+class UserRoleProcessor extends AuthenticationProcessor {
     private SessionRequestContent content;
     private static final String ATTRIBUTE_USER_ROLE = "userRole";
 

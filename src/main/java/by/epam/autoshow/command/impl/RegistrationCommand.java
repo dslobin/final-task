@@ -26,7 +26,6 @@ public class RegistrationCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
     private static final String ATTRIBUTE_COMPLETED_REGISTRATION = "completedRegistration";
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override

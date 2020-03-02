@@ -29,33 +29,41 @@
 
                 <div class="form-group">
                     <label for="login"><fmt:message key="registration.label.username" bundle="${rb}"/>: </label>
-                    <input type="text" id="login" name="username" class="form-control" required autofocus>
+                    <input type="text" id="login" name="username" class="form-control"
+                           minlength="1" maxlength="30" required autofocus>
                 </div>
 
                 <div class="form-group">
                     <label for="password"><fmt:message key="registration.label.password" bundle="${rb}"/>: </label>
-                    <input type="password" id="password" name="password" class="form-control" required>
+                    <input type="password" id="password" name="password" class="form-control"
+                           minlength="6" maxlength="30" required>
                 </div>
 
                 <div class="form-group">
                     <label for="surname"><fmt:message key="registration.label.surname" bundle="${rb}"/>: </label>
-                    <input type="text" id="surname" name="surname" class="form-control" required autofocus>
+                    <input type="text" id="surname" name="surname" class="form-control"
+                           minlength="2" maxlength="30" required autofocus>
                 </div>
 
                 <div class="form-group">
                     <label for="name"><fmt:message key="registration.label.name" bundle="${rb}"/>: </label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+                    <input type="text" id="name" name="name" class="form-control"
+                           minlength="2" maxlength="30" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><fmt:message key="registration.label.email" bundle="${rb}"/>: </label>
-                    <input type="email" id="email" name="email" class="form-control" required autofocus>
+                    <input type="email" id="email" name="email" class="form-control"
+                           pattern="^([\p{L}\d-\.]+){1,64}@([\p{L}&&[^_]]+){2,255}.[a-z]{2,}$" maxlength="120"
+                           required autofocus>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber"><fmt:message key="registration.label.phoneNumber"
                                                           bundle="${rb}"/>: </label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                           pattern="^(((8[\\- ]?)(\\(?\\d{3}\\)?[\\- ]?))|(\\+375[\\-]?)(\\(?\\d{2}\\)?[\\- ]?))?[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$"
+                           required>
                 </div>
 
                 <div>

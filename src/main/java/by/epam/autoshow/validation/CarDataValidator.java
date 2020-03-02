@@ -15,7 +15,7 @@ public class CarDataValidator implements AbstractValidator<Car> {
             return false;
         }
         int modelLength = model.length();
-        return modelLength > MIN_MODEL_LENGTH && modelLength < MAX_MODEL_LENGTH;
+        return modelLength >= MIN_MODEL_LENGTH && modelLength <= MAX_MODEL_LENGTH;
     }
 
     private boolean isPriceValid(String price) {
@@ -41,6 +41,9 @@ public class CarDataValidator implements AbstractValidator<Car> {
 
     @Override
     public boolean validate(Car car) {
+        if (car == null) {
+            return false;
+        }
         return isModelValid(car.getModel());
     }
 }

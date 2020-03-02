@@ -3,10 +3,10 @@ package by.epam.autoshow.command.impl.login;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 
-public abstract class AuthenticationProcessor {
+abstract class AuthenticationProcessor {
     private AuthenticationProcessor next;
 
-    public AuthenticationProcessor linkWith(AuthenticationProcessor next) {
+    AuthenticationProcessor linkWith(AuthenticationProcessor next) {
         this.next = next;
         return next;
     }

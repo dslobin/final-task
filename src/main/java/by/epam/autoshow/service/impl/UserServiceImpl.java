@@ -62,24 +62,18 @@ public class UserServiceImpl implements UserService {
             throw new ValidatorException("Failed to update row, user data not valid!");
         }
         try {
-            boolean isPasswordChanged = checkIfUserChangedPassword(user);
-            if (isPasswordChanged) {
+            Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
+            if (authorizedUser.isEmpty()) {
                 logger.debug("PASSWORD WAS CHANGED!");
                 String password = user.getPassword();
                 password = Sha256PasswordEncoder.encode(password);
                 user.setPassword(password);
             }
-            logger.debug("USER DIDN'T CHANGED PASSWORD!");
             userManager.updateUser(user);
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return user;
-    }
-
-    private boolean checkIfUserChangedPassword(User user) throws ManagerException {
-        Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
-        return authorizedUser.isPresent();
     }
 
     @Override

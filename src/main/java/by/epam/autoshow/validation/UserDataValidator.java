@@ -25,6 +25,9 @@ public class UserDataValidator implements AbstractValidator<User> {
 
     @Override
     public boolean validate(User user) {
+        if (user == null) {
+            return false;
+        }
         return isUsernameValid(user.getUsername()) && isPasswordValid(user.getPassword());
     }
 }

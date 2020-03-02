@@ -1,12 +1,8 @@
 package by.epam.autoshow.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -16,7 +12,6 @@ public class SessionRequestContent {
     private HashMap<String, Object> sessionAttributes;
     private boolean invalidateSession = false;
     private static final int FIRST_ARRAY_ELEMENT_INDEX = 0;
-    private static final Logger logger = LogManager.getLogger();
 
     public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();
@@ -31,7 +26,6 @@ public class SessionRequestContent {
         while (sessionAttributesIterator.hasNext()) {
             String name = sessionAttributesIterator.next();
             Object sessionAttribute = httpSession.getAttribute(name);
-            //logger.debug("\nSESSION ATTRIBUTE: name = " + name + " object = " + sessionAttribute);
             sessionAttributes.put(name, sessionAttribute);
         }
         Iterator<String> requestAttributesIterator = request.getAttributeNames().asIterator();
@@ -43,12 +37,12 @@ public class SessionRequestContent {
         requestParameters.putAll(request.getParameterMap());
     }
 
-    public void insert(HttpServletRequest httpServletRequest) {
-        requestAttributes.forEach(httpServletRequest::setAttribute);
-        HttpSession httpSession = httpServletRequest.getSession();
-        sessionAttributes.forEach(httpSession::setAttribute);
+    public void insert(HttpServletRequest request) {
+        requestAttributes.forEach(request::setAttribute);
+        HttpSession session = request.getSession();
+        sessionAttributes.forEach(session::setAttribute);
         if (isSessionInvalidate()) {
-            httpSession.invalidate();
+            session.invalidate();
         }
     }
 
@@ -57,7 +51,6 @@ public class SessionRequestContent {
         if (parameters == null) {
             return null;
         }
-        //logger.debug("GET REQUEST PARAMETER: " + Arrays.toString(parameters));
         return parameters[FIRST_ARRAY_ELEMENT_INDEX];
     }
 

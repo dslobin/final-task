@@ -9,6 +9,7 @@ import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.CustomerDataValidator;
+import by.epam.autoshow.validation.UserDataValidator;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +23,12 @@ public class CustomerServiceImpl implements CustomerService {
     private static volatile CustomerServiceImpl INSTANCE;
     private CustomerManger customerManger;
     private CustomerDataValidator customerValidator;
+    private UserDataValidator userDataValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private CustomerServiceImpl() {
         customerValidator = new CustomerDataValidator();
+        userDataValidator = new UserDataValidator();
         customerManger = CustomerManger.getInstance();
     }
 
@@ -44,29 +47,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean updateCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
-        if (!customerValidator.validate(customer)) {
+        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
             throw new ValidatorException("Failed to update row, customer data not valid");
         }
         try {
-            boolean isPasswordChanged = checkIfUserChangedPassword(user);
-            if (isPasswordChanged) {
+            UserManager userManager = UserManager.getInstance();
+            Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
+            if (authorizedUser.isEmpty()) {
                 logger.debug("PASSWORD WAS CHANGED!");
                 String password = user.getPassword();
-                password = Sha256PasswordEncoder.encode(password);
-                user.setPassword(password);
+                user.setPassword(Sha256PasswordEncoder.encode(password));
             }
-            logger.debug("USER DIDN'T CHANGED PASSWORD!");
             customerManger.updateCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;
-    }
-
-    private boolean checkIfUserChangedPassword(User user) throws ManagerException {
-        UserManager userManager = UserManager.getInstance();
-        Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
-        return authorizedUser.isPresent();
     }
 
     @Override
@@ -104,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
-        if (!customerValidator.validate(customer)) {
+        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
             throw new ValidatorException("Failed to insert row, customer data not valid");
         }
         try {

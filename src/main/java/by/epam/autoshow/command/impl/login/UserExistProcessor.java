@@ -10,7 +10,7 @@ import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 
 import java.util.Optional;
 
-public class UserExistProcessor extends AuthenticationProcessor {
+class UserExistProcessor extends AuthenticationProcessor {
     private UserService userService;
     private SessionRequestContent content;
     private static final String ATTRIBUTE_INCORRECT_LOGIN_PASSWORD = "incorrectLoginPassword";

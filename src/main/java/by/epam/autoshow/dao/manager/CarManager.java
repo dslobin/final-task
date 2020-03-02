@@ -75,7 +75,6 @@ public class CarManager extends DaoManager {
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
             ColorDaoImpl colorDao = new ColorDaoImpl(connection);
-            carDao.insert(car);
             Optional<Color> color = colorDao.findByCode(colorCode);
             long carId = carDao.insert(car);
             colorDao.insertCarColor(carId, color.get().getColorId());
