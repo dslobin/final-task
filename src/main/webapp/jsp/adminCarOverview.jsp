@@ -91,6 +91,10 @@
             </c:otherwise>
         </c:choose>
 
+        <div class="text-success">
+            <p>${requestScope.successfulCarChange}</p>
+        </div>
+
         <div class="col-3">
             <form method="post" action="controller">
 

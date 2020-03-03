@@ -63,14 +63,6 @@
                 </p>
             </div>
 
-            <%--<div>
-                <p class="text-center small">
-                    <a href="controller?command=regain_password">
-                        <fmt:message key="login.link.passwordRecovery" bundle="${rb}"/>
-                    </a>
-                </p>
-            </div>--%>
-
             <div class="text-danger">
                 <p>${requestScope.incorrectLoginPassword}</p>
             </div>

@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class AddAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_TITLE = "serviceTitle";
@@ -28,7 +27,6 @@ public class AddAutoShowServiceCommand implements ActionCommand {
     private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final String ATTRIBUTE_SERVICE_LIST = "autoShowServiceList";
-    private static final String SERVICES_PAGE_URL = "/controller?command=get_all_services";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -46,9 +44,8 @@ public class AddAutoShowServiceCommand implements ActionCommand {
             serviceManagement.addService(autoShowService);
             content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
                     MessageProvider.getProperty(MessagePath.SERVICE_SUCCESSFUL_ADDITION_PROPERTY));
-            List<AutoShowService> services = serviceManagement.findAllServices();
-            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, services);
-            router = new Router(SERVICES_PAGE_URL, RouteType.REDIRECT);
+            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, serviceManagement.findAllServices());
+            router = new Router(JspPagePath.SERVICES_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

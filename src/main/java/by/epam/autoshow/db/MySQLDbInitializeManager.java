@@ -27,10 +27,10 @@ class MySQLDbInitializeManager {
         Properties properties = new Properties();
         MysqlDataSource dataSource = null;
         try {
-            File databaseProperties = new File(Objects.requireNonNull(
-                    MySQLDbInitializeManager.class.getClassLoader().getResource(DATABASE_PROPERTIES_PATH)).toURI());
+            File databaseProperties = new File(Objects.requireNonNull(MySQLDbInitializeManager.class.getClassLoader()
+                            .getResource(DATABASE_PROPERTIES_PATH)).toURI());
             logger.debug(databaseProperties.getAbsolutePath());
-            properties.load(new FileInputStream(databaseProperties.getAbsoluteFile()));
+            properties.load(new FileInputStream(databaseProperties.getAbsolutePath()));
             dataSource = new MysqlDataSource();
             Class.forName(properties.getProperty(JDBC_DRIVER_PROPERTY));
             dataSource.setURL(properties.getProperty(JDBC_URL_PROPERTY));

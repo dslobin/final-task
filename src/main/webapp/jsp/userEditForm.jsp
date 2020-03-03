@@ -36,11 +36,24 @@
                     <input type="hidden" class="form-control" name="userId" value="${user.userId}">
                 </c:if>
 
-                <div class="form-group">
-                    <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
-                    <input type="text" id="username" name="username" value="${user.username}" class="form-control"
-                           minlength="1" maxlength="30" required autofocus>
-                </div>
+
+                <c:if test="${user == null}">
+                    <div class="form-group">
+                        <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
+                        <input type="text" id="username" name="username" value="${user.username}" class="form-control"
+                               minlength="1" maxlength="30" required autofocus>
+                    </div>
+                </c:if>
+
+                <c:if test="${user != null}">
+                    <div class="form-group">
+                        <h2 for="username">
+                            <fmt:message key="editUser.label.username" bundle="${rb}"/>: ${user.username}
+                        </h2>
+                        <input type="text" name="username" value="${user.username}" class="form-control"
+                               minlength="1" maxlength="30" hidden>
+                    </div>
+                </c:if>
 
                 <div class="form-group">
                     <label for="password"><fmt:message key="editUser.label.password" bundle="${rb}"/>: </label>
@@ -72,10 +85,6 @@
 
                 <div class="text-danger">
                     <p>${requestScope.invalidUser}</p>
-                </div>
-
-                <div class="text-success">
-                    <p>${requestScope.successfulUserChange}</p>
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">

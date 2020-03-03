@@ -25,9 +25,9 @@ public class AddUserCommand implements ActionCommand {
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
     private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
+    private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final String ATTRIBUTE_USER_LIST = "userList";
-    private static final String USERS_PAGE_URL = "/controller?command=get_all_users";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -43,11 +43,16 @@ public class AddUserCommand implements ActionCommand {
             user.setRole(UserRole.ADMIN);
             user.setStatus(UserStatus.valueOf(status));
             UserService userService = UserServiceImpl.getInstance();
-            userService.registerUser(user);
-            content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
-                    MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_ADDITION_PROPERTY));
-            content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
-            router = new Router(USERS_PAGE_URL, RouteType.REDIRECT);
+            boolean isRegistered = userService.registerUser(user);
+            if (isRegistered) {
+                content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
+                        MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_ADDITION_PROPERTY));
+                content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
+            } else {
+                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                        MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+            }
+            router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

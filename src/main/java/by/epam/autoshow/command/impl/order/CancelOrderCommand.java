@@ -16,7 +16,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CancelOrderCommand implements ActionCommand {
+public class CancelOrderCommand extends AbstractOrderCommand implements ActionCommand {
     private static final String PARAM_ORDER_ID = "orderId";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
@@ -30,7 +30,12 @@ public class CancelOrderCommand implements ActionCommand {
             Order order = new Order();
             order.setOrderId(Long.parseLong(orderId));
             orderService.deleteOrder(order);
-            router = new Router(PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY), RouteType.REDIRECT);
+            if (fillInProfileData(content)) {
+                router = new Router(JspPagePath.PROFILE_PAGE_URL, RouteType.REDIRECT);
+            } else {
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY),
+                        RouteType.FORWARD);
+            }
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

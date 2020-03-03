@@ -46,23 +46,45 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
+        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
+            throw new ValidatorException("Failed to insert row, customer data not valid");
+        }
+        boolean isRegistrationSuccessful = false;
+        try {
+            UserManager userManager = UserManager.getInstance();
+            Optional<User> authorizedUser = userManager.findByUsername(user.getUsername());
+            if (authorizedUser.isEmpty()) {
+                String password = Sha256PasswordEncoder.encode(user.getPassword());
+                user.setPassword(password);
+                customerManger.insertCustomer(user, customer);
+                isRegistrationSuccessful = true;
+            }
+        } catch (ManagerException | SQLException e) {
+            throw new ServiceException(e);
+        }
+        return isRegistrationSuccessful;
+    }
+
+    @Override
     public boolean updateCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
         if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
             throw new ValidatorException("Failed to update row, customer data not valid");
         }
+        boolean isRegistrationSuccessful = false;
         try {
             UserManager userManager = UserManager.getInstance();
             Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
             if (authorizedUser.isEmpty()) {
-                logger.debug("PASSWORD WAS CHANGED!");
                 String password = user.getPassword();
                 user.setPassword(Sha256PasswordEncoder.encode(password));
+                customerManger.updateCustomer(user, customer);
+                isRegistrationSuccessful = true;
             }
-            customerManger.updateCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
-        return true;
+        return isRegistrationSuccessful;
     }
 
     @Override
@@ -91,7 +113,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> findAllCustomers() throws ServiceException {
         List<Customer> customers = new ArrayList<>();
         try {
-           customers = customerManger.findCustomerList();
+            customers = customerManger.findCustomerList();
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }
@@ -99,25 +121,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
-        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
-            throw new ValidatorException("Failed to insert row, customer data not valid");
-        }
-        try {
-            String password = Sha256PasswordEncoder.encode(user.getPassword());
-            user.setPassword(password);
-            customerManger.insertCustomer(user, customer);
-        } catch (ManagerException | SQLException e) {
-            throw new ServiceException(e);
-        }
-        return true;
-    }
-
-    @Override
     public Map<String, Customer> findCustomerUserNames() throws ServiceException {
         Map<String, Customer> customers = new HashMap<>();
         try {
-             customers = customerManger.findCustomerUserNames();
+            customers = customerManger.findCustomerUserNames();
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }

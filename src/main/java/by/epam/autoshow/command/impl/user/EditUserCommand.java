@@ -28,7 +28,6 @@ public class EditUserCommand implements ActionCommand {
     private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final String ATTRIBUTE_USER_LIST = "userList";
-    private static final String USERS_PAGE_URL = "/controller?command=get_all_users";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -45,7 +44,7 @@ public class EditUserCommand implements ActionCommand {
             content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
                     MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_UPDATE_PROPERTY));
             content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
-            router = new Router(USERS_PAGE_URL, RouteType.REDIRECT);
+            router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

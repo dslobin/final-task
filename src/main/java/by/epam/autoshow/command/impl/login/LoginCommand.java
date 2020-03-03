@@ -27,7 +27,7 @@ public class LoginCommand implements ActionCommand {
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String page = null;
-        boolean authenticationResult = false;
+        boolean isAuthorizationSuccessful = false;
         try {
             UserService userService = UserServiceImpl.getInstance();
             AuthenticationProcessor userRoleProcessor = new UserRoleProcessor(content);
@@ -36,8 +36,8 @@ public class LoginCommand implements ActionCommand {
             userExistProcessor.linkWith(userStatusProcessor);
             userStatusProcessor.linkWith(userRoleProcessor);
             User user = new User(login, password);
-            authenticationResult = userExistProcessor.check(user);
-            if (authenticationResult) {
+            isAuthorizationSuccessful = userExistProcessor.check(user);
+            if (isAuthorizationSuccessful) {
                 page = PagePathProvider.getProperty(JspPagePath.HOME_PAGE_PROPERTY);
             } else {
                 page = PagePathProvider.getProperty(JspPagePath.LOGIN_PAGE_PROPERTY);

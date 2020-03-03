@@ -58,15 +58,11 @@
                     <fmt:message key="editService.label.serviceDescription" bundle="${rb}"/>:
                 </label>
                 <textarea class="form-control" id="serviceDescription" cols="40" rows="3" name="serviceDescription"
-                          minlength="1" maxlength="2048" required>${autoShowService.description}</textarea>
+                          minlength="1" maxlength="2048">${autoShowService.description}</textarea>
             </div>
 
             <div class="text-danger">
                 <p>${requestScope.invalidService}</p>
-            </div>
-
-            <div class="text-success">
-                <p>${requestScope.successfulServiceChange}</p>
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">

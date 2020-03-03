@@ -28,6 +28,7 @@ public class RegistrationCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
     private static final String ATTRIBUTE_COMPLETED_REGISTRATION = "completedRegistration";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -43,13 +44,18 @@ public class RegistrationCommand implements ActionCommand {
             User user = new User(login, password);
             Customer customer = new Customer(surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
-            customerService.registerCustomer(user, customer);
-            content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
-                    MessageProvider.getProperty(MessagePath.SUCCESSFUL_REGISTRATION_PROPERTY));
+            boolean isRegistered = customerService.registerCustomer(user, customer);
+            if (isRegistered) {
+                content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
+                        MessageProvider.getProperty(MessagePath.SUCCESSFUL_REGISTRATION_PROPERTY));
+            } else {
+                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                        MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+            }
         } catch (ServiceException e) {
             logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                    MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
             page = PagePathProvider.getProperty(JspPagePath.REGISTRATION_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             logger.error(e);

@@ -58,6 +58,10 @@
             </c:otherwise>
         </c:choose>
 
+        <div class="text-success">
+            <p>${requestScope.successfulServiceChange}</p>
+        </div>
+
         <div class="col-3">
             <form method="post" action="controller">
 

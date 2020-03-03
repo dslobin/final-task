@@ -45,15 +45,19 @@ public class UserServiceImpl implements UserService {
         if (!userValidator.validate(user)) {
             throw new ValidatorException("Failed to insert row, user data not valid!");
         }
+        boolean isRegistrationSuccessful = false;
         try {
-            String password = user.getPassword();
-            password = Sha256PasswordEncoder.encode(password);
-            user.setPassword(password);
-            userManager.addUser(user);
+            Optional<User> authorizedUser = userManager.findByUsername(user.getUsername());
+            if (authorizedUser.isEmpty()) {
+                String password = user.getPassword();
+                user.setPassword(Sha256PasswordEncoder.encode(password));
+                userManager.addUser(user);
+                isRegistrationSuccessful = true;
+            }
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }
-        return true;
+        return isRegistrationSuccessful;
     }
 
     @Override

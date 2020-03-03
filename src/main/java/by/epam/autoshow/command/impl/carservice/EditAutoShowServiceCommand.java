@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_SERVICE_ID = "serviceId";
@@ -29,7 +28,6 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final String ATTRIBUTE_SERVICE_LIST = "autoShowServiceList";
-    private static final String SERVICES_PAGE_URL = "/controller?command=get_all_services";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -45,11 +43,10 @@ public class EditAutoShowServiceCommand implements ActionCommand {
             );
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.updateService(autoShowService);
-            List<AutoShowService> services = serviceManagement.findAllServices();
-            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, services);
+            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, serviceManagement.findAllServices());
             content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
                     MessageProvider.getProperty(MessagePath.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
-            router = new Router(SERVICES_PAGE_URL, RouteType.REDIRECT);
+            router = new Router(JspPagePath.SERVICES_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

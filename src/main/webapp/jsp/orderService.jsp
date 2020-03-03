@@ -9,6 +9,7 @@
 <head>
     <title><fmt:message key="editOrder.head.title" bundle="${rb}"/></title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 </head>
 
 <body class="site">
@@ -18,7 +19,7 @@
 <main class="site-content">
     <div class="col-md-8 order-md-1 ml-2">
         <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
-        <form class="needs-validation" method="post" novalidate>
+        <form class="needs-validation" action="controller" method="post" novalidate>
 
             <!-- hidden input -->
             <input type="hidden" name="command" value="create_order"/>
@@ -73,7 +74,8 @@
                 <label for="serviceTime">
                     <fmt:message key="editOrder.label.desiredServiceTime" bundle="${rb}"/>:
                 </label>
-                <input type="time" class="form-control" id="serviceTime" name="serviceTime" required>
+                <input type="time" class="form-control" id="serviceTime" name="serviceTime"
+                       min="09:00" max="20:00" step="30" required>
             </div>
 
             <div class="form-group">
@@ -81,7 +83,7 @@
                     <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>:
                 </label>
                 <input type="date" class="form-control" id="serviceDate" name="serviceDate"
-                       required>
+                       min="2020-03-04" max="2020-03-18" required>
             </div>
 
             <hr class="mb-4">
@@ -104,7 +106,6 @@
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/static/js/date-and-time-restriction.js"/>"></script>
 <!-- /scripts -->
 </body>
 </html>

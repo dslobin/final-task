@@ -35,11 +35,23 @@
                     <input type="hidden" class="form-control" name="userId" value="${user.userId}">
                 </c:if>
 
-                <div class="form-group">
-                    <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
-                    <input type="text" id="username" name="username" value="${user.username}" class="form-control"
-                           minlength="1" maxlength="30" required autofocus>
-                </div>
+                <c:if test="${customer == null}">
+                    <div class="form-group">
+                        <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>: </label>
+                        <input type="text" id="username" name="username" value="${user.username}" class="form-control"
+                               minlength="1" maxlength="30" required autofocus>
+                    </div>
+                </c:if>
+
+                <c:if test="${customer != null}">
+                    <div class="form-group">
+                        <h2 for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>:
+                                ${user.username}
+                        </h2>
+                        <input type="text" name="username" value="${user.username}" class="form-control"
+                               minlength="1" maxlength="30" hidden>
+                    </div>
+                </c:if>
 
                 <div class="form-group">
                     <label for="password"><fmt:message key="editUser.label.password" bundle="${rb}"/>: </label>

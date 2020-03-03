@@ -190,10 +190,6 @@
                 <p>${requestScope.invalidCar}</p>
             </div>
 
-            <div class="text-success">
-                <p>${requestScope.successfulCarChange}</p>
-            </div>
-
             <button class="btn btn-primary btn-lg btn-block" type="submit">
                 <fmt:message key="editCar.button.submit" bundle="${rb}"/>
             </button>

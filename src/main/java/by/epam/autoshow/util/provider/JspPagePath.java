@@ -27,4 +27,10 @@ public final class JspPagePath {
 
     public static final String ORDER_OVERVIEW_PAGE_PROPERTY = "path.page.orderOverview";
     public static final String ORDER_EDIT_PAGE_PROPERTY = "path.page.serviceOrder";
+
+    public static final String CUSTOMERS_PAGE_URL = "/controller?command=get_all_customers";
+    public static final String SERVICES_PAGE_URL = "/controller?command=get_all_services";
+    public static final String CARS_PAGE_URL = "/controller?command=get_all_cars";
+    public static final String USERS_PAGE_URL = "/controller?command=get_all_users";
+    public static final String PROFILE_PAGE_URL = "/controller?command=get_profile_page";
 }
