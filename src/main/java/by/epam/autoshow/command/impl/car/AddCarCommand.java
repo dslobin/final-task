@@ -9,10 +9,10 @@ import by.epam.autoshow.model.SaleStatus;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
@@ -54,7 +54,7 @@ public class AddCarCommand implements ActionCommand {
         String status = content.getRequestParameter(PARAM_STATUS);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
         String imageUrl = content.getRequestParameter(PARAM_IMG_URL);
-        String page = PagePathProvider.getProperty(PagePathProperty.CAR_EDIT_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY);
         try {
             Car car = new Car();
             car.setModel(model);
@@ -72,15 +72,15 @@ public class AddCarCommand implements ActionCommand {
             CarService carService = CarServiceImpl.getInstance();
             carService.addCar(car, color);
             content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
-                    MessageProvider.getProperty(MessageProperty.CAR_SUCCESSFUL_ADDITION_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.CAR_SUCCESSFUL_ADDITION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
-                    MessageProvider.getProperty(MessageProperty.INVALID_CAR_ADDITION_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.INVALID_CAR_ADDITION_PROPERTY));
             logger.error(e);
         }
         return page;

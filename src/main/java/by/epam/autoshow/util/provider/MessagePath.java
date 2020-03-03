@@ -1,6 +1,6 @@
 package by.epam.autoshow.util.provider;
 
-public final class MessageProperty {
+public final class MessagePath {
     public static final String INVALID_SERVICE_ADDITION_PROPERTY = "label.invalidServiceAddition";
     public static final String INVALID_SERVICE_UPDATE_PROPERTY = "label.invalidServiceUpdate";
     public static final String SERVICE_SUCCESSFUL_ADDITION_PROPERTY = "label.successfulServiceAddition";

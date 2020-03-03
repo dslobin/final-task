@@ -1,7 +1,7 @@
 package by.epam.autoshow.filter;
 
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +50,7 @@ public class CurrentPageFilter implements Filter {
             if (matcher.find()) {
                 path = matcher.group(0);
             } else {
-                path = PagePathProvider.getProperty(PagePathProperty.HOME_PAGE_PROPERTY);
+                path = PagePathProvider.getProperty(JspPagePath.HOME_PAGE_PROPERTY);
             }
         }
         return path;

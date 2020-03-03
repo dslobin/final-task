@@ -7,9 +7,9 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.validation.ValidatorException;
 
@@ -36,24 +36,24 @@ public class RegistrationCommand implements ActionCommand {
         String name = content.getRequestParameter(PARAM_NAME);
         String email = content.getRequestParameter(PARAM_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_PHONE_NUMBER);
-        String page = PagePathProvider.getProperty(PagePathProperty.LOGIN_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(JspPagePath.LOGIN_PAGE_PROPERTY);
         try {
             User user = new User(login, password);
             Customer customer = new Customer(surname, name, email, phoneNumber);
             CustomerService customerService = CustomerServiceImpl.getInstance();
             customerService.registerCustomer(user, customer);
             content.setRequestAttributes(ATTRIBUTE_COMPLETED_REGISTRATION,
-                    MessageProvider.getProperty(MessageProperty.SUCCESSFUL_REGISTRATION_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.SUCCESSFUL_REGISTRATION_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                    MessageProvider.getProperty(MessageProperty.INVALID_USERNAME_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.REGISTRATION_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
-                    MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_ADDITION_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.REGISTRATION_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_ADDITION_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.REGISTRATION_PAGE_PROPERTY);
         }
         return page;
     }

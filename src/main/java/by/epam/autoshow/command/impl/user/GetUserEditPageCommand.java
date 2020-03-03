@@ -8,7 +8,7 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ public class GetUserEditPageCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.error(e);
         }
-        page = PagePathProvider.getProperty(PagePathProperty.USER_EDIT_PAGE_PROPERTY);
+        page = PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY);
         return page;
     }
 }

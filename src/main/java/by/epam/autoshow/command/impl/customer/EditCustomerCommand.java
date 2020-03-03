@@ -7,10 +7,10 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
 import by.epam.autoshow.model.UserStatus;
 import by.epam.autoshow.service.CustomerService;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.validation.ValidatorException;
@@ -44,7 +44,7 @@ public class EditCustomerCommand implements ActionCommand {
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
-        String page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);;
+        String page = PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY);;
         try {
             Long userId = Long.parseLong(id);
             User user = new User(userId, login, password, UserRole.CLIENT, UserStatus.valueOf(status));
@@ -52,15 +52,15 @@ public class EditCustomerCommand implements ActionCommand {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             customerService.updateCustomer(user, customer);
             content.setRequestAttributes(ATTRIBUTE_CUSTOMER_CHANGED,
-                    MessageProvider.getProperty(MessageProperty.CUSTOMER_SUCCESSFUL_UPDATE_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.CUSTOMER_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
-                    MessageProvider.getProperty(MessageProperty.INVALID_CUSTOMER_UPDATE_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_UPDATE_PROPERTY));
             logger.error(e);
         }
         return page;

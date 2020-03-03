@@ -1,9 +1,10 @@
 package by.epam.autoshow.command;
 
 import by.epam.autoshow.command.impl.EmptyCommand;
+import by.epam.autoshow.command.impl.GetErrorPageCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.UserRole;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,11 +38,13 @@ public class ActionFactory {
             if (isUserRoleValid) {
                 actionCommand = commandType.getCurrentCommand();
             } else {
+                actionCommand = new GetErrorPageCommand();
                 content.setRequestAttributes(ATTRIBUTE_FORBIDDEN,
-                        MessageProvider.getProperty(MessageProperty.INVALID_USER_ROLE_PROPERTY));
+                        MessageProvider.getProperty(MessagePath.INVALID_USER_ROLE_PROPERTY));
             }
         } catch (IllegalArgumentException e) {
-            message.append(MessageProvider.getProperty(MessageProperty.WRONG_ACTION_PROPERTY))
+            actionCommand = new GetErrorPageCommand();
+            message.append(MessageProvider.getProperty(MessagePath.WRONG_ACTION_PROPERTY))
                     .append(" - ").append(action);
             content.setRequestAttributes(ATTRIBUTE_WRONG_ACTION, message.toString());
         }

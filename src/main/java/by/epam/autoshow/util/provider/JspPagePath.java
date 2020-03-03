@@ -1,6 +1,6 @@
 package by.epam.autoshow.util.provider;
 
-public final class PagePathProperty {
+public final class JspPagePath {
     public static final String INDEX_PAGE_PROPERTY = "path.page.index";
     public static final String FILE_UPLOAD_PAGE_PROPERTY = "path.page.fileUpload";
     public static final String HOME_PAGE_PROPERTY = "path.page.home";

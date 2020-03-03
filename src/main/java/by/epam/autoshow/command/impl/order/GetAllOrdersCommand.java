@@ -4,10 +4,10 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Order;
 import by.epam.autoshow.service.OrderService;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
 
@@ -28,12 +28,12 @@ public class GetAllOrdersCommand implements ActionCommand {
             OrderService orderService = OrderServiceImpl.getInstance();
             List<Order> orders = orderService.findAllOrders();
             content.setRequestAttributes(PARAM_ORDER_LIST, orders);
-            page = PagePathProvider.getProperty(PagePathProperty.ORDER_OVERVIEW_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(JspPagePath.ORDER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         }
         return page;
     }

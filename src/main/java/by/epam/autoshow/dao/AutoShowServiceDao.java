@@ -10,6 +10,7 @@ import java.util.Optional;
  * Provides CRUD operations with {@link AutoShowService} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.AutoShowServiceDaoImpl
  */
 
 public interface AutoShowServiceDao {

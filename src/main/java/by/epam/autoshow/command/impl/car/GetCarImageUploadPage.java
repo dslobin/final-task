@@ -6,10 +6,10 @@ import by.epam.autoshow.model.*;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,11 +30,11 @@ public class GetCarImageUploadPage implements ActionCommand {
             CarService carService = CarServiceImpl.getInstance();
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));
             content.setRequestAttributes(ATTRIBUTE_CAR, car.get());
-            page = PagePathProvider.getProperty(PagePathProperty.FILE_UPLOAD_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(JspPagePath.FILE_UPLOAD_PAGE_PROPERTY);
         } catch (ServiceException e) {
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
             logger.error(e);
         }
         return page;

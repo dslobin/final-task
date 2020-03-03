@@ -11,6 +11,7 @@ import java.util.Optional;
  * Provides CRUD operations with {@link Customer} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.CustomerDaoImpl
  */
 
 public interface CustomerDao {

@@ -10,6 +10,7 @@ import java.util.Optional;
  * Provides CRUD operations with {@link Car} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.CarDaoImpl
  */
 
 public interface CarDao {

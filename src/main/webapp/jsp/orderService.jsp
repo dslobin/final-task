@@ -18,7 +18,7 @@
 <main class="site-content">
     <div class="col-md-8 order-md-1 ml-2">
         <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" method="post" novalidate>
 
             <!-- hidden input -->
             <input type="hidden" name="command" value="create_order"/>

@@ -4,7 +4,7 @@ import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 
@@ -27,7 +27,7 @@ class UserExistProcessor extends AuthenticationProcessor {
         Optional<User> authorizeUser = userService.authorizeUser(user.getUsername(), password);
         if (authorizeUser.isEmpty()) {
             content.setRequestAttributes(ATTRIBUTE_INCORRECT_LOGIN_PASSWORD,
-                    MessageProvider.getProperty(MessageProperty.LOGIN_ERROR_MESSAGE_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.LOGIN_ERROR_MESSAGE_PROPERTY));
             return false;
         }
         content.setSessionAttributes(ATTRIBUTE_USER_LOGIN, authorizeUser.get().getUsername());

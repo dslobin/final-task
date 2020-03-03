@@ -10,10 +10,10 @@ import java.util.Optional;
  * Provides CRUD operations with {@link Color} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.ColorDaoImpl
  */
 
 public interface ColorDao {
-
     /**
      * Update the car color.
      *

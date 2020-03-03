@@ -11,6 +11,7 @@ import java.util.Optional;
  * Provides CRUD operations with {@link Order} objects.
  *
  * @author Daniil Slobin
+ * @see by.epam.autoshow.dao.impl.OrderDaoImpl
  */
 
 public interface OrderDao {
@@ -22,7 +23,6 @@ public interface OrderDao {
      * @throws DaoException if a data store access error occurs
      */
     boolean insert(Order order) throws DaoException;
-
 
     /**
      * Delete the order object.

@@ -4,10 +4,10 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.validation.ValidatorException;
@@ -33,22 +33,22 @@ public class EditAutoShowServiceCommand implements ActionCommand {
         String serviceTitle = content.getRequestParameter(PARAM_TITLE);
         String cost = content.getRequestParameter(PARAM_COST);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
-        String page = PagePathProvider.getProperty(PagePathProperty.SERVICE_EDIT_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(JspPagePath.SERVICE_EDIT_PAGE_PROPERTY);
         try {
             AutoShowService autoShowService = new AutoShowService(
                     Long.parseLong(serviceId), serviceTitle, BigDecimal.valueOf(Double.parseDouble(cost)), description);
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.updateService(autoShowService);
             content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
-                    MessageProvider.getProperty(MessageProperty.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessageProperty.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(PagePathProperty.ERROR_PAGE_PROPERTY);
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         } catch (ValidatorException e) {
             content.setRequestAttributes(ATTRIBUTE_INVALID_SERVICE,
-                    MessageProvider.getProperty(MessageProperty.INVALID_SERVICE_UPDATE_PROPERTY));
+                    MessageProvider.getProperty(MessagePath.INVALID_SERVICE_UPDATE_PROPERTY));
             logger.error(e);
         }
         return page;

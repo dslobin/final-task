@@ -11,7 +11,7 @@ import by.epam.autoshow.service.UserService;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.UserServiceImpl;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +40,7 @@ public class GetCustomerEditPageCommand implements ActionCommand {
             content.setRequestAttributes(PARAM_CUSTOMER, customer.get());
             content.setRequestAttributes(PARAM_USER, user.get());
             content.setRequestAttributes(ATTRIBUTE_USER_STATUS, UserStatus.values());
-            page = PagePathProvider.getProperty(PagePathProperty.CUSTOMER_EDIT_PAGE_PROPERTY);
+            page = PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);
         }

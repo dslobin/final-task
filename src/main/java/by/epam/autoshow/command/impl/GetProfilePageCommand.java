@@ -9,10 +9,10 @@ import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
-import by.epam.autoshow.util.provider.MessageProperty;
+import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
-import by.epam.autoshow.util.provider.PagePathProperty;
+import by.epam.autoshow.util.provider.JspPagePath;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,7 @@ public class GetProfilePageCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent content) {
         String login = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
-        String page = PagePathProvider.getProperty(PagePathProperty.PROFILE_PAGE_PROPERTY);
+        String page = PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY);
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             OrderService orderService = OrderServiceImpl.getInstance();
@@ -43,7 +43,7 @@ public class GetProfilePageCommand implements ActionCommand {
                 content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {
                 content.setRequestAttributes(ATTRIBUTE_ERROR, MessageProvider
-                        .getProperty(MessageProperty.PROFILE_ERROR_PROPERTY));
+                        .getProperty(MessagePath.PROFILE_ERROR_PROPERTY));
             }
         } catch (ServiceException e) {
             logger.error(e);
