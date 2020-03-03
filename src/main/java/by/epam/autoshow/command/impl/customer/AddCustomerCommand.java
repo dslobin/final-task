@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.customer;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
@@ -18,6 +20,8 @@ import by.epam.autoshow.validation.ValidatorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
+
 public class AddCustomerCommand implements ActionCommand {
     private static final String PARAM_USERNAME = "username";
     private static final String PARAM_PASSWORD = "password";
@@ -29,10 +33,12 @@ public class AddCustomerCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
     private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
+    private static final String ATTRIBUTE_CUSTOMERS_MAP = "customerMap";
+    private static final String CUSTOMERS_PAGE_URL = "/controller?command=get_all_customers";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String status = content.getRequestParameter(PARAM_USER_STATUS);
@@ -40,7 +46,7 @@ public class AddCustomerCommand implements ActionCommand {
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
-        String page = PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY);
+        Router router = null;
         try {
             User user = new User();
             user.setUsername(login);
@@ -52,16 +58,21 @@ public class AddCustomerCommand implements ActionCommand {
             customerService.registerCustomer(user, customer);
             content.setRequestAttributes(ATTRIBUTE_CUSTOMER_CHANGED,
                     MessageProvider.getProperty(MessagePath.CUSTOMER_SUCCESSFUL_ADDITION_PROPERTY));
+            Map<String, Customer> customersUserNames = customerService.findCustomerUserNames();
+            content.setRequestAttributes(ATTRIBUTE_CUSTOMERS_MAP, customersUserNames);
+            router = new Router(CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.REDIRECT);
         } catch (ValidatorException e) {
+            logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_ADDITION_PROPERTY));
-            logger.error(e);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY),
+                    RouteType.REDIRECT);
         }
-        return page;
+        return router;
     }
 }

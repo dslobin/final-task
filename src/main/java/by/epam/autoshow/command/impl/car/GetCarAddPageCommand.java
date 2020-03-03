@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.car;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.BodyType;
 import by.epam.autoshow.model.Color;
@@ -25,7 +27,7 @@ public class GetCarAddPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         try {
             CarService carService = CarServiceImpl.getInstance();
             List<Color> colors = carService.findAllColors();
@@ -37,6 +39,7 @@ public class GetCarAddPageCommand implements ActionCommand {
         content.setRequestAttributes(ATTRIBUTE_CAR_BODY_TYPE_VALUES, BodyType.values());
         content.setRequestAttributes(ATTRIBUTE_SALE_STATUS_VALUES, SaleStatus.values());
         String page = PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY);
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

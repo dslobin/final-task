@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.order;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Order;
 import by.epam.autoshow.service.OrderService;
@@ -20,21 +22,21 @@ public class CancelOrderCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String orderId = content.getRequestParameter(PARAM_ORDER_ID);
-        String page = null;
+        Router router = null;
         try {
             OrderService orderService = OrderServiceImpl.getInstance();
             Order order = new Order();
             order.setOrderId(Long.parseLong(orderId));
             orderService.deleteOrder(order);
-            page = PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY), RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
         }
-        return page;
+        return router;
     }
 }

@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.customer;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
@@ -26,7 +28,7 @@ public class GetCustomerEditPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String page = null;
         String customerId = content.getRequestParameter(PARAM_CUSTOMER_ID);
         try {
@@ -44,6 +46,7 @@ public class GetCustomerEditPageCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.error(e);
         }
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

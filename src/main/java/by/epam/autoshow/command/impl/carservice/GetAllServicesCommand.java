@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.carservice;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.model.UserRole;
@@ -24,7 +26,7 @@ public class GetAllServicesCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String page = null;
         try {
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
@@ -42,6 +44,7 @@ public class GetAllServicesCommand implements ActionCommand {
             page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
             logger.error(e);
         }
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

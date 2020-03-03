@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.Order;
@@ -25,10 +27,11 @@ public class GetProfilePageCommand implements ActionCommand {
     private static final String ATTRIBUTE_CUSTOMER = "customer";
     private static final String ATTRIBUTE_ORDERS = "customerOrders";
     private static final String ATTRIBUTE_ERROR = "error";
+    private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String login = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
         String page = PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY);
         try {
@@ -38,16 +41,19 @@ public class GetProfilePageCommand implements ActionCommand {
             if (customer.isPresent()) {
                 long customerId = customer.get().getCustomerId();
                 List<Order> orders = orderService.findCustomerOrders(customerId);
-                logger.debug("Customer orders: " + orders);
                 content.setRequestAttributes(ATTRIBUTE_CUSTOMER, customer.get());
                 content.setRequestAttributes(ATTRIBUTE_ORDERS, orders);
             } else {
-                content.setRequestAttributes(ATTRIBUTE_ERROR, MessageProvider
-                        .getProperty(MessagePath.PROFILE_ERROR_PROPERTY));
+                content.setRequestAttributes(ATTRIBUTE_ERROR,
+                        MessageProvider.getProperty(MessagePath.PROFILE_ERROR_PROPERTY));
             }
         } catch (ServiceException e) {
             logger.error(e);
+            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         }
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

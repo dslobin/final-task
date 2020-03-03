@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.carservice;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
@@ -16,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_SERVICE_ID = "serviceId";
@@ -25,32 +28,40 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_SERVICE = "invalidService";
     private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
+    private static final String ATTRIBUTE_SERVICE_LIST = "autoShowServiceList";
+    private static final String SERVICES_PAGE_URL = "/controller?command=get_all_services";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         String serviceTitle = content.getRequestParameter(PARAM_TITLE);
         String cost = content.getRequestParameter(PARAM_COST);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
-        String page = PagePathProvider.getProperty(JspPagePath.SERVICE_EDIT_PAGE_PROPERTY);
+        Router router = null;
         try {
             AutoShowService autoShowService = new AutoShowService(
-                    Long.parseLong(serviceId), serviceTitle, BigDecimal.valueOf(Double.parseDouble(cost)), description);
+                    Long.parseLong(serviceId), serviceTitle, BigDecimal.valueOf(Double.parseDouble(cost)), description
+            );
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.updateService(autoShowService);
+            List<AutoShowService> services = serviceManagement.findAllServices();
+            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, services);
             content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
                     MessageProvider.getProperty(MessagePath.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
+            router = new Router(SERVICES_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
         } catch (ValidatorException e) {
+            logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_SERVICE,
                     MessageProvider.getProperty(MessagePath.INVALID_SERVICE_UPDATE_PROPERTY));
-            logger.error(e);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.SERVICE_EDIT_PAGE_PROPERTY),
+                    RouteType.FORWARD);
         }
-        return page;
+        return router;
     }
 }

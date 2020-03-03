@@ -45,7 +45,7 @@ public class ActionFactory {
         } catch (IllegalArgumentException e) {
             actionCommand = new GetErrorPageCommand();
             message.append(MessageProvider.getProperty(MessagePath.WRONG_ACTION_PROPERTY))
-                    .append(" - ").append(action);
+                    .append(":").append(action);
             content.setRequestAttributes(ATTRIBUTE_WRONG_ACTION, message.toString());
         }
         return actionCommand;

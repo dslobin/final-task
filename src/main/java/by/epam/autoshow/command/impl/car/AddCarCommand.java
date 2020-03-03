@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.car;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.BodyType;
 import by.epam.autoshow.model.Car;
@@ -19,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class AddCarCommand implements ActionCommand {
     private static final String PARAM_MODEL = "model";
@@ -37,10 +40,12 @@ public class AddCarCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
     private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
+    private static final String ATTRIBUTE_CAR_LIST = "carList";
+    private static final String CARS_PAGE_URL = "/controller?command=get_all_cars";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String model = content.getRequestParameter(PARAM_MODEL);
         String mileage = content.getRequestParameter(PARAM_MILEAGE);
         String fuelType = content.getRequestParameter(PARAM_FUEL_TYPE);
@@ -54,7 +59,7 @@ public class AddCarCommand implements ActionCommand {
         String status = content.getRequestParameter(PARAM_STATUS);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
         String imageUrl = content.getRequestParameter(PARAM_IMG_URL);
-        String page = PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY);
+        Router router = null;
         try {
             Car car = new Car();
             car.setModel(model);
@@ -73,16 +78,20 @@ public class AddCarCommand implements ActionCommand {
             carService.addCar(car, color);
             content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
                     MessageProvider.getProperty(MessagePath.CAR_SUCCESSFUL_ADDITION_PROPERTY));
+            List<Car> cars = carService.findAllCars();
+            content.setRequestAttributes(ATTRIBUTE_CAR_LIST, cars);
+            router = new Router(CARS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
         } catch (ValidatorException e) {
+            logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
                     MessageProvider.getProperty(MessagePath.INVALID_CAR_ADDITION_PROPERTY));
-            logger.error(e);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY), RouteType.FORWARD);
         }
-        return page;
+        return router;
     }
 }

@@ -15,5 +15,5 @@ public interface ActionCommand {
      * @param content data in the request and in the session
      * @return page path
      */
-    String execute(SessionRequestContent content);
+    Router execute(SessionRequestContent content);
 }

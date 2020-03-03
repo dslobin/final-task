@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
@@ -29,7 +31,7 @@ public class RegistrationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String surname = content.getRequestParameter(PARAM_SURNAME);
@@ -55,6 +57,7 @@ public class RegistrationCommand implements ActionCommand {
                     MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_ADDITION_PROPERTY));
             page = PagePathProvider.getProperty(JspPagePath.REGISTRATION_PAGE_PROPERTY);
         }
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

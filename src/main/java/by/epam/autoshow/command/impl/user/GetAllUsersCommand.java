@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.user;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.UserService;
@@ -22,7 +24,7 @@ public class GetAllUsersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String page = null;
         try {
             UserService userService = UserServiceImpl.getInstance();
@@ -35,6 +37,7 @@ public class GetAllUsersCommand implements ActionCommand {
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
             page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
         }
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }

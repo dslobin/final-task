@@ -37,6 +37,7 @@ public class SessionLocaleFilter implements Filter {
 
     private void changeLocale(String locale) {
         String[] localeData = locale.split(LOCALE_REGEX);
+        logger.debug("locale was changed");
         Locale.setDefault(new Locale(localeData[0], localeData[1]));
     }
 

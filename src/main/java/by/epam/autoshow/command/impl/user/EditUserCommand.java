@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.user;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.model.UserRole;
@@ -25,31 +27,37 @@ public class EditUserCommand implements ActionCommand {
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
     private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
+    private static final String ATTRIBUTE_USER_LIST = "userList";
+    private static final String USERS_PAGE_URL = "/controller?command=get_all_users";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String userId = content.getRequestParameter(PARAM_USER_ID);
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
         String status = content.getRequestParameter(PARAM_USER_STATUS);
-        String page = PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY);
+        Router router = null;
         try {
             User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
             UserService userService = UserServiceImpl.getInstance();
             userService.updateUser(user);
             content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
                     MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_UPDATE_PROPERTY));
+            content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
+            router = new Router(USERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
         } catch (ValidatorException e) {
+            logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_INVALID_USER,
                     MessageProvider.getProperty(MessagePath.INVALID_USER_UPDATE_PROPERTY));
-            logger.error(e);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY),
+                    RouteType.FORWARD);
         }
-        return page;
+        return router;
     }
 }

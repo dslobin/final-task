@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.order;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.model.Customer;
@@ -35,12 +37,12 @@ public class CreateOrderCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String username = (String) content.getSessionAttributes(ATTRIBUTE_USER_LOGIN);
         String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
         String serviceDate = content.getRequestParameter(PARAM_SERVICE_DATE);
         String serviceTime = content.getRequestParameter(PARAM_SERVICE_TIME);
-        String page = null;
+        Router router = null;
         try {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
@@ -58,13 +60,13 @@ public class CreateOrderCommand implements ActionCommand {
             order.setServiceTime(orderDate);
             order.setStatus(OrderStatus.NEW);
             orderService.addOrder(order);
-            page = PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.PROFILE_PAGE_PROPERTY), RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                     MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            page = PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY);
+            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
         }
-        return page;
+        return router;
     }
 }

@@ -1,6 +1,8 @@
 package by.epam.autoshow.command.impl.car;
 
 import by.epam.autoshow.command.ActionCommand;
+import by.epam.autoshow.command.RouteType;
+import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
 import by.epam.autoshow.model.*;
 import by.epam.autoshow.service.CarService;
@@ -15,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+//FIXME
 public class GetCarEditPageCommand implements ActionCommand {
     private static final String ATTRIBUTE_CAR_FUEL_TYPE_VALUES = "fuelTypeList";
     private static final String ATTRIBUTE_CAR_BODY_TYPE_VALUES = "bodyTypeList";
@@ -25,7 +28,7 @@ public class GetCarEditPageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent content) {
+    public Router execute(SessionRequestContent content) {
         String page = null;
         String carId = content.getRequestParameter(PARAM_CAR_ID);
         try {
@@ -42,6 +45,7 @@ public class GetCarEditPageCommand implements ActionCommand {
         content.setRequestAttributes(ATTRIBUTE_CAR_BODY_TYPE_VALUES, BodyType.values());
         content.setRequestAttributes(ATTRIBUTE_SALE_STATUS_VALUES, SaleStatus.values());
         page = PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY);
-        return page;
+        Router router = new Router(page, RouteType.FORWARD);
+        return router;
     }
 }
