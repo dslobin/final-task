@@ -7,7 +7,6 @@ public enum UserAuthorityCommand {
     LOGIN("guest"),
     LOGOUT("admin", "client"),
     REGISTRATION("admin", "client", "guest"),
-    REGAIN_PASSWORD("admin", "client"),
 
     GET_ALL_USERS("admin"),
     GET_ALL_CARS("admin", "client", "guest"),

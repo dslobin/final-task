@@ -71,20 +71,19 @@ public class CustomerServiceImpl implements CustomerService {
         if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
             throw new ValidatorException("Failed to update row, customer data not valid");
         }
-        boolean isRegistrationSuccessful = false;
         try {
             UserManager userManager = UserManager.getInstance();
             Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
             if (authorizedUser.isEmpty()) {
-                String password = user.getPassword();
-                user.setPassword(Sha256PasswordEncoder.encode(password));
-                customerManger.updateCustomer(user, customer);
-                isRegistrationSuccessful = true;
+                String password = Sha256PasswordEncoder.encode(user.getPassword());
+                user.setPassword(password);
+                logger.debug("customer updated his password");
             }
+            customerManger.updateCustomer(user, customer);
         } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
-        return isRegistrationSuccessful;
+        return true;
     }
 
     @Override

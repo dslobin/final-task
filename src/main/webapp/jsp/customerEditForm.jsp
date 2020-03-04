@@ -45,11 +45,9 @@
 
                 <c:if test="${customer != null}">
                     <div class="form-group">
-                        <h2 for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>:
-                                ${user.username}
-                        </h2>
+                        <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>:</label>
                         <input type="text" name="username" value="${user.username}" class="form-control"
-                               minlength="1" maxlength="30" hidden>
+                               minlength="1" maxlength="30" readonly="readonly">
                     </div>
                 </c:if>
 
@@ -108,7 +106,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phoneNumber"><fmt:message key="editCustomer.label.phoneNumber" bundle="${rb}"/>: </label>
+                    <label for="phoneNumber"><fmt:message key="editCustomer.label.phoneNumber"
+                                                          bundle="${rb}"/>: </label>
                     <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
                            pattern="^(((8[\\- ]?)(\\(?\\d{3}\\)?[\\- ]?))|(\\+375[\\-]?)(\\(?\\d{2}\\)?[\\- ]?))?[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$"
                            value="${customer.phoneNumber}" required>

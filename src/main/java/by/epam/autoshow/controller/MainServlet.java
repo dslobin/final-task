@@ -47,7 +47,6 @@ public class MainServlet extends HttpServlet {
         Router router = command.execute(content);
         content.insert(request);
         String page = router.getPagePath();
-        logger.debug(page);
         if (RouteType.FORWARD.equals(router.getRouteType())) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);

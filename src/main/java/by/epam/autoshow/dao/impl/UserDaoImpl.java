@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
             "INSERT INTO users (username, password, role, status) VALUES (?, ?, ?, ?)";
 
     private static final String UPDATE =
-            "UPDATE users SET username = ?, password = ?, role = ?, status = ? WHERE user_id = ?";
+            "UPDATE users SET password = ?, status = ? WHERE user_id = ?";
 
     private static final String FIND_ALL =
             "SELECT user_id, username, password, role, status FROM users";
@@ -54,37 +54,45 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findById(long id) throws DaoException {
-        User user = new User();
+        User user = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
-            fillInUserData(user, preparedStatement);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new User(
+                            resultSet.getLong(SqlColumnName.USER_ID),
+                            resultSet.getString(SqlColumnName.USERNAME),
+                            resultSet.getString(SqlColumnName.PASSWORD),
+                            UserRole.valueOf(resultSet.getString(SqlColumnName.ROLE)),
+                            UserStatus.valueOf(resultSet.getString(SqlColumnName.STATUS))
+                    );
+                }
+            }
         } catch (SQLException e) {
             throw new DaoException("Error finding user by id", e);
         }
-        return Optional.of(user);
-    }
-
-    private void fillInUserData(User user, PreparedStatement preparedStatement) throws SQLException {
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                user.setUserId(resultSet.getLong(SqlColumnName.USER_ID));
-                user.setUsername(resultSet.getString(SqlColumnName.USERNAME));
-                user.setPassword(resultSet.getString(SqlColumnName.PASSWORD));
-                user.setRole(UserRole.valueOf(resultSet.getString(SqlColumnName.ROLE)));
-                user.setStatus(UserStatus.valueOf(resultSet.getString(SqlColumnName.STATUS)));
-            }
-        }
+        return Optional.ofNullable(user);
     }
 
     public Optional<User> findByUsername(String username) throws DaoException {
-        User user = new User();
+        User user = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USERNAME)) {
             preparedStatement.setString(1, username);
-            fillInUserData(user, preparedStatement);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new User(
+                            resultSet.getLong(SqlColumnName.USER_ID),
+                            resultSet.getString(SqlColumnName.USERNAME),
+                            resultSet.getString(SqlColumnName.PASSWORD),
+                            UserRole.valueOf(resultSet.getString(SqlColumnName.ROLE)),
+                            UserStatus.valueOf(resultSet.getString(SqlColumnName.STATUS))
+                    );
+                }
+            }
         } catch (SQLException e) {
             throw new DaoException("Error finding user by username", e);
         }
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     public Optional<User> authorizeUser(User user) throws DaoException {
@@ -112,11 +120,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User update(User user) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getRole().name());
-            preparedStatement.setString(4, user.getStatus().name());
-            preparedStatement.setLong(5, user.getUserId());
+            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setString(2, user.getStatus().name());
+            preparedStatement.setLong(3, user.getUserId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error updating user", e);

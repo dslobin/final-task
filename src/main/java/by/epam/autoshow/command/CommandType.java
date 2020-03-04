@@ -13,7 +13,6 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationCommand()),
-    REGAIN_PASSWORD(new RegistrationCommand()),
 
     GET_ALL_USERS(new GetAllUsersCommand()),
     GET_ALL_CARS(new GetAllCarsCommand()),

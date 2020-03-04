@@ -47,11 +47,9 @@
 
                 <c:if test="${user != null}">
                     <div class="form-group">
-                        <h2 for="username">
-                            <fmt:message key="editUser.label.username" bundle="${rb}"/>: ${user.username}
-                        </h2>
+                        <label for="username"><fmt:message key="editUser.label.username" bundle="${rb}"/>:</label>
                         <input type="text" name="username" value="${user.username}" class="form-control"
-                               minlength="1" maxlength="30" hidden>
+                               minlength="1" maxlength="30" readonly="readonly">
                     </div>
                 </c:if>
 
@@ -65,13 +63,13 @@
                     <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
                     <select id="userStatus" name="userStatus" class="form-control">
                         <c:if test="${user == null}">
-                            <c:forEach items="${pageScope.userStatusArray}" var="status">
+                            <c:forEach items="${requestScope.userStatusArray}" var="status">
                                 <option>${status}</option>
                             </c:forEach>
                         </c:if>
 
                         <c:if test="${user != null}">
-                            <c:forEach items="${userStatusArray}" var="status">
+                            <c:forEach items="${requestScope.userStatusArray}" var="status">
                                 <c:if test="${status == user.status}">
                                     <option selected>${status}</option>
                                 </c:if>

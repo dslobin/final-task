@@ -68,10 +68,10 @@ public class UserServiceImpl implements UserService {
         try {
             Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
             if (authorizedUser.isEmpty()) {
-                logger.debug("PASSWORD WAS CHANGED!");
                 String password = user.getPassword();
                 password = Sha256PasswordEncoder.encode(password);
                 user.setPassword(password);
+                logger.debug("user updated his password");
             }
             userManager.updateUser(user);
         } catch (ManagerException e) {
