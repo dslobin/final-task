@@ -1,6 +1,5 @@
 package by.epam.autoshow.validation;
 
-import by.epam.autoshow.model.User;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,9 +20,16 @@ public class UserDataValidatorTest {
     }
 
     @Test
-    public void testValidUserData() {
-        User user = new User("username", "password");
-        boolean condition = userDataValidator.validate(user);
+    public void testValidUsername() {
+        String username = "username";
+        boolean condition = userDataValidator.isUsernameValid(username);
+        assertTrue(condition);
+    }
+
+    @Test
+    public void testValidPassword() {
+        String password = "password";
+        boolean condition = userDataValidator.isUsernameValid(password);
         assertTrue(condition);
     }
 
@@ -31,15 +37,14 @@ public class UserDataValidatorTest {
     public void testInvalidUsername() {
         String username = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt" +
                 " ut labore et dolore magna aliqua.";
-        User user = new User(username, "password");
-        boolean condition = userDataValidator.validate(user);
+        boolean condition = userDataValidator.isUsernameValid(username);
         assertFalse(condition);
     }
 
     @Test
     public void testInvalidPassword() {
-        User user = new User("username", "pass");
-        boolean condition = userDataValidator.validate(user);
+        String password = "pass";
+        boolean condition = userDataValidator.isPasswordValid(password);
         assertFalse(condition);
     }
 }

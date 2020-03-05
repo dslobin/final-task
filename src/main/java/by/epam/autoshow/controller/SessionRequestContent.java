@@ -44,11 +44,7 @@ public class SessionRequestContent {
     public void insert(HttpServletRequest request) {
         requestAttributes.forEach(request::setAttribute);
         HttpSession session = request.getSession();
-        logger.debug("session attr size = " + sessionAttributes.size());
         sessionAttributes.forEach(session::setAttribute);
-        logger.debug("Session attributes:");
-        sessionAttributes.forEach((key, value) ->
-                System.out.println("Name: " + key + "\nValue:" + value));
         if (isSessionInvalidate()) {
             session.invalidate();
         }
@@ -84,10 +80,6 @@ public class SessionRequestContent {
 
     public void setSessionAttributes(String name, Object object) {
         sessionAttributes.put(name, object);
-    }
-
-    public Object removeSessionAttribute(String name) {
-        return sessionAttributes.remove(name);
     }
 
     public boolean isSessionInvalidate() {

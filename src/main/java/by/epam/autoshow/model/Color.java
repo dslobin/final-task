@@ -39,12 +39,13 @@ public class Color {
             return false;
         }
         Color color = (Color) o;
-        return Objects.equals(code, color.code);
+        return Objects.equals(colorId, color.colorId) &&
+                Objects.equals(code, color.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        return Objects.hash(colorId, code);
     }
 
     @Override

@@ -16,17 +16,12 @@ import by.epam.autoshow.util.provider.JspPagePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
-//FIXME
 public class GetCarEditPageCommand implements ActionCommand {
-    private static final String ATTRIBUTE_CAR_FUEL_TYPE_VALUES = "fuelTypeList";
-    private static final String ATTRIBUTE_CAR_BODY_TYPE_VALUES = "bodyTypeList";
-    private static final String ATTRIBUTE_SALE_STATUS_VALUES = "saleStatusList";
-    private static final String ATTRIBUTE_CAR_COLOR_VALUES = "colorList";
     private static final String PARAM_CAR_ID = "carId";
-    private static final String PARAM_CAR = "car";
+    private static final String ATTRIBUTE_CAR = "car";
+    private static final String ATTRIBUTE_CAR_COLOR_VALUES = "colorList";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
 
@@ -37,14 +32,9 @@ public class GetCarEditPageCommand implements ActionCommand {
         try {
             CarService carService = CarServiceImpl.getInstance();
             Optional<Car> car = carService.findCarById(Long.parseLong(carId));
-            content.setRequestAttributes(PARAM_CAR, car.get());
-            content.setRequestAttributes(ATTRIBUTE_CAR_FUEL_TYPE_VALUES, FuelType.values());
-            content.setRequestAttributes(ATTRIBUTE_CAR_BODY_TYPE_VALUES, BodyType.values());
-            content.setRequestAttributes(ATTRIBUTE_SALE_STATUS_VALUES, SaleStatus.values());
-            List<Color> colors = carService.findAllColors();
-            content.setRequestAttributes(ATTRIBUTE_CAR_COLOR_VALUES, colors);
-            router = new Router(PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY),
-                    RouteType.FORWARD);
+            content.setRequestAttributes(ATTRIBUTE_CAR, car.get());
+            content.setRequestAttributes(ATTRIBUTE_CAR_COLOR_VALUES, carService.findAllColors());
+            router = new Router(PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY), RouteType.FORWARD);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

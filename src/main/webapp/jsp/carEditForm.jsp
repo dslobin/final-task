@@ -60,12 +60,7 @@
 
                             <c:if test="${car != null}">
                                 <c:forEach items="${fuelTypeList}" var="fuel">
-                                    <c:if test="${fuel == car.fuelType}">
-                                        <option selected>${fuel}</option>
-                                    </c:if>
-                                    <c:if test="${fuel != car.fuelType}">
-                                        <option>${fuel}</option>
-                                    </c:if>
+                                    <option ${car.fuelType == fuel ? 'selected' : ''}>${fuel}</option>
                                 </c:forEach>
                             </c:if>
                         </select>
@@ -77,18 +72,13 @@
                         <select type="text" class="form-control" id="bodyType" name="bodyType">
                             <c:if test="${car == null}">
                                 <c:forEach items="${bodyTypeList}" var="body">
-                                    <option>${body}</option>
+                                    <option value="${body}">${body.type}</option>
                                 </c:forEach>
                             </c:if>
 
                             <c:if test="${car != null}">
                                 <c:forEach items="${bodyTypeList}" var="body">
-                                    <c:if test="${body == car.bodyType}">
-                                        <option selected>${body}</option>
-                                    </c:if>
-                                    <c:if test="${body != car.bodyType}">
-                                        <option>${body}</option>
-                                    </c:if>
+                                    <option value="${body}" ${car.bodyType == body ? 'selected' : ''}>${body.type}</option>
                                 </c:forEach>
                             </c:if>
                         </select>
@@ -102,7 +92,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="transmission"><fmt:message key="editCar.label.transmission" bundle="${rb}"/>:</label>
+                        <label for="transmission"><fmt:message key="editCar.label.transmission"
+                                                               bundle="${rb}"/>:</label>
 
                         <input type="text" class="form-control" id="transmission" name="transmission"
                                minlength="1" maxlength="45" value="${car.transmission}">
@@ -129,12 +120,7 @@
 
                             <c:if test="${car != null}">
                                 <c:forEach items="${colorList}" var="color">
-                                    <c:if test="${color == car.color}">
-                                        <option selected>${color.code}</option>
-                                    </c:if>
-                                    <c:if test="${color != car.color}">
-                                        <option>${color.code}</option>
-                                    </c:if>
+                                    <option ${car.color == color ? 'selected' : ''}>${color.code}</option>
                                 </c:forEach>
                             </c:if>
                         </select>
@@ -160,18 +146,13 @@
                         <select type="text" class="form-control" id="saleStatus" name="saleStatus" required>
                             <c:if test="${car == null}">
                                 <c:forEach items="${saleStatusList}" var="status">
-                                    <option>${status}</option>
+                                    <option value="${status}">${status.value}</option>
                                 </c:forEach>
                             </c:if>
 
                             <c:if test="${car != null}">
                                 <c:forEach items="${saleStatusList}" var="status">
-                                    <c:if test="${status == car.status}">
-                                        <option selected>${status}</option>
-                                    </c:if>
-                                    <c:if test="${status != car.status}">
-                                        <option>${status}</option>
-                                    </c:if>
+                                    <option value="${status}"${car.status == status ? 'selected' : ''}>${status.value}</option>
                                 </c:forEach>
                             </c:if>
                         </select>

@@ -8,9 +8,6 @@ import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.util.security.Sha256PasswordEncoder;
-import by.epam.autoshow.validation.CustomerDataValidator;
-import by.epam.autoshow.validation.UserDataValidator;
-import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,13 +19,9 @@ import java.util.*;
 public class CustomerServiceImpl implements CustomerService {
     private static volatile CustomerServiceImpl INSTANCE;
     private CustomerManger customerManger;
-    private CustomerDataValidator customerValidator;
-    private UserDataValidator userDataValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private CustomerServiceImpl() {
-        customerValidator = new CustomerDataValidator();
-        userDataValidator = new UserDataValidator();
         customerManger = CustomerManger.getInstance();
     }
 
@@ -46,10 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
-        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
-            throw new ValidatorException("Failed to insert row, customer data not valid");
-        }
+    public boolean registerCustomer(User user, Customer customer) throws ServiceException {
         boolean isRegistrationSuccessful = false;
         try {
             UserManager userManager = UserManager.getInstance();
@@ -67,10 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean updateCustomer(User user, Customer customer) throws ServiceException, ValidatorException {
-        if (!customerValidator.validate(customer) || !userDataValidator.validate(user)) {
-            throw new ValidatorException("Failed to update row, customer data not valid");
-        }
+    public boolean updateCustomer(User user, Customer customer) throws ServiceException {
         try {
             UserManager userManager = UserManager.getInstance();
             Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());

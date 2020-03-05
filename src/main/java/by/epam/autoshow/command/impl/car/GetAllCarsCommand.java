@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllCarsCommand implements ActionCommand {
-    private static final String PARAM_CAR_LIST = "carList";
+    private static final String ATTRIBUTE_CAR_LIST = "carList";
     private static final String ATTRIBUTE_USER_ROLE = "userRole";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
     private static final Logger logger = LogManager.getLogger();
@@ -39,7 +39,7 @@ public class GetAllCarsCommand implements ActionCommand {
                 cars = carService.findCarsForSale();
                 page = PagePathProvider.getProperty(JspPagePath.CLIENT_CAR_OVERVIEW_PAGE_PROPERTY);
             }
-            content.setRequestAttributes(PARAM_CAR_LIST, cars);
+            content.setRequestAttributes(ATTRIBUTE_CAR_LIST, cars);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

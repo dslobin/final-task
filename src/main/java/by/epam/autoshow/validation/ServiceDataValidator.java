@@ -1,43 +1,32 @@
 package by.epam.autoshow.validation;
 
-import by.epam.autoshow.model.AutoShowService;
-
 import java.util.regex.Pattern;
 
-public class ServiceDataValidator implements AbstractValidator<AutoShowService> {
+public class ServiceDataValidator {
     private static final int MAX_TITLE_LENGTH = 512;
     private static final int MAX_DESCRIPTION_LENGTH = 2048;
-    private static final Pattern DOUBLE_REGEX = Pattern.compile("\\d+\\.\\d+");
+    private static final Pattern COST_REGEX = Pattern.compile("(\\d{1,6}\\.\\d{1,2})|(\\d){1,6}");
 
-    private boolean isTitleValid(String title) {
-        if (title == null) {
+    public boolean isTitleValid(String title) {
+        if (title == null || title.isBlank()) {
             return false;
         }
         int titleLength = title.length();
         return titleLength < MAX_TITLE_LENGTH;
     }
 
-    private boolean isCostValid(String cost) {
-        if (cost == null) {
+    public boolean isCostValid(String cost) {
+        if (cost == null || cost.isBlank()) {
             return false;
         }
-        return DOUBLE_REGEX.matcher(cost).matches();
+        return COST_REGEX.matcher(cost).matches();
     }
 
-    private boolean isDescriptionValid(String description) {
-        if (description == null) {
-            return false;
+    public boolean isDescriptionValid(String description) {
+        if (description != null) {
+            int descriptionLength = description.length();
+            return descriptionLength < MAX_DESCRIPTION_LENGTH;
         }
-        int descriptionLength = description.length();
-        return descriptionLength < MAX_DESCRIPTION_LENGTH;
-    }
-
-    @Override
-    public boolean validate(AutoShowService autoShowService) {
-        if (autoShowService == null) {
-            return false;
-        }
-        return isTitleValid(autoShowService.getTitle()) && isCostValid(autoShowService.getCost().toString()) &&
-                isDescriptionValid(autoShowService.getDescription());
+        return true;
     }
 }

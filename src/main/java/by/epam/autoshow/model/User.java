@@ -76,7 +76,8 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(username, user.username) &&
+        return Objects.equals(userId, user.userId) &&
+                Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
                 status == user.status;
@@ -84,7 +85,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, role, status);
+        return Objects.hash(userId, username, password, role, status);
     }
 
     @Override

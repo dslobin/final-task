@@ -6,8 +6,6 @@ import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.Color;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
-import by.epam.autoshow.validation.CarDataValidator;
-import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,11 +19,9 @@ import java.util.Optional;
 public class CarServiceImpl implements CarService {
     private static volatile CarServiceImpl INSTANCE;
     private CarManager carManager;
-    private CarDataValidator carDataValidator;
     private static final Logger logger = LogManager.getLogger();
 
     private CarServiceImpl() {
-        carDataValidator = new CarDataValidator();
         carManager = CarManager.getInstance();
     }
 
@@ -43,10 +39,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean updateCar(Car car, String colorCode) throws ServiceException, ValidatorException {
-        if (!carDataValidator.validate(car)) {
-            throw new ValidatorException("Failed to update record, car data not valid");
-        }
+    public boolean updateCar(Car car, String colorCode) throws ServiceException {
         try {
             carManager.updateCar(car, colorCode);
         } catch (ManagerException | SQLException e) {
@@ -66,10 +59,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean addCar(Car car, String colorCode) throws ServiceException, ValidatorException {
-        if (!carDataValidator.validate(car)) {
-            throw new ValidatorException("Failed to insert record, car data not valid");
-        }
+    public boolean addCar(Car car, String colorCode) throws ServiceException {
         try {
             carManager.addCar(car, colorCode);
         } catch (ManagerException | SQLException e) {

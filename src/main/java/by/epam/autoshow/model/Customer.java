@@ -86,7 +86,8 @@ public class Customer {
             return false;
         }
         Customer customer = (Customer) o;
-        return Objects.equals(userId, customer.userId) &&
+        return Objects.equals(customerId, customer.customerId) &&
+                Objects.equals(userId, customer.userId) &&
                 Objects.equals(surname, customer.surname) &&
                 Objects.equals(name, customer.name) &&
                 Objects.equals(email, customer.email) &&
@@ -95,7 +96,7 @@ public class Customer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, surname, name, email, phoneNumber);
+        return Objects.hash(customerId, userId, surname, name, email, phoneNumber);
     }
 
     @Override

@@ -63,19 +63,14 @@
                     <label for="userStatus"><fmt:message key="editUser.label.status" bundle="${rb}"/>: </label>
                     <select id="userStatus" name="userStatus" class="form-control">
                         <c:if test="${user == null}">
-                            <c:forEach items="${requestScope.userStatusArray}" var="status">
+                            <c:forEach items="${userStatuses}" var="status">
                                 <option>${status}</option>
                             </c:forEach>
                         </c:if>
 
                         <c:if test="${user != null}">
-                            <c:forEach items="${requestScope.userStatusArray}" var="status">
-                                <c:if test="${status == user.status}">
-                                    <option selected>${status}</option>
-                                </c:if>
-                                <c:if test="${status != user.status}">
-                                    <option>${status}</option>
-                                </c:if>
+                            <c:forEach items="${userStatuses}" var="status">
+                                <option ${user.status == status ? 'selected' : ''}>${status}</option>
                             </c:forEach>
                         </c:if>
                     </select>

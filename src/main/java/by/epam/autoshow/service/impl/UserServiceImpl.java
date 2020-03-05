@@ -5,10 +5,9 @@ import by.epam.autoshow.dao.manager.UserManager;
 import by.epam.autoshow.model.User;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.UserService;
-
 import by.epam.autoshow.util.security.Sha256PasswordEncoder;
 import by.epam.autoshow.validation.UserDataValidator;
-import by.epam.autoshow.validation.ValidatorException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,10 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(User user) throws ServiceException, ValidatorException {
-        if (!userValidator.validate(user)) {
-            throw new ValidatorException("Failed to insert row, user data not valid!");
-        }
+    public boolean registerUser(User user) throws ServiceException {
         boolean isRegistrationSuccessful = false;
         try {
             Optional<User> authorizedUser = userManager.findByUsername(user.getUsername());
@@ -61,10 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) throws ServiceException, ValidatorException {
-        if (!userValidator.validate(user)) {
-            throw new ValidatorException("Failed to update row, user data not valid!");
-        }
+    public User updateUser(User user) throws ServiceException {
         try {
             Optional<User> authorizedUser = userManager.authorizeUser(user.getUsername(), user.getPassword());
             if (authorizedUser.isEmpty()) {
