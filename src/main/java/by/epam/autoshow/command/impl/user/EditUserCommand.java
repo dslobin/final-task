@@ -25,9 +25,7 @@ public class EditUserCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
-    private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_USER_LIST = "userList";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -41,9 +39,6 @@ public class EditUserCommand implements ActionCommand {
             User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
             UserService userService = UserServiceImpl.getInstance();
             userService.updateUser(user);
-            content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
-                    MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_UPDATE_PROPERTY));
-            content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
             router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);

@@ -1,5 +1,8 @@
 package by.epam.autoshow.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,7 @@ public class SessionRequestContent {
     private HashMap<String, Object> sessionAttributes;
     private boolean invalidateSession = false;
     private static final int FIRST_ARRAY_ELEMENT_INDEX = 0;
+    private static final Logger logger = LogManager.getLogger();
 
     public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();
@@ -40,7 +44,11 @@ public class SessionRequestContent {
     public void insert(HttpServletRequest request) {
         requestAttributes.forEach(request::setAttribute);
         HttpSession session = request.getSession();
+        logger.debug("session attr size = " + sessionAttributes.size());
         sessionAttributes.forEach(session::setAttribute);
+        logger.debug("Session attributes:");
+        sessionAttributes.forEach((key, value) ->
+                System.out.println("Name: " + key + "\nValue:" + value));
         if (isSessionInvalidate()) {
             session.invalidate();
         }
@@ -76,6 +84,10 @@ public class SessionRequestContent {
 
     public void setSessionAttributes(String name, Object object) {
         sessionAttributes.put(name, object);
+    }
+
+    public Object removeSessionAttribute(String name) {
+        return sessionAttributes.remove(name);
     }
 
     public boolean isSessionInvalidate() {

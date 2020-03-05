@@ -24,10 +24,8 @@ public class AddUserCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_USER_STATUS = "userStatus";
     private static final String ATTRIBUTE_INVALID_USER = "invalidUser";
-    private static final String ATTRIBUTE_USER_CHANGED = "successfulUserChange";
     private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_USER_LIST = "userList";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -45,14 +43,12 @@ public class AddUserCommand implements ActionCommand {
             UserService userService = UserServiceImpl.getInstance();
             boolean isRegistered = userService.registerUser(user);
             if (isRegistered) {
-                content.setRequestAttributes(ATTRIBUTE_USER_CHANGED,
-                        MessageProvider.getProperty(MessagePath.USER_SUCCESSFUL_ADDITION_PROPERTY));
-                content.setRequestAttributes(ATTRIBUTE_USER_LIST, userService.findAllUsers());
+                router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
             } else {
                 content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
                         MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+                router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.FORWARD);
             }
-            router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

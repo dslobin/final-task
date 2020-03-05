@@ -37,9 +37,7 @@ public class AddCarCommand implements ActionCommand {
     private static final String PARAM_DESCRIPTION = "carDescription";
     private static final String PARAM_IMG_URL = "imgUrl";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
-    private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_CAR_LIST = "carList";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -74,9 +72,6 @@ public class AddCarCommand implements ActionCommand {
             car.setImageUrl(imageUrl);
             CarService carService = CarServiceImpl.getInstance();
             carService.addCar(car, color);
-            content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
-                    MessageProvider.getProperty(MessagePath.CAR_SUCCESSFUL_ADDITION_PROPERTY));
-            content.setRequestAttributes(ATTRIBUTE_CAR_LIST, carService.findAllCars());
             router = new Router(JspPagePath.CARS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);

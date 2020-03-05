@@ -26,10 +26,8 @@ public class AddCustomerCommand implements ActionCommand {
     private static final String PARAM_CUSTOMER_EMAIL = "email";
     private static final String PARAM_CUSTOMER_PHONE_NUMBER = "phoneNumber";
     private static final String ATTRIBUTE_INVALID_CUSTOMER = "invalidCustomer";
-    private static final String ATTRIBUTE_CUSTOMER_CHANGED = "successfulCustomerChange";
     private static final String ATTRIBUTE_EXISTING_LOGIN = "existingLogin";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_CUSTOMERS_MAP = "customerMap";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -52,14 +50,12 @@ public class AddCustomerCommand implements ActionCommand {
             CustomerService customerService = CustomerServiceImpl.getInstance();
             boolean isRegistered = customerService.registerCustomer(user, customer);
             if (isRegistered) {
-                content.setRequestAttributes(ATTRIBUTE_CUSTOMER_CHANGED,
-                        MessageProvider.getProperty(MessagePath.CUSTOMER_SUCCESSFUL_ADDITION_PROPERTY));
-                content.setRequestAttributes(ATTRIBUTE_CUSTOMERS_MAP, customerService.findCustomerUserNames());
+                router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
             } else {
                 content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
                         MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+                router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.FORWARD);
             }
-            router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,

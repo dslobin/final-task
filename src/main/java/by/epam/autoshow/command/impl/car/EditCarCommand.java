@@ -37,9 +37,7 @@ public class EditCarCommand implements ActionCommand {
     private static final String PARAM_STATUS = "saleStatus";
     private static final String PARAM_DESCRIPTION = "carDescription";
     private static final String ATTRIBUTE_INVALID_CAR = "invalidCar";
-    private static final String ATTRIBUTE_CAR_CHANGED = "successfulCarChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_CAR_LIST = "carList";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -74,9 +72,6 @@ public class EditCarCommand implements ActionCommand {
             car.setDescription(description);
             CarService carService = CarServiceImpl.getInstance();
             carService.updateCar(car, color);
-            content.setRequestAttributes(ATTRIBUTE_CAR_CHANGED,
-                    MessageProvider.getProperty(MessagePath.CAR_SUCCESSFUL_UPDATE_PROPERTY));
-            content.setRequestAttributes(ATTRIBUTE_CAR_LIST, carService.findAllCars());
             router = new Router(JspPagePath.CARS_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);

@@ -25,9 +25,7 @@ public class EditAutoShowServiceCommand implements ActionCommand {
     private static final String PARAM_COST = "serviceCost";
     private static final String PARAM_DESCRIPTION = "serviceDescription";
     private static final String ATTRIBUTE_INVALID_SERVICE = "invalidService";
-    private static final String ATTRIBUTE_SERVICE_CHANGED = "successfulServiceChange";
     private static final String ATTRIBUTE_SERVER_ERROR = "serverError";
-    private static final String ATTRIBUTE_SERVICE_LIST = "autoShowServiceList";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -43,9 +41,6 @@ public class EditAutoShowServiceCommand implements ActionCommand {
             );
             AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
             serviceManagement.updateService(autoShowService);
-            content.setRequestAttributes(ATTRIBUTE_SERVICE_LIST, serviceManagement.findAllServices());
-            content.setRequestAttributes(ATTRIBUTE_SERVICE_CHANGED,
-                    MessageProvider.getProperty(MessagePath.SERVICE_SUCCESSFUL_UPDATE_PROPERTY));
             router = new Router(JspPagePath.SERVICES_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);

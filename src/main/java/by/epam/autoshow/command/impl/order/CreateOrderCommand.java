@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
-public class CreateOrderCommand extends AbstractOrderCommand implements ActionCommand {
+public class CreateOrderCommand implements ActionCommand {
     private static final String ATTRIBUTE_USER_LOGIN = "userLogin";
     private static final String PARAM_SERVICE_ID = "serviceId";
     private static final String PARAM_SERVICE_DATE = "serviceDate";
@@ -60,12 +60,8 @@ public class CreateOrderCommand extends AbstractOrderCommand implements ActionCo
             order.setServiceTime(orderDate);
             order.setStatus(OrderStatus.NEW);
             orderService.addOrder(order);
-            if (fillInProfileData(content)) {
-                router = new Router(JspPagePath.PROFILE_PAGE_URL, RouteType.REDIRECT);
-            } else {
-                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY),
-                        RouteType.FORWARD);
-            }
+            router = new Router(JspPagePath.PROFILE_PAGE_URL, RouteType.REDIRECT);
+
         } catch (ServiceException e) {
             logger.error(e);
             content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
