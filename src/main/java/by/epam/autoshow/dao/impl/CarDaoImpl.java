@@ -78,32 +78,37 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public Optional<Car> findById(long id) throws DaoException {
-        Car car = new Car();
+        Car car = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    car.setCarId(resultSet.getLong(SqlColumnName.CAR_ID));
-                    car.setModel(resultSet.getString(SqlColumnName.CAR_MODEL));
-                    car.setMileage(resultSet.getInt(SqlColumnName.MILEAGE));
-                    car.setFuelType(FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)));
-                    car.setBodyType(BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)));
-                    car.setVolume(resultSet.getInt(SqlColumnName.VOLUME));
-                    car.setTransmission(resultSet.getString(SqlColumnName.TRANSMISSION));
-                    car.setDriveUnit(resultSet.getString(SqlColumnName.DRIVE_UNIT));
-                    car.setIssueYear(resultSet.getInt(SqlColumnName.ISSUE_YEAR));
-                    car.setPrice(resultSet.getBigDecimal(SqlColumnName.PRICE));
-                    car.setStatus(SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)));
-                    car.getColor().setColorId(resultSet.getLong(SqlColumnName.COLOR_ID));
-                    car.getColor().setCode(resultSet.getString(SqlColumnName.CODE));
-                    car.setDescription(resultSet.getString(SqlColumnName.DESCRIPTION));
-                    car.setImageUrl(resultSet.getString(SqlColumnName.IMAGE_URL));
+                    Color color = new Color(
+                            resultSet.getLong(SqlColumnName.COLOR_ID),
+                            resultSet.getString(SqlColumnName.CODE)
+                    );
+                    car = new Car.Builder(
+                            resultSet.getString(SqlColumnName.CAR_MODEL),
+                            resultSet.getInt(SqlColumnName.MILEAGE),
+                            FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)),
+                            BodyType.valueOf(resultSet.getString(SqlColumnName.BODY_TYPE)),
+                            resultSet.getInt(SqlColumnName.VOLUME),
+                            resultSet.getString(SqlColumnName.TRANSMISSION),
+                            resultSet.getString(SqlColumnName.DRIVE_UNIT),
+                            resultSet.getInt(SqlColumnName.ISSUE_YEAR),
+                            resultSet.getBigDecimal(SqlColumnName.PRICE),
+                            SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)))
+                            .setCarId(resultSet.getLong(SqlColumnName.CAR_ID))
+                            .setColor(color)
+                            .setDescription(resultSet.getString(SqlColumnName.DESCRIPTION))
+                            .setImageUrl(resultSet.getString(SqlColumnName.IMAGE_URL))
+                            .build();
                 }
             }
         } catch (SQLException e) {
             throw new DaoException("Error finding car by id", e);
         }
-        return Optional.of(car);
+        return Optional.ofNullable(car);
     }
 
     @Override
@@ -133,15 +138,15 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public Car updateCarImage(Car car) throws DaoException {
+    public boolean updateCarImage(long carId, String imageUrl) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CAR_IMAGE)) {
-            preparedStatement.setString(1, car.getImageUrl());
-            preparedStatement.setLong(2, car.getCarId());
+            preparedStatement.setString(1, imageUrl);
+            preparedStatement.setLong(2, carId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error updating car image", e);
         }
-        return car;
+        return true;
     }
 
     @Override
@@ -176,8 +181,7 @@ public class CarDaoImpl implements CarDao {
                     resultSet.getLong(SqlColumnName.COLOR_ID),
                     resultSet.getString(SqlColumnName.CODE)
             );
-            Car car = new Car(
-                    resultSet.getLong(SqlColumnName.CAR_ID),
+            Car car = new Car.Builder(
                     resultSet.getString(SqlColumnName.CAR_MODEL),
                     resultSet.getInt(SqlColumnName.MILEAGE),
                     FuelType.valueOf(resultSet.getString(SqlColumnName.FUEL_TYPE)),
@@ -185,13 +189,14 @@ public class CarDaoImpl implements CarDao {
                     resultSet.getInt(SqlColumnName.VOLUME),
                     resultSet.getString(SqlColumnName.TRANSMISSION),
                     resultSet.getString(SqlColumnName.DRIVE_UNIT),
-                    color,
                     resultSet.getInt(SqlColumnName.ISSUE_YEAR),
                     resultSet.getBigDecimal(SqlColumnName.PRICE),
-                    SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)),
-                    resultSet.getString(SqlColumnName.DESCRIPTION),
-                    resultSet.getString(SqlColumnName.IMAGE_URL)
-            );
+                    SaleStatus.valueOf(resultSet.getString(SqlColumnName.SALE_STATUS)))
+                    .setCarId(resultSet.getLong(SqlColumnName.CAR_ID))
+                    .setColor(color)
+                    .setDescription(resultSet.getString(SqlColumnName.DESCRIPTION))
+                    .setImageUrl(resultSet.getString(SqlColumnName.IMAGE_URL))
+                    .build();
             carList.add(car);
         }
     }

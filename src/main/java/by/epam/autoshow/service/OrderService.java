@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface OrderService {
     /**
-     * Register user
+     * Adds order
      *
      * @param order object to insert in data store
      * @return {@code true} if adding order was successful
@@ -23,7 +23,14 @@ public interface OrderService {
      */
     boolean addOrder(Order order) throws ServiceException;
 
-    boolean deleteOrder(Order order) throws ServiceException;
+    /**
+     * Deletes an order
+     *
+     * @param id order unique identifier
+     * @return {@code true} if order deletion was successful
+     * @throws ServiceException if dao manager errors occurs
+     */
+    boolean deleteOrder(long id) throws ServiceException;
 
     /**
      * Finds orders
@@ -43,7 +50,7 @@ public interface OrderService {
     List<Order> findCustomerOrders(long customerId) throws ServiceException;
 
     /**
-     * Update order status
+     * Updates order status
      *
      * @param order object to update
      * @return {@code true} if order status was updated successfully

@@ -12,7 +12,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.ServiceDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,25 +30,28 @@ public class EditAutoShowServiceCommand implements ActionCommand {
 
     @Override
     public Router execute(SessionRequestContent content) {
-        String serviceId = content.getRequestParameter(PARAM_SERVICE_ID);
+        Long serviceId = Long.parseLong(content.getRequestParameter(PARAM_SERVICE_ID));
         String serviceTitle = content.getRequestParameter(PARAM_TITLE);
         String cost = content.getRequestParameter(PARAM_COST);
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
         Router router = null;
-        try {
-            AutoShowService autoShowService = new AutoShowService(
-                    Long.parseLong(serviceId), serviceTitle, BigDecimal.valueOf(Double.parseDouble(cost)), description
-            );
-            AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
-            serviceManagement.updateService(autoShowService);
-            router = new Router(JspPagePath.SERVICES_PAGE_URL, RouteType.REDIRECT);
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        ServiceDataValidator serviceValidator = new ServiceDataValidator();
+        if (serviceValidator.isTitleValid(serviceTitle) && serviceValidator.isCostValid(cost) &&
+                serviceValidator.isDescriptionValid(description)) {
+            try {
+                AutoShowService autoShowService = new AutoShowService(serviceId, serviceTitle,
+                        BigDecimal.valueOf(Double.parseDouble(cost)), description);
+                AutoShowServiceManagement serviceManagement = AutoShowServiceManagementImpl.getInstance();
+                serviceManagement.updateService(autoShowService);
+                router = new Router(JspPagePath.SERVICES_PAGE_URL, RouteType.REDIRECT);
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
+            }
+        } else {
+            logger.error("Error updating record, auto show service data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_SERVICE,
                     MessageProvider.getProperty(MessagePath.INVALID_SERVICE_UPDATE_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.SERVICE_EDIT_PAGE_PROPERTY),

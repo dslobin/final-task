@@ -45,9 +45,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean deleteOrder(Order order) throws ServiceException {
+    public boolean deleteOrder(long id) throws ServiceException {
         try {
-            orderManager.deleteOrder(order);
+            orderManager.deleteOrder(id);
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }

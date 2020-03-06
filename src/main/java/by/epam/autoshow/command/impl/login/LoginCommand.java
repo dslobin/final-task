@@ -35,7 +35,9 @@ public class LoginCommand implements ActionCommand {
             AuthenticationProcessor userExistProcessor = new UserExistProcessor(userService, content);
             userExistProcessor.linkWith(userStatusProcessor);
             userStatusProcessor.linkWith(userRoleProcessor);
-            User user = new User(login, password);
+            User user = new User();
+            user.setUsername(login);
+            user.setPassword(password);
             isAuthorizationSuccessful = userExistProcessor.check(user);
             if (isAuthorizationSuccessful) {
                 page = PagePathProvider.getProperty(JspPagePath.HOME_PAGE_PROPERTY);

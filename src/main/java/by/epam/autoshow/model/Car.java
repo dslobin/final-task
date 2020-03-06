@@ -4,155 +4,150 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Car {
-    private Long carId;
-    private String model;
-    private int mileage;
-    private FuelType fuelType;
-    private BodyType bodyType;
-    private int volume;
-    private String transmission; // коробка передач
-    private String driveUnit; // привод
-    private Color color;
-    private int issueYear;
-    private BigDecimal price;
-    private SaleStatus status;
-    private String description;
-    private String imageUrl;
+    private final Long carId;
+    private final String model;
+    private final int mileage;
+    private final FuelType fuelType;
+    private final BodyType bodyType;
+    private final int volume;
+    private final String transmission;
+    private final String driveUnit;
+    private final Color color;
+    private final int issueYear;
+    private final BigDecimal price;
+    private final SaleStatus status;
+    private final String description;
+    private final String imageUrl;
 
-    public Car(Long id, String model, int mileage, FuelType fuelType, BodyType bodyType, int volume,
-               String transmission, String driveUnit, Color color, int issueYear,
-               BigDecimal price, SaleStatus status, String description, String imageUrl) {
-        this.carId = id;
-        this.model = model;
-        this.mileage = mileage;
-        this.fuelType = fuelType;
-        this.bodyType = bodyType;
-        this.volume = volume;
-        this.transmission = transmission;
-        this.driveUnit = driveUnit;
-        this.color = color;
-        this.issueYear = issueYear;
-        this.price = price;
-        this.status = status;
-        this.description = description;
-        this.imageUrl = imageUrl;
+    public static class Builder {
+        // Required parameters
+        private final String model;
+        private final int mileage;
+        private final FuelType fuelType;
+        private final BodyType bodyType;
+        private final int volume;
+        private final String transmission;
+        private final String driveUnit;
+        private final int issueYear;
+        private final BigDecimal price;
+        private final SaleStatus status;
+        // Optional parameters - initialized to default values
+        private Long carId = 0L;
+        private String description = null;
+        private String imageUrl = null;
+        private Color color = new Color();
+
+        public Builder(String model, int mileage, FuelType fuelType, BodyType bodyType,
+                       int volume, String transmission, String driveUnit, int issueYear,
+                       BigDecimal price, SaleStatus status) {
+            this.model = model;
+            this.mileage = mileage;
+            this.fuelType = fuelType;
+            this.bodyType = bodyType;
+            this.volume = volume;
+            this.transmission = transmission;
+            this.driveUnit = driveUnit;
+            this.issueYear = issueYear;
+            this.price = price;
+            this.status = status;
+        }
+
+        public Builder setCarId(Long carId) {
+            this.carId = carId;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
+        public Builder setColor(Color color) {
+            this.color = color;
+            return this;
+        }
+
+        public Car build() {
+            return new Car(this);
+        }
     }
 
-    public Car() {
-        super();
-        color = new Color();
+    private Car(Builder builder) {
+        this.carId = builder.carId;
+        this.model = builder.model;
+        this.mileage = builder.mileage;
+        this.fuelType = builder.fuelType;
+        this.bodyType = builder.bodyType;
+        this.volume = builder.volume;
+        this.transmission = builder.transmission;
+        this.driveUnit = builder.driveUnit;
+        this.color = builder.color;
+        this.issueYear = builder.issueYear;
+        this.price = builder.price;
+        this.status = builder.status;
+        this.description = builder.description;
+        this.imageUrl = builder.imageUrl;
     }
 
     public Long getCarId() {
         return carId;
     }
 
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
-
     public String getModel() {
         return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public int getMileage() {
         return mileage;
     }
 
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
-
     public FuelType getFuelType() {
         return fuelType;
-    }
-
-    public void setFuelType(FuelType fuelType) {
-        this.fuelType = fuelType;
     }
 
     public BodyType getBodyType() {
         return bodyType;
     }
 
-    public void setBodyType(BodyType bodyType) {
-        this.bodyType = bodyType;
-    }
-
     public int getVolume() {
         return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
     }
 
     public String getTransmission() {
         return transmission;
     }
 
-    public void setTransmission(String transmission) {
-        this.transmission = transmission;
-    }
-
     public String getDriveUnit() {
         return driveUnit;
-    }
-
-    public void setDriveUnit(String driveUnit) {
-        this.driveUnit = driveUnit;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     public int getIssueYear() {
         return issueYear;
-    }
-
-    public void setIssueYear(int issueYear) {
-        this.issueYear = issueYear;
     }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public SaleStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(SaleStatus status) {
-        this.status = status;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     @Override
@@ -167,13 +162,14 @@ public class Car {
         return mileage == car.mileage &&
                 volume == car.volume &&
                 issueYear == car.issueYear &&
-                Objects.equals(car.price, price) &&
+                Objects.equals(carId, car.carId) &&
                 Objects.equals(model, car.model) &&
                 fuelType == car.fuelType &&
-                Objects.equals(bodyType, car.bodyType) &&
+                bodyType == car.bodyType &&
                 Objects.equals(transmission, car.transmission) &&
                 Objects.equals(driveUnit, car.driveUnit) &&
                 Objects.equals(color, car.color) &&
+                Objects.equals(price, car.price) &&
                 status == car.status &&
                 Objects.equals(description, car.description) &&
                 Objects.equals(imageUrl, car.imageUrl);
@@ -181,8 +177,8 @@ public class Car {
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, mileage, fuelType, bodyType, volume, transmission,
-                driveUnit, color, issueYear, price, status, description, imageUrl);
+        return Objects.hash(carId, model, mileage, fuelType, bodyType, volume, transmission, driveUnit,
+                color, issueYear, price, status, description, imageUrl);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public interface UserService {
     /**
-     * Finds a user by his user name
+     * Finds a user by user name
      *
      * @param username by which to find the user
      * @return {@code Optional} of user
@@ -25,7 +25,7 @@ public interface UserService {
     Optional<User> findByUsername(String username) throws ServiceException;
 
     /**
-     * Finds a user by his login and password
+     * Finds a user by login and password
      *
      * @param login    user unique identifier
      * @param password conditional word or set of signs designed to confirm identity or authority
@@ -38,7 +38,7 @@ public interface UserService {
      * Finds all users
      *
      * @return a list of users
-     * @throws ServiceException
+     * @throws ServiceException if dao manager errors occurs
      */
     List<User> findAllUsers() throws ServiceException;
 
@@ -49,7 +49,7 @@ public interface UserService {
      * @return {@code true} if user registration was successful
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean registerUser(User user) throws ServiceException, ValidatorException;
+    boolean registerUser(User user) throws ServiceException;
 
     /**
      * Update user data
@@ -58,7 +58,7 @@ public interface UserService {
      * @return updated user object
      * @throws ServiceException if dao manager errors occurs
      */
-    User updateUser(User user) throws ServiceException, ValidatorException;
+    User updateUser(User user) throws ServiceException;
 
     /**
      * Finds user by id

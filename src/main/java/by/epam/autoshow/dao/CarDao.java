@@ -44,11 +44,12 @@ public interface CarDao {
     /**
      * Update car image.
      *
-     * @param car object to update
-     * @return updated object
+     * @param carId car unique identifier
+     * @param imageUrl path to car image
+     * @return {@code true} if car image path was updated successfully
      * @throws DaoException if a data store access error occurs
      */
-    Car updateCarImage(Car car) throws DaoException;
+    boolean updateCarImage(long carId, String imageUrl) throws DaoException;
 
     /**
      * Find car objects in data storage.

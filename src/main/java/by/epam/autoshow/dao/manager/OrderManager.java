@@ -46,11 +46,11 @@ public class OrderManager extends DaoManager {
         return true;
     }
 
-    public boolean deleteOrder(Order order) throws ManagerException {
+    public boolean deleteOrder(long id) throws ManagerException {
         Connection connection = getConnection();
         try {
             OrderDaoImpl orderDao = new OrderDaoImpl(connection);
-            orderDao.delete(order);
+            orderDao.delete(id);
         } catch (DaoException e) {
             throw new ManagerException(e);
         } finally {

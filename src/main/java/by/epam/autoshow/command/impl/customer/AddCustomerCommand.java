@@ -12,7 +12,8 @@ import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
 import by.epam.autoshow.util.provider.*;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.CustomerDataValidator;
+import by.epam.autoshow.validation.UserDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,35 +35,37 @@ public class AddCustomerCommand implements ActionCommand {
     public Router execute(SessionRequestContent content) {
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
-        String status = content.getRequestParameter(PARAM_USER_STATUS);
+        UserStatus status = UserStatus.valueOf(content.getRequestParameter(PARAM_USER_STATUS));
         String surname = content.getRequestParameter(PARAM_CUSTOMER_SURNAME);
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
         Router router = null;
-        try {
-            User user = new User();
-            user.setUsername(login);
-            user.setPassword(password);
-            user.setRole(UserRole.CLIENT);
-            user.setStatus(UserStatus.valueOf(status));
-            Customer customer = new Customer(surname, name, email, phoneNumber);
-            CustomerService customerService = CustomerServiceImpl.getInstance();
-            boolean isRegistered = customerService.registerCustomer(user, customer);
-            if (isRegistered) {
-                router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
-            } else {
-                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                        MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
-                router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.FORWARD);
+        CustomerDataValidator customerValidator = new CustomerDataValidator();
+        UserDataValidator userValidator = new UserDataValidator();
+        if (userValidator.isUsernameValid(login) && userValidator.isPasswordValid(password) &&
+                customerValidator.isNameValid(name) && customerValidator.isSurnameValid(surname) &&
+                customerValidator.isEmailValid(email) && customerValidator.isPhoneNumberValid(phoneNumber)) {
+            try {
+                User user = new User(login, password, UserRole.CLIENT, status);
+                Customer customer = new Customer(surname, name, email, phoneNumber);
+                CustomerService customerService = CustomerServiceImpl.getInstance();
+                boolean isRegistered = customerService.registerCustomer(user, customer);
+                if (isRegistered) {
+                    router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
+                } else {
+                    content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                            MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+                    router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.FORWARD);
+                }
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
             }
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        } else {
+            logger.error("Error adding record, customer data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_ADDITION_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY),

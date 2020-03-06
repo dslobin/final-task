@@ -1,7 +1,6 @@
 package by.epam.autoshow.service;
 
 import by.epam.autoshow.model.AutoShowService;
-import by.epam.autoshow.validation.ValidatorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +16,7 @@ import java.util.Optional;
 
 public interface AutoShowServiceManagement {
     /**
+     * Finds all services
      *
      * @return auto show service list
      * @throws ServiceException if dao manager errors occurs
@@ -24,22 +24,25 @@ public interface AutoShowServiceManagement {
     List<AutoShowService> findAllServices() throws ServiceException;
 
     /**
+     * Add auto show service
      *
      * @param autoShowService data
      * @return {@code true} if auto show service was added successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean addService(AutoShowService autoShowService) throws ServiceException, ValidatorException;
+    boolean addService(AutoShowService autoShowService) throws ServiceException;
 
     /**
+     * Update auto show service
      *
      * @param autoShowService data
      * @return {@code true} if auto show service was updated successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    AutoShowService updateService(AutoShowService autoShowService) throws ServiceException, ValidatorException;
+    AutoShowService updateService(AutoShowService autoShowService) throws ServiceException;
 
     /**
+     * Finds auto show service by id
      *
      * @param id service unique identifier
      * @return {@code Optional} of auto show service

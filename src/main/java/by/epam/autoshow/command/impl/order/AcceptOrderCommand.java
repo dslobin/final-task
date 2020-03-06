@@ -30,13 +30,12 @@ public class AcceptOrderCommand implements ActionCommand {
         String page = null;
         String orderId = content.getRequestParameter(PARAM_ORDER_ID);
         try {
-            OrderService orderService = OrderServiceImpl.getInstance();
             Order order = new Order();
             order.setOrderId(Long.parseLong(orderId));
             order.setStatus(OrderStatus.CONFIRMED);
+            OrderService orderService = OrderServiceImpl.getInstance();
             orderService.updateOrderStatus(order);
-            List<Order> orders = orderService.findAllOrders();
-            content.setRequestAttributes(PARAM_ORDER_LIST, orders);
+            content.setRequestAttributes(PARAM_ORDER_LIST, orderService.findAllOrders());
             page = PagePathProvider.getProperty(JspPagePath.ORDER_OVERVIEW_PAGE_PROPERTY);
         } catch (ServiceException e) {
             logger.error(e);

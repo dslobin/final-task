@@ -69,9 +69,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(Order order) throws DaoException {
+    public boolean delete(long id) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, order.getOrderId());
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error deleting order", e);

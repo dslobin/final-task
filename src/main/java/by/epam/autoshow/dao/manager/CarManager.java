@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
-
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -57,11 +56,11 @@ public class CarManager extends DaoManager {
         return true;
     }
 
-    public boolean updateCarImage(Car car) throws ManagerException {
+    public boolean updateCarImage(long carId, String imageUrl) throws ManagerException {
         Connection connection = getConnection();
         try {
             CarDaoImpl carDao = new CarDaoImpl(connection);
-            carDao.updateCarImage(car);
+            carDao.updateCarImage(carId, imageUrl);
         } catch (DaoException e) {
             throw new ManagerException(e);
         } finally {

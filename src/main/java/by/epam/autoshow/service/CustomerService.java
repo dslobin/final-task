@@ -2,7 +2,6 @@ package by.epam.autoshow.service;
 
 import by.epam.autoshow.model.Customer;
 import by.epam.autoshow.model.User;
-import by.epam.autoshow.validation.ValidatorException;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public interface CustomerService {
      * @return {@code true} if customer registration was successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean registerCustomer(User user, Customer customer) throws ServiceException, ValidatorException;
+    boolean registerCustomer(User user, Customer customer) throws ServiceException;
 
     /**
      * Update customer data
@@ -62,7 +61,7 @@ public interface CustomerService {
      * @return {@code true} if customer data was updated successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean updateCustomer(User user, Customer customer) throws ServiceException, ValidatorException;
+    boolean updateCustomer(User user, Customer customer) throws ServiceException;
 
     /**
      * Finds customer user names

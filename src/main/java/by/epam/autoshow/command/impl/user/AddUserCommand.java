@@ -14,7 +14,7 @@ import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.JspPagePath;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.UserDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,30 +32,30 @@ public class AddUserCommand implements ActionCommand {
     public Router execute(SessionRequestContent content) {
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
-        String status = content.getRequestParameter(PARAM_USER_STATUS);
+        UserStatus status = UserStatus.valueOf(content.getRequestParameter(PARAM_USER_STATUS));
         Router router = null;
-        try {
-            User user = new User();
-            user.setUsername(login);
-            user.setPassword(password);
-            user.setRole(UserRole.ADMIN);
-            user.setStatus(UserStatus.valueOf(status));
-            UserService userService = UserServiceImpl.getInstance();
-            boolean isRegistered = userService.registerUser(user);
-            if (isRegistered) {
-                router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
-            } else {
-                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                        MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
-                router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.FORWARD);
+        UserDataValidator userValidator = new UserDataValidator();
+        if (userValidator.isUsernameValid(login) && userValidator.isPasswordValid(password)) {
+            try {
+                User user = new User(login, password, UserRole.ADMIN, status);
+                UserService userService = UserServiceImpl.getInstance();
+                boolean isRegistered = userService.registerUser(user);
+                if (isRegistered) {
+                    router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
+                } else {
+                    content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                            MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+                    router = new Router(PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY),
+                            RouteType.FORWARD);
+                }
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
             }
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        } else {
+            logger.error("Error adding record, user data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_USER,
                     MessageProvider.getProperty(MessagePath.INVALID_USER_ADDITION_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY), RouteType.FORWARD);

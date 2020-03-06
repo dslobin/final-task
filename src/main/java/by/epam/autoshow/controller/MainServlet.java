@@ -48,7 +48,7 @@ public class MainServlet extends HttpServlet {
         content.insert(request);
         String page = router.getPagePath();
         if (RouteType.FORWARD.equals(router.getRouteType())) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + page);

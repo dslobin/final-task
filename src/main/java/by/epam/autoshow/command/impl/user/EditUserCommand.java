@@ -14,7 +14,7 @@ import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.UserServiceImpl;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.UserDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,23 +30,26 @@ public class EditUserCommand implements ActionCommand {
 
     @Override
     public Router execute(SessionRequestContent content) {
-        String userId = content.getRequestParameter(PARAM_USER_ID);
+        Long userId = Long.parseLong(content.getRequestParameter(PARAM_USER_ID));
         String login = content.getRequestParameter(PARAM_USERNAME);
         String password = content.getRequestParameter(PARAM_PASSWORD);
-        String status = content.getRequestParameter(PARAM_USER_STATUS);
+        UserStatus status = UserStatus.valueOf(content.getRequestParameter(PARAM_USER_STATUS));
         Router router = null;
-        try {
-            User user = new User(Long.parseLong(userId), login, password, UserRole.ADMIN, UserStatus.valueOf(status));
-            UserService userService = UserServiceImpl.getInstance();
-            userService.updateUser(user);
-            router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        UserDataValidator userValidator = new UserDataValidator();
+        if (userValidator.isUsernameValid(login) && userValidator.isPasswordValid(password)) {
+            try {
+                UserService userService = UserServiceImpl.getInstance();
+                User user = new User(userId, login, password, UserRole.ADMIN, status);
+                userService.updateUser(user);
+                router = new Router(JspPagePath.USERS_PAGE_URL, RouteType.REDIRECT);
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
+            }
+        } else {
+            logger.error("Error updating record, user data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_USER,
                     MessageProvider.getProperty(MessagePath.INVALID_USER_UPDATE_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.USER_EDIT_PAGE_PROPERTY),

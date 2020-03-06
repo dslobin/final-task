@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import by.epam.autoshow.model.Car;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CarServiceImpl;
@@ -38,14 +37,11 @@ public class CarImageUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String carId = request.getParameter(PARAM_CAR_ID);
+        Long carId = Long.parseLong(request.getParameter(PARAM_CAR_ID));
         try {
             String imageFileName = uploadFile(request);
-            Car car = new Car();
-            car.setCarId(Long.parseLong(carId));
-            car.setImageUrl(imageFileName);
             CarService carService = CarServiceImpl.getInstance();
-            carService.updateCarImage(car);
+            carService.updateCarImage(carId, imageFileName);
             logger.debug(imageFileName);
             request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider
                     .getProperty(MessagePath.FILE_UPLOAD_SUCCESS_RESULT));

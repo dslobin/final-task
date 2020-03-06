@@ -12,7 +12,8 @@ import by.epam.autoshow.service.CustomerService;
 import by.epam.autoshow.util.provider.*;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.CustomerServiceImpl;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.CustomerDataValidator;
+import by.epam.autoshow.validation.UserDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,37 +35,42 @@ public class EditCustomerCommand implements ActionCommand {
 
     @Override
     public Router execute(SessionRequestContent content) {
-        String id = content.getRequestParameter(PARAM_USER_ID);
-        String login = content.getRequestParameter(PARAM_USERNAME);
-        String password = content.getRequestParameter(PARAM_PASSWORD);
-        String status = content.getRequestParameter(PARAM_USER_STATUS);
-        String customerId = content.getRequestParameter(PARAM_CUSTOMER_ID);
+        Long customerId = Long.parseLong(content.getRequestParameter(PARAM_CUSTOMER_ID));
         String surname = content.getRequestParameter(PARAM_CUSTOMER_SURNAME);
         String name = content.getRequestParameter(PARAM_CUSTOMER_NAME);
         String email = content.getRequestParameter(PARAM_CUSTOMER_EMAIL);
         String phoneNumber = content.getRequestParameter(PARAM_CUSTOMER_PHONE_NUMBER);
+        Long userId = Long.parseLong(content.getRequestParameter(PARAM_USER_ID));
+        String login = content.getRequestParameter(PARAM_USERNAME);
+        String password = content.getRequestParameter(PARAM_PASSWORD);
+        UserStatus status = UserStatus.valueOf(content.getRequestParameter(PARAM_USER_STATUS));
         Router router = null;
-        try {
-            Long userId = Long.parseLong(id);
-            User user = new User(userId, login, password, UserRole.CLIENT, UserStatus.valueOf(status));
-            Customer customer = new Customer(Long.parseLong(customerId), userId, surname, name, email, phoneNumber);
-            CustomerService customerService = CustomerServiceImpl.getInstance();
-            boolean isUpdated = customerService.updateCustomer(user, customer);
-            if (isUpdated) {
-                router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
-            } else {
-                content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
-                        MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
-                router = new Router(PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY),
-                        RouteType.FORWARD);
+        CustomerDataValidator customerValidator = new CustomerDataValidator();
+        UserDataValidator userValidator = new UserDataValidator();
+        if (userValidator.isUsernameValid(login) && userValidator.isPasswordValid(password) &&
+                customerValidator.isNameValid(name) && customerValidator.isSurnameValid(surname) &&
+                customerValidator.isEmailValid(email) && customerValidator.isPhoneNumberValid(phoneNumber)) {
+            try {
+                User user = new User(userId, login, password, UserRole.CLIENT, status);
+                Customer customer = new Customer(customerId, userId, surname, name, email, phoneNumber);
+                CustomerService customerService = CustomerServiceImpl.getInstance();
+                boolean isUpdated = customerService.updateCustomer(user, customer);
+                if (isUpdated) {
+                    router = new Router(JspPagePath.CUSTOMERS_PAGE_URL, RouteType.REDIRECT);
+                } else {
+                    content.setRequestAttributes(ATTRIBUTE_EXISTING_LOGIN,
+                            MessageProvider.getProperty(MessagePath.INVALID_USERNAME_PROPERTY));
+                    router = new Router(PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY),
+                            RouteType.FORWARD);
+                }
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
             }
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        } else {
+            logger.error("Error updating record, customer data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_CUSTOMER,
                     MessageProvider.getProperty(MessagePath.INVALID_CUSTOMER_UPDATE_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.CUSTOMER_EDIT_PAGE_PROPERTY),

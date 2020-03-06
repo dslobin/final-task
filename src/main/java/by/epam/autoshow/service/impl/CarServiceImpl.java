@@ -49,9 +49,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean updateCarImage(Car car) throws ServiceException {
+    public boolean updateCarImage(long carId, String imageUrl) throws ServiceException {
         try {
-            carManager.updateCarImage(car);
+            carManager.updateCarImage(carId, imageUrl);
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }

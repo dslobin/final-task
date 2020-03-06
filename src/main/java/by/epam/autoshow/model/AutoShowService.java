@@ -9,6 +9,9 @@ public class AutoShowService {
     private BigDecimal cost;
     private String description;
 
+    public AutoShowService() {
+    }
+
     public AutoShowService(Long id, String title, BigDecimal cost, String description) {
         this.serviceId = id;
         this.title = title;
@@ -16,7 +19,10 @@ public class AutoShowService {
         this.description = description;
     }
 
-    public AutoShowService() {
+    public AutoShowService(String title, BigDecimal cost, String description) {
+        this.title = title;
+        this.cost = cost;
+        this.description = description;
     }
 
     public Long getServiceId() {
@@ -60,14 +66,15 @@ public class AutoShowService {
             return false;
         }
         AutoShowService that = (AutoShowService) o;
-        return Objects.equals(title, that.title) &&
-                Objects.equals(cost, that.cost)  &&
+        return Objects.equals(serviceId, that.serviceId) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(cost, that.cost) &&
                 Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, cost, description);
+        return Objects.hash(serviceId, title, cost, description);
     }
 
     @Override

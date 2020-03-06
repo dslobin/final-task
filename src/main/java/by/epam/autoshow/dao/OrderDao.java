@@ -27,11 +27,11 @@ public interface OrderDao {
     /**
      * Delete the order object.
      *
-     * @param order object to delete
+     * @param id order unique identifier
      * @return {@code true} if object has been deleted from the data storage
      * @throws DaoException if a data store access error occurs
      */
-    boolean delete(Order order) throws DaoException;
+    boolean delete(long id) throws DaoException;
 
     /**
      * Find the object by id.

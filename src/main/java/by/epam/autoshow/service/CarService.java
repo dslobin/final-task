@@ -2,7 +2,6 @@ package by.epam.autoshow.service;
 
 import by.epam.autoshow.model.Car;
 import by.epam.autoshow.model.Color;
-import by.epam.autoshow.validation.ValidatorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,23 +41,34 @@ public interface CarService {
      */
     Optional<Car> findCarById(long id) throws ServiceException;
 
-    boolean updateCarImage(Car car) throws ServiceException;
+    /**
+     * Updates car image url in data storage
+     *
+     * @param car data
+     * @return {@code true} if car image url was updated successfully
+     * @throws ServiceException if dao manager errors occurs
+     */
+    boolean updateCarImage(long carId, String imageUrl) throws ServiceException;
 
     /**
+     * Add car
+     *
      * @param car       data
      * @param colorCode car color
      * @return {@code true} if car was added successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean addCar(Car car, String colorCode) throws ServiceException, ValidatorException;
+    boolean addCar(Car car, String colorCode) throws ServiceException;
 
     /**
+     * Update car
+     *
      * @param car   data
      * @param color car color
      * @return {@code true} if car was updated successfully
      * @throws ServiceException if dao manager errors occurs
      */
-    boolean updateCar(Car car, String color) throws ServiceException, ValidatorException;
+    boolean updateCar(Car car, String color) throws ServiceException;
 
     /**
      * Finds car colors

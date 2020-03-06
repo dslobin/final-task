@@ -4,7 +4,6 @@ import by.epam.autoshow.command.ActionCommand;
 import by.epam.autoshow.command.RouteType;
 import by.epam.autoshow.command.Router;
 import by.epam.autoshow.controller.SessionRequestContent;
-import by.epam.autoshow.model.Order;
 import by.epam.autoshow.service.OrderService;
 import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.OrderServiceImpl;
@@ -23,13 +22,11 @@ public class CancelOrderCommand implements ActionCommand {
 
     @Override
     public Router execute(SessionRequestContent content) {
-        String orderId = content.getRequestParameter(PARAM_ORDER_ID);
+        Long orderId = Long.parseLong(content.getRequestParameter(PARAM_ORDER_ID));
         Router router = null;
         try {
             OrderService orderService = OrderServiceImpl.getInstance();
-            Order order = new Order();
-            order.setOrderId(Long.parseLong(orderId));
-            orderService.deleteOrder(order);
+            orderService.deleteOrder(orderId);
             router = new Router(JspPagePath.PROFILE_PAGE_URL, RouteType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);

@@ -9,6 +9,9 @@ public class User {
     private UserRole role;
     private UserStatus status;
 
+    public User() {
+    }
+
     public User(Long id, String username, String password, UserRole role, UserStatus status) {
         this.userId = id;
         this.username = username;
@@ -17,14 +20,11 @@ public class User {
         this.status = status;
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, UserRole role, UserStatus status) {
         this.username = username;
         this.password = password;
-        this.role = UserRole.CLIENT;
-        this.status = UserStatus.ACTIVE;
-    }
-
-    public User() {
+        this.role = role;
+        this.status = status;
     }
 
     public String getUsername() {

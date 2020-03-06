@@ -15,7 +15,7 @@ import by.epam.autoshow.util.provider.MessagePath;
 import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.JspPagePath;
-import by.epam.autoshow.validation.ValidatorException;
+import by.epam.autoshow.validation.CarDataValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,44 +42,41 @@ public class EditCarCommand implements ActionCommand {
 
     @Override
     public Router execute(SessionRequestContent content) {
-        String carId = content.getRequestParameter(PARAM_CAR_ID);
+        Long carId = Long.parseLong(content.getRequestParameter(PARAM_CAR_ID));
         String model = content.getRequestParameter(PARAM_MODEL);
         String mileage = content.getRequestParameter(PARAM_MILEAGE);
-        String fuelType = content.getRequestParameter(PARAM_FUEL_TYPE);
-        String bodyType = content.getRequestParameter(PARAM_BODY_TYPE);
+        FuelType fuelType = FuelType.valueOf(content.getRequestParameter(PARAM_FUEL_TYPE));
+        BodyType bodyType = BodyType.valueOf(content.getRequestParameter(PARAM_BODY_TYPE));
         String volume = content.getRequestParameter(PARAM_VOLUME);
         String transmission = content.getRequestParameter(PARAM_TRANSMISSION);
         String driveUnit = content.getRequestParameter(PARAM_DRIVE_UNIT);
-        String color = content.getRequestParameter(PARAM_COLOR);
         String issueYear = content.getRequestParameter(PARAM_ISSUE_YEAR);
         String price = content.getRequestParameter(PARAM_PRICE);
-        String status = content.getRequestParameter(PARAM_STATUS);
+        SaleStatus status = SaleStatus.valueOf(content.getRequestParameter(PARAM_STATUS));
         String description = content.getRequestParameter(PARAM_DESCRIPTION);
+        String color = content.getRequestParameter(PARAM_COLOR);
         Router router = null;
-        try {
-            Car car = new Car();
-            car.setCarId(Long.parseLong(carId));
-            car.setModel(model);
-            car.setMileage(Integer.parseInt(mileage));
-            car.setFuelType(FuelType.valueOf(fuelType));
-            car.setBodyType(BodyType.valueOf(bodyType));
-            car.setVolume(Integer.parseInt(volume));
-            car.setTransmission(transmission);
-            car.setDriveUnit(driveUnit);
-            car.setIssueYear(Integer.parseInt(issueYear));
-            car.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
-            car.setStatus(SaleStatus.valueOf(status));
-            car.setDescription(description);
-            CarService carService = CarServiceImpl.getInstance();
-            carService.updateCar(car, color);
-            router = new Router(JspPagePath.CARS_PAGE_URL, RouteType.REDIRECT);
-        } catch (ServiceException e) {
-            logger.error(e);
-            content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
-                    MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
-            router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
-        } catch (ValidatorException e) {
-            logger.error(e);
+        CarDataValidator carValidator = new CarDataValidator();
+        if (carValidator.isModelValid(model) && carValidator.isMileageValid(mileage) &&
+                carValidator.isVolumeValid(volume) && carValidator.isTransmissionValid(transmission) &&
+                carValidator.isDriveUnitValid(driveUnit) && carValidator.isIssueYearValid(issueYear) &&
+                carValidator.isPriceValid(price) && carValidator.isDescriptionValid(description)) {
+            try {
+                Car car = new Car.Builder(model, Integer.parseInt(mileage), fuelType, bodyType,
+                        Integer.parseInt(volume), transmission, driveUnit, Integer.parseInt(issueYear),
+                        BigDecimal.valueOf(Double.parseDouble(price)), status)
+                        .setCarId(carId).setDescription(description).build();
+                CarService carService = CarServiceImpl.getInstance();
+                carService.updateCar(car, color);
+                router = new Router(JspPagePath.CARS_PAGE_URL, RouteType.REDIRECT);
+            } catch (ServiceException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
+                        MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
+            }
+        } else {
+            logger.error("Error updating record, car data not valid.");
             content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
                     MessageProvider.getProperty(MessagePath.INVALID_CAR_UPDATE_PROPERTY));
             router = new Router(PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY), RouteType.FORWARD);

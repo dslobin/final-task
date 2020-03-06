@@ -78,6 +78,7 @@
 
                 <div class="text-danger">
                     <p>${requestScope.invalidUser}</p>
+                    <p>${requestScope.existingLogin}</p>
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">

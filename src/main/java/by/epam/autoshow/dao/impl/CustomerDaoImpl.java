@@ -18,11 +18,6 @@ public class CustomerDaoImpl implements CustomerDao {
     private static final String UPDATE =
             "UPDATE customers SET user_id = ?, surname = ?, name = ?, email = ?, phone_number = ? WHERE customer_id = ?";
 
-    private static final String FIND_CUSTOMER_USER_NAMES =
-            "SELECT users.username, customers.customer_id, customers.user_id, surname, name, email, phone_number" +
-                    " FROM customers" +
-                    " INNER JOIN users ON customers.user_id = users.user_id";
-
     private static final String FIND_ALL =
             "SELECT customer_id, user_id, surname, customer_id, user_id, surname, name, email, phone_number FROM customers";
 
@@ -31,6 +26,11 @@ public class CustomerDaoImpl implements CustomerDao {
 
     private static final String FIND_BY_USER_ID =
             "SELECT customer_id, user_id, surname, name, email, phone_number FROM customers WHERE user_id = ?";
+
+    private static final String FIND_CUSTOMER_USER_NAMES =
+            "SELECT users.username, customers.customer_id, customers.user_id, surname, name, email, phone_number" +
+                    " FROM customers" +
+                    " INNER JOIN users ON customers.user_id = users.user_id";
 
     public CustomerDaoImpl(Connection connection) {
         this.connection = connection;
@@ -55,42 +55,36 @@ public class CustomerDaoImpl implements CustomerDao {
     public Optional<Customer> findById(long customerId) throws DaoException {
         Customer customer = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
-            preparedStatement.setLong(1, customerId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    customer = new Customer(
-                            resultSet.getLong(SqlColumnName.CUSTOMER_ID),
-                            resultSet.getLong(SqlColumnName.USER_ID),
-                            resultSet.getString(SqlColumnName.SURNAME),
-                            resultSet.getString(SqlColumnName.NAME),
-                            resultSet.getString(SqlColumnName.EMAIL),
-                            resultSet.getString(SqlColumnName.PHONE_NUMBER)
-                    );
-                }
-            }
+            customer = getCustomer(customerId, preparedStatement);
         } catch (SQLException e) {
             throw new DaoException("Error finding customer by id", e);
         }
         return Optional.ofNullable(customer);
     }
 
+    private Customer getCustomer(long id, PreparedStatement statement) throws SQLException {
+        Customer customer = null;
+        statement.setLong(1, id);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                customer = new Customer(
+                        resultSet.getLong(SqlColumnName.CUSTOMER_ID),
+                        resultSet.getLong(SqlColumnName.USER_ID),
+                        resultSet.getString(SqlColumnName.SURNAME),
+                        resultSet.getString(SqlColumnName.NAME),
+                        resultSet.getString(SqlColumnName.EMAIL),
+                        resultSet.getString(SqlColumnName.PHONE_NUMBER)
+                );
+            }
+        }
+        return customer;
+    }
+
     @Override
     public Optional<Customer> findByUserId(long userId) throws DaoException {
         Customer customer = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID)) {
-            preparedStatement.setLong(1, userId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    customer = new Customer(
-                            resultSet.getLong(SqlColumnName.CUSTOMER_ID),
-                            resultSet.getLong(SqlColumnName.USER_ID),
-                            resultSet.getString(SqlColumnName.SURNAME),
-                            resultSet.getString(SqlColumnName.NAME),
-                            resultSet.getString(SqlColumnName.EMAIL),
-                            resultSet.getString(SqlColumnName.PHONE_NUMBER)
-                    );
-                }
-            }
+            customer = getCustomer(userId, preparedStatement);
 
         } catch (SQLException e) {
             throw new DaoException("Error finding customer by user id", e);
