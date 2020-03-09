@@ -4,6 +4,7 @@
 
 <fmt:setLocale value="${sessionScope.language}" scope="session"/>
 <fmt:setBundle basename="properties.pageContent" var="rb"/>
+<fmt:setBundle basename="properties.messages" var="messageBundle"/>
 
 <html lang="${sessionScope.language}">
 <head>
@@ -19,10 +20,12 @@
 <main class="site-content">
     <div class="col-md-8 order-md-1 ml-2">
         <h4 class="mb-3"><fmt:message key="editOrder.text.repairSignUp" bundle="${rb}"/></h4>
-        <form class="needs-validation" action="controller" method="post" novalidate>
+        <form class="needs-validation" id="orderForm" action="controller" method="post" novalidate>
 
             <!-- hidden input -->
             <input type="hidden" name="command" value="create_order"/>
+            <input type="hidden" id="timeRestriction"
+                   value="<fmt:message key="label.orderTimeLimit" bundle="${messageBundle}"/>"/>
             <!-- /hidden input -->
 
             <div class="row">
@@ -74,16 +77,14 @@
                 <label for="serviceTime">
                     <fmt:message key="editOrder.label.desiredServiceTime" bundle="${rb}"/>:
                 </label>
-                <input type="time" class="form-control" id="serviceTime" name="serviceTime"
-                       min="09:00" max="20:00" step="30" required>
+                <input type="time" class="form-control" id="serviceTime" name="serviceTime" required>
             </div>
 
             <div class="form-group">
                 <label for="serviceDate">
                     <fmt:message key="editOrder.label.desiredServiceDate" bundle="${rb}"/>:
                 </label>
-                <input type="date" class="form-control" id="serviceDate" name="serviceDate"
-                       min="2020-03-04" max="2020-03-18" required>
+                <input type="date" class="form-control" id="serviceDate" name="serviceDate" required>
             </div>
 
             <hr class="mb-4">
@@ -94,7 +95,7 @@
                 </label>
             </div>
 
-            <button class="btn btn-primary btn-lg btn-block" type="submit">
+            <button class="btn btn-primary btn-lg btn-block" id="submit" type="submit">
                 <fmt:message key="editOrder.button.submit" bundle="${rb}"/>
             </button>
         </form>
@@ -106,6 +107,7 @@
 <!-- scripts -->
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/order-time-limits.js"/>"></script>
 <!-- /scripts -->
 </body>
 </html>

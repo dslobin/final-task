@@ -11,6 +11,7 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
@@ -29,9 +30,8 @@ public class CarImageUploadServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "D:\\Work\\uploads";
     private static final String ATTRIBUTE_UPLOAD_RESULT = "uploadResult";
     private static final String PART_PARAMETER_FILENAME = "filename";
-    private static final String EMPTY_STRING = "";
     private static final String PARAM_CAR_ID = "carId";
-
+    private static final String EMPTY_STRING = "";
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -39,21 +39,20 @@ public class CarImageUploadServlet extends HttpServlet {
             throws ServletException, IOException {
         Long carId = Long.parseLong(request.getParameter(PARAM_CAR_ID));
         try {
-            String imageFileName = uploadFile(request);
+            String imagePath = uploadFile(request);
+            logger.debug("Real path: " + getServletContext().getRealPath("/static/img/"));
+            logger.debug("Uploaded image = " + imagePath);
             CarService carService = CarServiceImpl.getInstance();
-            carService.updateCarImage(carId, imageFileName);
-            logger.debug(imageFileName);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider
-                    .getProperty(MessagePath.FILE_UPLOAD_SUCCESS_RESULT));
-            request.getRequestDispatcher(PagePathProvider
-                    .getProperty(JspPagePath.FILE_UPLOAD_PAGE_PROPERTY))
+            carService.updateCarImage(carId, imagePath);
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT,
+                    MessageProvider.getProperty(MessagePath.FILE_UPLOAD_SUCCESS_RESULT));
+            request.getRequestDispatcher(PagePathProvider.getProperty(JspPagePath.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);
         } catch (FileNotFoundException | ServiceException e) {
             logger.error(e);
-            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT, MessageProvider
-                    .getProperty(MessagePath.FILE_UPLOAD_ERROR_RESULT));
-            request.getRequestDispatcher(PagePathProvider
-                    .getProperty(JspPagePath.FILE_UPLOAD_PAGE_PROPERTY))
+            request.setAttribute(ATTRIBUTE_UPLOAD_RESULT,
+                    MessageProvider.getProperty(MessagePath.FILE_UPLOAD_ERROR_RESULT));
+            request.getRequestDispatcher(PagePathProvider.getProperty(JspPagePath.FILE_UPLOAD_PAGE_PROPERTY))
                     .forward(request, response);
         }
     }
@@ -68,7 +67,9 @@ public class CarImageUploadServlet extends HttpServlet {
         for (Part part : request.getParts()) {
             String fileName = extractFileName(part);
             if (!fileName.equals(EMPTY_STRING)) {
-                absoluteFilePath = uploadFileDir + File.separator + fileName;
+                String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+                String randomFileName = UUID.randomUUID() + fileExtension;
+                absoluteFilePath = uploadFileDir + randomFileName;
                 part.write(absoluteFilePath);
                 return absoluteFilePath;
             }

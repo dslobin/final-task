@@ -62,7 +62,7 @@ public enum UserAuthorityCommand {
 
     public static Optional<UserAuthorityCommand> fromString(String type) {
         return Stream.of(UserAuthorityCommand.values())
-                .filter(e -> e.name().equalsIgnoreCase(type))
+                .filter(c -> c.name().equalsIgnoreCase(type))
                 .findFirst();
     }
 

@@ -20,10 +20,6 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT =
             "INSERT INTO orders (customer_id, service_id, date, time, price, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-    private static final String UPDATE =
-            "UPDATE orders SET customer_id = ?, service_id = ?, date = ?, time = ?, price = ?, status = ?" +
-                    " WHERE order_id = ?";
-
     private static final String DELETE =
             "DELETE FROM orders WHERE order_id = ?";
 
@@ -60,7 +56,12 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean insert(Order order) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT)) {
-            editOrderTableRow(order, preparedStatement);
+            preparedStatement.setLong(1, order.getCustomer().getCustomerId());
+            preparedStatement.setLong(2, order.getService().getServiceId());
+            preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
+            preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
+            preparedStatement.setBigDecimal(5, order.getPrice());
+            preparedStatement.setString(6, order.getStatus().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error adding order", e);
@@ -81,18 +82,18 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> findById(long id) throws DaoException {
-        Order order = new Order();
+        Order order = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    createOrderFromResultSet(order, resultSet);
+                    order = createOrderFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new DaoException("Error finding order by id", e);
         }
-        return Optional.of(order);
+        return Optional.ofNullable(order);
     }
 
     @Override
@@ -102,8 +103,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setLong(1, customerId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    Order order = new Order();
-                    createOrderFromResultSet(order, resultSet);
+                    Order order = createOrderFromResultSet(resultSet);
                     orders.add(order);
                 }
             }
@@ -111,18 +111,6 @@ public class OrderDaoImpl implements OrderDao {
             throw new DaoException("Error finding order by customer id", e);
         }
         return orders;
-    }
-
-    @Override
-    public Order update(Order order) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
-            editOrderTableRow(order, preparedStatement);
-            preparedStatement.setLong(7, order.getOrderId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Error updating order", e);
-        }
-        return order;
     }
 
     @Override
@@ -143,8 +131,7 @@ public class OrderDaoImpl implements OrderDao {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
             while (resultSet.next()) {
-                Order order = new Order();
-                createOrderFromResultSet(order, resultSet);
+                Order order = createOrderFromResultSet(resultSet);
                 orderList.add(order);
             }
         } catch (SQLException e) {
@@ -153,7 +140,8 @@ public class OrderDaoImpl implements OrderDao {
         return orderList;
     }
 
-    private void createOrderFromResultSet(Order order, ResultSet resultSet) throws SQLException {
+    private Order createOrderFromResultSet(ResultSet resultSet) throws SQLException {
+        Order order = new Order();
         order.setOrderId(resultSet.getLong(SqlColumnName.ORDER_ID));
         order.setServiceTime(resultSet.getDate(SqlColumnName.DATE).toLocalDate()
                 .atTime(resultSet.getTime(SqlColumnName.TIME).toLocalTime()));
@@ -175,14 +163,6 @@ public class OrderDaoImpl implements OrderDao {
                 resultSet.getString(SqlColumnName.DESCRIPTION)
         );
         order.setService(autoShowService);
-    }
-
-    private void editOrderTableRow(Order order, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setLong(1, order.getCustomer().getCustomerId());
-        preparedStatement.setLong(2, order.getService().getServiceId());
-        preparedStatement.setDate(3, Date.valueOf(order.getServiceTime().toLocalDate()));
-        preparedStatement.setTime(4, Time.valueOf(order.getServiceTime().toLocalTime()));
-        preparedStatement.setBigDecimal(5, order.getPrice());
-        preparedStatement.setString(6, order.getStatus().name());
+        return order;
     }
 }

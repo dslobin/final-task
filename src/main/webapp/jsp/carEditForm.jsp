@@ -130,14 +130,14 @@
                         <label for="issueYear"><fmt:message key="editCar.label.issueYear" bundle="${rb}"/>:</label>
 
                         <input type="number" class="form-control" id="issueYear" name="issueYear"
-                               min="1960" max="2020" minlength="4" maxlength="4" value="${car.issueYear}" required>
+                               min="1970" max="2020" minlength="4" maxlength="4" value="${car.issueYear}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="price"><fmt:message key="editCar.label.price" bundle="${rb}"/>, $</label>
 
                         <input type="text" class="form-control" id="price" name="price"
-                               pattern="(\d+\.\d+)|(\d+)" value="${car.price}" required>
+                               pattern="(\d{1,10}\.\d{1,2})|(\d){1,10}" value="${car.price}" required>
                     </div>
 
                     <div class="mb-3">

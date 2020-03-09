@@ -23,7 +23,7 @@ public class ActionFactory {
         ActionCommand actionCommand = new EmptyCommand();
         String action = content.getRequestParameter(PARAM_COMMAND);
         UserRole role = (UserRole) content.getSessionAttributes(PARAM_USER_ROLE);
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         if (action == null || action.isBlank()) {
             return actionCommand;
         }
@@ -45,7 +45,7 @@ public class ActionFactory {
         } catch (IllegalArgumentException e) {
             actionCommand = new GetErrorPageCommand();
             message.append(MessageProvider.getProperty(MessagePath.WRONG_ACTION_PROPERTY))
-                    .append(":").append(action);
+                    .append(": ").append(action);
             content.setRequestAttributes(ATTRIBUTE_WRONG_ACTION, message.toString());
         }
         return actionCommand;

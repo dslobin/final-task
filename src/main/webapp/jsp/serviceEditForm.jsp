@@ -47,7 +47,7 @@
                     <div class="mb-3">
                         <label for="serviceCost"><fmt:message key="editService.label.cost" bundle="${rb}"/>:</label>
                         <input type="text" class="form-control" id="serviceCost" name="serviceCost"
-                               pattern="(\d+\.\d+)|(\d+)" value="${autoShowService.cost}" required>
+                               pattern="(\d{1,6}\.\d{1,2})|(\d){1,6}" value="${autoShowService.cost}" required>
                     </div>
 
                 </div>
@@ -59,6 +59,9 @@
                 </label>
                 <textarea class="form-control" id="serviceDescription" cols="40" rows="3" name="serviceDescription"
                           minlength="1" maxlength="2048">${autoShowService.description}</textarea>
+                <div>
+                    <p class="text-muted text-right"><span id="typeChars"></span></p>
+                </div>
             </div>
 
             <div class="text-danger">
@@ -78,6 +81,7 @@
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.4.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.bundle.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/validation.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/character-counter.js"/>"></script>
 <!-- /scripts -->
 </body>
 </html>

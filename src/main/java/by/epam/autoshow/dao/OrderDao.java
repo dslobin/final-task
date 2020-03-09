@@ -52,15 +52,6 @@ public interface OrderDao {
     List<Order> findByCustomerId(long id) throws DaoException;
 
     /**
-     * Update the entity object.
-     *
-     * @param order object to update
-     * @return updated object
-     * @throws DaoException if a data store access error occurs
-     */
-    Order update(Order order) throws DaoException;
-
-    /**
      * Update the order status.
      *
      * @param order object to update

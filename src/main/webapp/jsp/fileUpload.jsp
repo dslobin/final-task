@@ -5,6 +5,7 @@
 
 <fmt:setLocale value="${sessionScope.language}" scope="session"/>
 <fmt:setBundle basename="properties.pageContent" var="rb"/>
+<fmt:setBundle basename="properties.messages" var="messageBundle"/>
 
 <html lang="${sessionScope.language}">
 <head>
@@ -26,21 +27,28 @@
                 </c:if>
 
                 <div class="mb-3 custom-file">
-                    <label for="carImageUploader" class="custom-file-label" data-browse="Search">
-                        <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
-                    </label>
                     <input type="file" id="carImageUploader" name="carImageUploader"
                            class="custom-file-input" accept="image/*" size="50" required>
+                    <label for="carImageUploader" class="custom-file-label"
+                           data-browse="<fmt:message key="editCar.label.fileButton" bundle="${rb}"/>">
+                        <fmt:message key="editCar.label.imageInput" bundle="${rb}"/>
+                    </label>
                 </div>
+
+                <%-- hidden input --%>
+                <input type="hidden" name="allowedFormats" id="allowedFormats"
+                       value="<fmt:message key="label.allowedUploadFormats" bundle="${messageBundle}"/>">
+                <%-- hidden input --%>
+
 
                 <button class="btn btn-primary btn-lg btn-block" type="submit">
                     <fmt:message key="editCar.button.submit" bundle="${rb}"/>
                 </button>
-            </form>
-        </div>
 
-        <div>
-            <h3 class="text-info"><c:out value="${requestScope.uploadResult}"/></h3>
+                <div class="mt-1">
+                    <h3 class="text-info"><c:out value="${requestScope.uploadResult}"/></h3>
+                </div>
+            </form>
         </div>
     </div>
 </main>

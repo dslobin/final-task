@@ -1,4 +1,6 @@
-// disabling form submissions if there are invalid fields
+/**
+ * Disabling form submissions if there are invalid fields
+ */
 (function () {
     window.addEventListener('load', function () {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to

@@ -20,7 +20,9 @@ public class Car {
     private final String imageUrl;
 
     public static class Builder {
-        // Required parameters
+        /**
+         * Required parameters
+         */
         private final String model;
         private final int mileage;
         private final FuelType fuelType;
@@ -31,7 +33,9 @@ public class Car {
         private final int issueYear;
         private final BigDecimal price;
         private final SaleStatus status;
-        // Optional parameters - initialized to default values
+        /**
+         * Optional parameters - initialized to default values
+         */
         private Long carId = 0L;
         private String description = null;
         private String imageUrl = null;

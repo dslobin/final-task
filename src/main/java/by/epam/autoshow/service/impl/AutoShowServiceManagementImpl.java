@@ -5,6 +5,8 @@ import by.epam.autoshow.dao.manager.ManagerException;
 import by.epam.autoshow.model.AutoShowService;
 import by.epam.autoshow.service.AutoShowServiceManagement;
 import by.epam.autoshow.service.ServiceException;
+import by.epam.autoshow.validation.ServiceDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,18 +38,9 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     }
 
     @Override
-    public List<AutoShowService> findAllServices() throws ServiceException {
-        List<AutoShowService> services = new ArrayList<>();
-        try {
-            services = autoShowServiceManager.findServiceList();
-        } catch (ManagerException e) {
-            throw new ServiceException(e);
-        }
-        return services;
-    }
-
-    @Override
-    public boolean addService(AutoShowService autoShowService) throws ServiceException {
+    public boolean addService(AutoShowService autoShowService) throws ServiceException, ValidatorException {
+        ServiceDataValidator validator = new ServiceDataValidator();
+        validator.validateService(autoShowService);
         try {
             autoShowServiceManager.addAutoShowService(autoShowService);
         } catch (ManagerException e) {
@@ -57,13 +50,26 @@ public class AutoShowServiceManagementImpl implements AutoShowServiceManagement 
     }
 
     @Override
-    public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException {
+    public AutoShowService updateService(AutoShowService autoShowService) throws ServiceException, ValidatorException {
+        ServiceDataValidator validator = new ServiceDataValidator();
+        validator.validateService(autoShowService);
         try {
             autoShowServiceManager.updateAutoShowService(autoShowService);
         } catch (ManagerException e) {
             throw new ServiceException(e);
         }
         return autoShowService;
+    }
+
+    @Override
+    public List<AutoShowService> findAllServices() throws ServiceException {
+        List<AutoShowService> services = new ArrayList<>();
+        try {
+            services = autoShowServiceManager.findServiceList();
+        } catch (ManagerException e) {
+            throw new ServiceException(e);
+        }
+        return services;
     }
 
     @Override

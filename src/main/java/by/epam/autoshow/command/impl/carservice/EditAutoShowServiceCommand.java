@@ -14,6 +14,7 @@ import by.epam.autoshow.service.ServiceException;
 import by.epam.autoshow.service.impl.AutoShowServiceManagementImpl;
 import by.epam.autoshow.validation.ServiceDataValidator;
 
+import by.epam.autoshow.validation.ValidatorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,6 +50,12 @@ public class EditAutoShowServiceCommand implements ActionCommand {
                 content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                         MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
                 router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
+            } catch (ValidatorException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_INVALID_SERVICE,
+                        MessageProvider.getProperty(MessagePath.INVALID_SERVICE_UPDATE_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.SERVICE_EDIT_PAGE_PROPERTY),
+                        RouteType.FORWARD);
             }
         } else {
             logger.error("Error updating record, auto show service data not valid.");

@@ -1,8 +1,5 @@
 package by.epam.autoshow.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +12,6 @@ public class SessionRequestContent {
     private HashMap<String, Object> sessionAttributes;
     private boolean invalidateSession = false;
     private static final int FIRST_ARRAY_ELEMENT_INDEX = 0;
-    private static final Logger logger = LogManager.getLogger();
 
     public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();

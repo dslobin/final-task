@@ -7,6 +7,9 @@ import by.epam.autoshow.model.Color;
 import by.epam.autoshow.service.CarService;
 import by.epam.autoshow.service.ServiceException;
 
+import by.epam.autoshow.validation.CarDataValidator;
+import by.epam.autoshow.validation.ServiceDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +42,21 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean updateCar(Car car, String colorCode) throws ServiceException {
+    public boolean addCar(Car car, String colorCode) throws ServiceException, ValidatorException {
+        CarDataValidator validator = new CarDataValidator();
+        validator.validateCar(car);
+        try {
+            carManager.addCar(car, colorCode);
+        } catch (ManagerException | SQLException e) {
+            throw new ServiceException(e);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateCar(Car car, String colorCode) throws ServiceException, ValidatorException {
+        CarDataValidator validator = new CarDataValidator();
+        validator.validateCar(car);
         try {
             carManager.updateCar(car, colorCode);
         } catch (ManagerException | SQLException e) {
@@ -53,16 +70,6 @@ public class CarServiceImpl implements CarService {
         try {
             carManager.updateCarImage(carId, imageUrl);
         } catch (ManagerException e) {
-            throw new ServiceException(e);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean addCar(Car car, String colorCode) throws ServiceException {
-        try {
-            carManager.addCar(car, colorCode);
-        } catch (ManagerException | SQLException e) {
             throw new ServiceException(e);
         }
         return true;

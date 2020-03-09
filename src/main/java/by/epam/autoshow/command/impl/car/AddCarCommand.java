@@ -16,6 +16,7 @@ import by.epam.autoshow.util.provider.MessageProvider;
 import by.epam.autoshow.util.provider.PagePathProvider;
 import by.epam.autoshow.util.provider.JspPagePath;
 import by.epam.autoshow.validation.CarDataValidator;
+import by.epam.autoshow.validation.ValidatorException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,6 +72,11 @@ public class AddCarCommand implements ActionCommand {
                 content.setRequestAttributes(ATTRIBUTE_SERVER_ERROR,
                         MessageProvider.getProperty(MessagePath.SERVER_ERROR_PROPERTY));
                 router = new Router(PagePathProvider.getProperty(JspPagePath.ERROR_PAGE_PROPERTY), RouteType.FORWARD);
+            } catch (ValidatorException e) {
+                logger.error(e);
+                content.setRequestAttributes(ATTRIBUTE_INVALID_CAR,
+                        MessageProvider.getProperty(MessagePath.INVALID_CAR_ADDITION_PROPERTY));
+                router = new Router(PagePathProvider.getProperty(JspPagePath.CAR_EDIT_PAGE_PROPERTY), RouteType.FORWARD);
             }
         } else {
             logger.error("Error adding record, car data not valid.");

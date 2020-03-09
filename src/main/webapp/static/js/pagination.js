@@ -5,7 +5,10 @@ let totalPages = Math.ceil(numberOfItems / limitPerPage);
 $(".pagination").append("<li class='current-page page-item active'>" +
     "<a class='page-link' href='javascript:void(0)'>" + 1 + "</a></li>");
 
-// Loop to insert page number for each sets of items equal to page limit (e.g., limit of 4 with 20 total items = insert 5 pages)
+/**
+ * Loop to insert page number for each sets of items equal to page limit
+ * (e.g., limit of 4 with 20 total items = insert 5 pages)
+ */
 for (let i = 2; i <= totalPages; i++) {
     $(".pagination").append("<li class='current-page page-item'>" +
         "<a class='page-link' href='javascript:void(0)'>" + i + "</a></li>");
@@ -14,7 +17,9 @@ for (let i = 2; i <= totalPages; i++) {
 $(".pagination").append("<li class='page-item' id='next-page'>" +
     "<a class='page-link' href='javascript:void(0)' aria-label=Next><span aria-hidden=true>&raquo;</span></a></li>");
 
-// Function that displays new items based on page number that was clicked
+/**
+ * Function that displays new items based on page number that was clicked
+ */
 $(".pagination li.current-page").on("click", function () {
     if ($(this).hasClass('active')) {
         return false;
@@ -32,8 +37,9 @@ $(".pagination li.current-page").on("click", function () {
     }
 
 });
-
-// Function to navigate to the next page when users click on the next-page id (next page button)
+/**
+ * Function to navigate to the next page when users click on the next-page id (next page button)
+ */
 $("#next-page").on("click", function () {
     let currentPage = $(".pagination li.active").index();
     if (currentPage === totalPages) {
@@ -43,8 +49,9 @@ $("#next-page").on("click", function () {
         changePageContent(currentPage);
     }
 });
-
-// Function to navigate to the previous page when users click on the previous-page id (previous page button)
+/**
+ * Function to navigate to the previous page when users click on the previous-page id (previous page button)
+ */
 $("#previous-page").on("click", function () {
     let currentPage = $(".pagination li.active").index();
     if (currentPage === 1) {
@@ -55,6 +62,10 @@ $("#previous-page").on("click", function () {
     }
 });
 
+/**
+ * Function that changes the display of page content
+ * @param currentPage page whose content should be displayed
+ */
 function changePageContent(currentPage) {
     $(".pagination li").removeClass('active');
     $("#page .table-row").hide();

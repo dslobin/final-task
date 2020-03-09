@@ -57,11 +57,12 @@ public class ColorDaoImpl implements ColorDao {
 
     @Override
     public Optional<Color> findById(long id) throws DaoException {
-        Color color = new Color();
+        Color color = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_COLOR_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    color = new Color();
                     color.setColorId(resultSet.getLong(SqlColumnName.USER_ID));
                     color.setCode(resultSet.getString(SqlColumnName.USERNAME));
                 }
@@ -69,16 +70,17 @@ public class ColorDaoImpl implements ColorDao {
         } catch (SQLException e) {
             throw new DaoException("Error finding car color by id", e);
         }
-        return Optional.of(color);
+        return Optional.ofNullable(color);
     }
 
     @Override
     public Optional<Color> findByCode(String code) throws DaoException {
-        Color color = new Color();
+        Color color = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_COLOR_BY_CODE)) {
             preparedStatement.setString(1, code);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    color = new Color();
                     color.setColorId(resultSet.getLong(SqlColumnName.COLOR_ID));
                     color.setCode(resultSet.getString(SqlColumnName.CODE));
                 }
@@ -86,7 +88,7 @@ public class ColorDaoImpl implements ColorDao {
         } catch (SQLException e) {
             throw new DaoException("Error finding car color by code", e);
         }
-        return Optional.of(color);
+        return Optional.ofNullable(color);
     }
 
     @Override

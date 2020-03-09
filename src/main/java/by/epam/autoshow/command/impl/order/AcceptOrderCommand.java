@@ -17,8 +17,6 @@ import by.epam.autoshow.util.provider.JspPagePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 public class AcceptOrderCommand implements ActionCommand {
     private static final String PARAM_ORDER_ID = "orderId";
     private static final String PARAM_ORDER_LIST = "orderList";
